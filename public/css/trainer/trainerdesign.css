@@ -1,0 +1,96 @@
+root {
+    display: block;
+}
+.multiplechoice {
+    width: 400px;
+    background-color: #eee;
+    padding: 10px 15px;
+    margin: 4px 0;
+}
+#communication h1 {
+    font-size: 14pt;
+}
+#communication h2 {
+    font-size: 12pt;
+    color: #00A000;
+    font-weight: bold;
+}
+#answer_input_div {
+    width: 800px;
+    margin: 0 auto;
+}
+#question_div {
+    padding: 10px 0 10px 15px;
+    width: 800px;
+    margin: 0 auto;
+}
+#total_vocs {
+    height: 100px;
+    width: 100px;
+    float: left;
+}
+#left_vocs {
+    height: 10px;
+    width: 20px;
+    float: left;
+}
+#info_div {
+    padding: 10px 0 10px 15px;
+    width: 800px;
+    margin: 0 auto;
+}
+#question {
+    font-size: 18pt;
+    height: 140px;
+}
+#correct_answers {
+    width: 100px;
+    float: right;
+    height: 100px;
+}
+textarea.answer {
+    background-color: lavender;
+    width: 800px;
+    height: 140px;
+    line-height: 30px;
+    padding: 10px 0 10px 15px;
+    font-size: 18pt;
+    font-family: Arial, Helvetica, sans-serif;
+    resize: none;
+}
+#communication {
+    width: 780px;
+    height: 140px;
+    margin: 0 auto;
+    padding-top: 10px;
+    font-size: 17pt;
+    font-family: Arial, Helvetica, sans-serif;
+    resize: none;
+}
+#button_div {
+    width: 300px;
+    margin: 0 auto;
+}
+.accept {
+    -moz-box-shadow: inset 0px 1px 0px 0px #cae3fc;
+    -webkit-box-shadow: inset 0px 1px 0px 0px #cae3fc;
+    box-shadow: inset 0px 1px 0px 0px #cae3fc;
+    background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, #79bbff), color-stop(1, #4197ee));
+    background: -moz-linear-gradient( center top, #79bbff 5%, #4197ee 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#79bbff', endColorstr='#4197ee');
+    background-color: #79bbff;
+    -moz-border-radius: 42px;
+    -webkit-border-radius: 42px;
+    border-radius: 42px;
+    border: 1px solid #469df5;
+    display: inline-block;
+    color: #ffffff;
+    font-family: arial;
+    font-size: 15px;
+    font-weight: bold;
+    width: 150px;
+    height: 38px;
+    padding: 6px 24px;
+    text-decoration: none;
+    text-shadow: 1px 1px 0px #287ace;
+}

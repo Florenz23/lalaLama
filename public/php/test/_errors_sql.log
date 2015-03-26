@@ -1,0 +1,15 @@
+[16-Mar-2015 13:42:34]  > Prepared execute error : Field 'nm' doesn't have a default value
+[16-Mar-2015 13:46:28]  > Prepared execute error : Field 'nm' doesn't have a default value
+[16-Mar-2015 13:48:51]  > Prepared execute error : Field 'nm' doesn't have a default value
+[16-Mar-2015 18:20:15]  > Could not prepare : Unknown column '2ANDuser_id' in 'where clause' < DELETE FROM tree_struct WHERE lft >= 2ANDuser_id=7 AND rgt <= 5 >
+[16-Mar-2015 18:20:15]  > Prepared execute error : Field 'id' doesn't have a default value
+[16-Mar-2015 18:22:28]  > Could not prepare : Unknown column '6ANDuser_id' in 'where clause' < DELETE FROM tree_struct WHERE lft >= 6ANDuser_id=7 AND rgt <= 7 >
+[16-Mar-2015 18:22:29]  > Prepared execute error : Field 'id' doesn't have a default value
+[16-Mar-2015 18:23:23]  > Could not prepare : Unknown column '2ANDuser_id' in 'where clause' < DELETE FROM tree_struct WHERE lft >= 2ANDuser_id=7 AND rgt <= 5 >
+[16-Mar-2015 18:23:23]  > Prepared execute error : Field 'id' doesn't have a default value
+[16-Mar-2015 18:24:40]  > Could not prepare : Unknown column '2ANDuser_id' in 'where clause' < DELETE FROM tree_struct WHERE lft >= 2ANDuser_id=7 AND rgt <= 5 >
+[16-Mar-2015 18:24:40]  > Prepared execute error : Field 'id' doesn't have a default value
+[16-Mar-2015 18:26:46]  > Could not prepare : Unknown column '6ANDuser_id' in 'where clause' < DELETE FROM tree_struct WHERE lft >= 6ANDuser_id=7 AND rgt <= 7 >
+[16-Mar-2015 18:26:46]  > Prepared execute error : Field 'id' doesn't have a default value
+[25-Mar-2015 14:37:39]  > Could not prepare : Unknown column 's.user_id' in 'field list' < SELECT s.id, s.lft, s.rgt, s.lvl, s.pid, s.pos, s.user_id, d.nm, d.type FROM tree_struct s, tree_data d WHERE s.user_id = -1 AND s.id = d.id AND s.id = 2376>
+[25-Mar-2015 14:38:05]  > Could not prepare : Unknown column 's.user_id' in 'field list' < SELECT s.id, s.lft, s.rgt, s.lvl, s.pid, s.pos, s.user_id, d.nm, d.type FROM tree_struct s, tree_data d WHERE s.user_id = -1 AND s.id = d.id AND s.id = 2376>

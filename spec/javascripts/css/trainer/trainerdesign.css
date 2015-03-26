@@ -1,0 +1,30 @@
+root { 
+  display: block;
+}
+
+.multiplechoice
+{
+  width: 400px;
+  background-color: #eee;
+  padding: 10px 15px;
+  margin: 4px 0;
+}
+
+#communication
+{
+  font-size: 12pt;
+  font-weight: bold;
+}
+
+#communication h1
+{
+  font-size: 14pt;
+}
+
+#communication h2
+{
+  font-size: 12pt;
+  color: #00A000;
+  font-weight: bold;
+}
+

@@ -1,0 +1,247 @@
+/* �berschrift im header-DIV */
+
+#header h1 {
+    color: #333399;
+    padding: 5px
+}
+/* Men�leiste (menu-DIV) */
+
+#menu a {
+    /* Vormatiert die hyperlinks */
+    
+    text-decoration: none;
+    /* entfernt Unterstreichung */
+    
+    font-weight: bold;
+    /* fett */
+    
+    color: black;
+    display: block;
+    /* Darstellung als Block */
+    
+    padding: 3px;
+}
+#menu a:hover {
+    /* f�rbt Link beim �berfahren mit der Maus */
+    
+    color: #012FC2;
+}
+#menu li {
+    border: 1px solid #EE8E00;
+    /* Trick, macht einen Rahmen um die Liste wegen IE6 */
+}
+#menu #high {
+    /* formatiert den aktiven Link */
+    
+    font-weight: bold;
+    color: white;
+    background-color: #FFD699;
+    /* gibt ihm einen Rahmen  */
+    
+    display: block;
+    padding: 3px;
+}
+#menu h1 {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #333399;
+    padding-bottom: 14px
+}
+#menu ul {
+    /* �bergordnete Liste */
+    
+    line-height: 1.6;
+    list-style-type: none;
+}
+#menu ul ul {
+    /* Untergeordnete Liste */
+    
+    line-height: 1.4;
+    list-style-image: url("../img/lama1.jpg");
+    /* sorgt f�r eine kreatives listenzeichen */
+    
+    padding-left: 20px;
+    /* sorgt f�r den Einschub der Unterpunkte von Home */
+}
+/* Ende Men�leiste */
+/* ab hier: main-DIV */
+/* Haupt�berschrift: */
+
+#main h1 {
+    font-size: 11pt;
+    font-weight: bold;
+    color: #333399;
+    padding-bottom: 14px
+}
+/* Unterüberschrift: */
+
+#main h2 {
+    font-size: 1em;
+    line-height: 1.4;
+    margin-bottom: 6px
+}
+/* Unter�berschrift: */
+
+#main h3 {
+    color: #FFFFFF;
+    font-size: 1em;
+    line-height: 1.4;
+    margin-bottom: 6px
+}
+/* normaler Flie�text: */
+/* Kastenformat */
+
+#main .kasten {
+    text-align: center;
+    padding: 5px;
+    background-color: #ffff99;
+    border: solid 1px black;
+    width: 500px;
+}
+/* Minigrafik rechts ausrichten */
+
+#main .floatR130 {
+    /* wurde nach diesem Komischen Namen benannt */
+    
+    float: right;
+    margin-left: 5px;
+    margin-right: 130px;
+}
+/* UL mit grafischem Aufz.zeichen: */
+
+#main ul {
+    margin-left: 30px;
+    line-height: 1.5;
+    list-style-image: url("../img/lama.jpg");
+    /* sorgt f�r eine kreatives listenzeichen */
+}
+/* STRONG umdefinieren */
+
+#main strong {
+    font-family: "Century Gothic", Verdana, Arial, Helvetica, sans-serif;
+    color: red;
+}
+#question {
+    font-size: 14pt;
+    width: 300pt;
+    height: 60pt;
+}
+/* Ende main-DIV */
+
+#footer h1 {
+    color: dodgerblue;
+    font-size: 8pt;
+}
+#bunnerleft a {
+    /* Vormatiert die hyperlinks */
+    
+    text-decoration: none;
+    /* entfernt Unterstreichung */
+    
+    font-weight: bold;
+    /* fett */
+    
+    color: white;
+    display: block;
+    /* Darstellung als Block */
+    
+    padding: 3px;
+}
+#bunnerleft a:hover {
+    /* f�rbt Link beim �berfahren mit der Maus */
+    
+    color: red;
+}
+#header a:link {
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}
+#header a:hover {
+    color: white;
+}
+#header a:active {
+    color: white;
+}
+#header a:visited {
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}
+#header td {
+    padding: 8px;
+    padding-left: 20px;
+}
+#header ul {
+    list-style-type: none;
+    padding-top: 2px;
+    margin: 17px 0 0 20px;
+}
+#header ul li {
+    display: inline;
+    margin: 0.4em;
+    padding: 5px;
+}
+#nav2 ul {
+    list-style-type: none;
+    padding-top: 1px;
+    margin: 1px 0 0 10px;
+}
+#nav2 ul li {
+    margin: 0.4em;
+    /*padding: 5px;*/
+    
+    height: 30px;
+    display: block;
+}
+#nav2 #high {
+    color: black;
+    font-weight: bold;
+    display: block;
+    background-color: #ccffcc;
+}
+#nav2 a {
+    text-decoration: none;
+    display: block;
+    color: black;
+}
+#nav2 a:link {
+    /*font-weight: bold;*/
+}
+#nav2 a:hover {
+    background-color: #dffddf;
+}
+#nav2 a:active {
+    color: black;
+}
+#nav2 a:visited {
+    color: black;
+    font-weight: bold;
+}
+#header #high {
+    color: white;
+    font-weight: bold;
+}
+#fn_rgt_0 textarea {
+    border: 1px solid #eee;
+    background-color: white;
+    height: 30px;
+    margin: 0;
+    padding: 0 3px;
+    font-size: 10pt;
+    resize: none;
+    width: 300px;
+}
+#welcome input, button {
+    border: 1px solid #eee;
+    background-color: red;
+    height: 30px;
+    margin: 0;
+    padding: 0 3px;
+    font-size: 10pt;
+    resize: none;
+    width: 200px;
+}
+#register_dialog_div input, button {
+    background-color: red;
+}

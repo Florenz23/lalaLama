@@ -1,0 +1,72 @@
+/* Schriftgr��e, 20px Rand unter Tabelle */
+table td{
+  font-size: 16pt;
+  text-align: center;
+  
+}
+table th{
+  font-size: 12pt;
+}
+
+/* Innenabstand f�r alle Zellen */
+table td, th {
+  padding: 5px;	
+}
+
+table tr {
+  height: 2.3em; /* Allen Zeilen die H�he 2.3em zuweisen */
+  vertical-align: bottom; /* Vertikalausrichtung: untenb�ndig */
+}
+
+/* alle Zellen au�er th */
+table td {
+  text-align: left;
+  /*border: 1px solid silver;*/
+  border-style: none;
+}
+
+/* nur th-Zellen */
+table thead {
+  color: white;
+  background-color: #ff9900;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Sonntag, Hintergrundfarbe rot */
+.so {
+  color: white;
+  background-color: #ff0000;
+}
+
+/* Kalenderwoche: */
+.kw {
+  color: black;
+}
+
+/* Restpl�tze: */
+.r {
+  color: #000033;
+  background-color: silver;
+}
+
+ 
+/* belegt */
+.b {
+  color: white;
+  background-color: gray;
+}
+
+/* aktiver Tag, Hintergr. gelb: */
+.a {
+  background-color: #ffff99;
+  color: black;
+}

@@ -1,0 +1,87 @@
+body, td, th, pre, code, select, option, input, textarea {
+    font-family: "lucida grande", tahoma, verdana, arial, sans-serif;
+    font-size: 10pt;
+}
+h2 {
+    margin: 0.5em 0 0.5em 0;
+    padding: 0.5em 0 0.5em 20px;
+    font-size: 12pt;
+    font-family: Georgia;
+    color: white;
+    background: silver;
+    text-shadow: 1px 1px 2px gray;
+    clear: both;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+#main {
+    height: 300px;
+    width: 800px;
+    margin: 10px auto;
+    overflow: hidden;
+    background: white;
+    padding: 0 10px 10px 10px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-box-shadow: 0px 0px 10px #000;
+}
+#menu {
+    height: 40px;
+    overflow: auto;
+    margin: 10px;
+    border: 2px;
+    border-width: 2px;
+    border-color: grey;
+}
+#finder {
+    width: 300px;
+    float: left;
+    border: 1px solid gray;
+    background: white;
+    overflow: auto;
+    height: 200px;
+    background-color: antiquewhite;
+}
+#vocs {
+    border: 1px solid gray;
+    height: 200px;
+    overflow: auto;
+    font-family: Monospace;
+}
+.log {
+    padding: 4px;
+    border: 1px solid gray;
+    margin-bottom: 1em;
+}
+.button {
+    display: block;
+    margin-bottom: 0.5em;
+}
+.finder, .finder input, .jstree-dnd-helper, #vakata-contextmenu {
+    font-size: 10px;
+    font-family: Verdana;
+}
+#finder_body .finder, #finder_body .code {
+    width: auto;
+    float: none;
+    clear: both;
+    margin: 10px auto;
+}
+#finder_body .code {
+    margin-bottom: 20px;
+}
+ul.jstree {
+    width: 700px;
+    margin: 0px auto 15px auto;
+    padding: 0;
+}
+ul.jstree li {
+    margin: 3px;
+    padding: 2px 0;
+}
+ul.jstree li a {
+    color: #3B5998;
+    text-decoration: underline;
+}

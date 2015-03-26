@@ -1,0 +1,60 @@
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <script type="text/javascript" src="../../../public/javascripts/libs/jquery.js"></script>
+    <script type="text/javascript" src="../../../public/javascripts/ClassAjax.js"></script>
+    <script type="text/javascript" src="../../../public/javascripts/ClassTrainerInfo.js"></script>
+    <script type="text/javascript" src="../../../public/javascripts/ClassCookie.js"></script>
+    <script type="text/javascript" src="../../../public/javascripts/jsTree/TreeStartObject.js"></script>
+    <script type="text/javascript" src="../../../public/javascripts/Registration.js"></script>
+</head>
+
+<body onload="addListeners();">
+    <form id="registration_form" action="">
+        <h1>Registration</h1>
+        <table>
+            <tr>
+                <td>
+                    <p>Username&nbsp;</p>
+                </td>
+                <td>
+                    <input id="username" name="username" type="text">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>E-Mail (optional)&nbsp;</p>
+                </td>
+                <td>
+                    <input id="email" name="email" type="email">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>Password&nbsp;</p>
+                </td>
+                <td>
+                    <input id="password" name="password" type="password">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>Password (repeat)&nbsp;</p>
+                </td>
+                <td>
+                    <input id="password_repeat" name="password_repeat" type="password">
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <input style="width: 100%;" id="submit" name="submit" type="button" value="Submit">
+                </td>
+            </tr>
+        </table>
+        <div id="info">&nbsp;</div>
+    </form>
+</body>
+
+</html>

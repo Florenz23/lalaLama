@@ -1,0 +1,89 @@
+.main {
+    padding: 50px 0 0 50px;
+}
+.finder_main_div {
+    height: 800px;
+    width: 500px;
+    float: left;
+}
+.finder_menu_div {
+    float: left;
+    width: 500px;
+    padding: 10px;
+}
+.finder {
+    padding: 10px;
+    height: 800px;
+    width: 450px;
+    float: left;
+    font-size: 20px;
+    text-align: left;
+}
+.jstree a {
+    margin: 3px;
+}
+.list_main_div {
+    width: 900px;
+    float: left;
+}
+.learn_button_div {
+    width: 300px;
+    text-align: center;
+    margin: 0 auto;
+    height: 100px;
+}
+.learn_button_div input {
+    width: 200px;
+    height: 50px;
+    font-size: 20;
+    background-color: #00A000;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+}
+.new_voc_div {
+    height: 100px;
+}
+.question_main_div {
+    float: left;
+    overflow: hidden;
+    width: 300px;
+}
+.answer_main_div {
+    float: left;
+    overflow: hidden;
+    width: 300px;
+}
+.voc_menu_div {
+    float: left;
+    overflow: hidden;
+    width: 300px;
+}
+.answer_div {
+    height: 30px;
+}
+.answer_input {
+    float: left;
+    overflow: hidden;
+    width: 280;
+}
+.new_answer_input {
+    float: left;
+    overflow: hidden;
+    width: 280;
+}
+.new_voc_answer_input_option {
+    float: left;
+    overflow: hidden;
+    width: 280;
+    background-color: #FFFFC6;
+}
+.new_answer_input {
+    float: left;
+    overflow: hidden;
+    width: 280;
+}
+.answer_delete_button {
+    float: left;
+    overflow: hidden;
+}

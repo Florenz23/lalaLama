@@ -1,0 +1,83 @@
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Trainer</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/trainer/struktur.css">
+    <link rel="stylesheet" type="text/css" href="../../../public/css/trainer/layout.css">
+    <link rel="stylesheet" type="text/css" href="../../../public/css/trainer/formular.css">
+    <link rel="stylesheet" type="text/css" href="../../../public/css/trainer/tabellen.css">
+    <link rel="stylesheet" type="text/css" href="../../../public/css/trainer/trainerdesign.css">
+    <title>Trainer</title>
+    <script type="text/javascript" src="../../../public/javascripts/libs/jquery.js"></script>
+    <script type="text/javascript" src="../../../public/javascripts/trainer/jquery_exist.js"></script>
+    <script type="text/javascript" src="../../../public/javascripts/trainer/class_linkedlist.js"></script>
+    <script type="text/javascript" src="../../../public/javascripts/trainer/Voc.js"></script>
+</head>
+
+<body>
+    <input type="hidden" value="5" id="pool_size">
+    <div id="mother">
+        <div id="header">
+            <div id="header_logo">
+                <ul>
+                    <li> <span id="high">
+                        <a href='/trainer/units/myUnit00/spec/javascripts/fixtures/tree_list_fixture.html'>Listenverwaltung </a>
+                    </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="menu">
+        </div>
+        <div id="main">
+            <div id='info_div'>
+                <div id="left_vocs"></div>
+                <div id="total_vocs"></div>
+                <div id="pool_size_div" style="display:visible">
+                    Poolgröße:
+                    <div id="recent_poolsize_div">
+                        5
+                    </div>
+                    <a>
+                        <img src='../../../public/img/arrow_left.png' id='decrease_poolsize' />
+                        <img src='../../../public/img/arrow_right.png' id='increase_poolsize' />
+                    </a>
+                </div>
+            </div>
+            <div id="question_div">
+                <div id="correct_answers">
+                </div>
+                <div id="question">
+                </div>
+            </div>
+            <div id="answer_input_div">
+                <div id="userinput">
+                    <textarea name='answer' style='' id='answer' class='answer'></textarea>
+                </div>
+            </div>
+            <div id="communication">
+            </div>
+            <br>
+            <br>
+            <div id="button_div">
+                <div id="acceptdiv" style="float: left">
+                </div>
+                <div id="checkdiv" style="float: left">
+                </div>
+            </div>
+        </div>
+        <div id="hidden_to_user"></div>
+    </div>
+    </div>
+    <script type="text/javascript" src="../../../public/javascripts/ClassTrainerInfo.js"></script>
+    <script type="text/javascript" src="../../../public/javascripts/trainer/HtmlIdsAndClassesTrainer.js"></script>
+    <script type="text/javascript" src="../../../public/javascripts/ClassAjax.js"></script>
+    <script type="text/javascript" src="../../../public/javascripts/trainer/helpersFunctions.js"></script>
+    <script type="text/javascript" src="../../../public/javascripts/trainer/ClassTrainerDisplayCheck.js"></script>
+    <script type="text/javascript" src="../../../public/javascripts/trainer/ClassTrainerDisplay.js"></script>
+    <script type="text/javascript" src="../../../public/javascripts/trainer/ClassTrainer.js"></script>
+    <script type="text/javascript" src="../../../public/javascripts/trainer/trainer_start.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color: white;
+    font: 100% Arial, Helvetica, sans-serif;
+    margin-top: 10px;
+    text-align: center;
+}
+/*
+#BFE3EE
+*/
+
+#mother {
+    background-color: #FFFFFF;
+    border: 5px solid white;
+    margin: 0 auto;
+    text-align: left;
+    width: auto;
+}
+/* 008200 */
+
+#header {
+    width: 100%;
+}
+#menu {
+    width: 100%;
+}
+#main {
+    width: 100%;
+}
+#header_logo {
+    /* Kopfbereich  */
+
+    margin: 0 auto;
+    height: 57px;
+    width: 1000px;
+    background-color: #00A000;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+}
+#hidden_to_user {
+    width: 500px;
+    height: 100px;
+}
+#voclist {
+    width: 400px;
+    height: 200px;
+    resize: none;
+    font-size: 1px;
+}
+#vocpool {
+    width: 400px;
+    height: 200px;
+    resize: none;
+}
