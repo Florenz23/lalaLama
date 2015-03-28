@@ -51,10 +51,23 @@ class CompleteVocObject {
 
 class CompleteObject {
 	function __construct($voc_id, $list_id, $question, $answer_id, $answer, $multi_choice, $img_id, $user_id, $right, $wrong, $rating, $last_access) {
+
 		$this->voc = new VocObject($voc_id, $list_id, $question);
 		$this->answer = new AnswerObject($answer_id, $voc_id, $answer, $multi_choice, $img_id);
 		$this->user_data = new UserDataObject($answer_id, $user_id, $right, $wrong, $rating);
 		$this->complete = new CompleteVocObject($voc_id, $list_id, $question, $answer_id, $answer, $multi_choice, $img_id, $user_id, $right, $wrong, $rating, $last_access);
+	}
+}
+
+class CompleteObjectArrays
+{
+
+	function __construct($voc_array,$answer_array,$user_data_array,$complete_array);
+	{
+		$this->voc_array = $voc_array;
+		$this->answer_array = $answer_array;
+		$this->user_data_array = $user_data_array;
+		$this->complete_array = $complete_array;
 	}
 }
 class classDbTestList {
@@ -62,6 +75,13 @@ class classDbTestList {
 	function __construct() {
 		$this->trainer_functions = new classTrainerFunctions;
 		$this->trainer_info = new classTrainerInfo();
+		$this->createObjects();
+		$this->updateJsonFile();
+		$this->create3dArray();
+		$this->createSingleArrays();
+	}
+	public function createObjects()
+	{
 		$this->value_array = [];
 		$this->value_array[] = new CompleteObject("10", "7", "Pron", "7", "ich", "0", "0", "111", "0", "0", "-1", 0);
 		$this->value_array[] = new CompleteObject("10", "7", "Pron", "8", "du", "0", "0", "111", "0", "0", "-1", 0);
@@ -71,8 +91,22 @@ class classDbTestList {
 		$this->value_array[] = new CompleteObject("13", "7", "drei", "12", "three", "0", "0", "111", "0", "0", "-1", 0);
 		$this->value_array[] = new CompleteObject("14", "7", "vier", "13", "four", "0", "0", "111", "0", "0", "-1", 0);
 		$this->value_array[] = new CompleteObject("15", "7", "fünf", "14", "five", "0", "0", "111", "0", "0", "-1", 0);
-		$this->updateJsonFile();
-		$this->create3dArray();
+	}
+
+	public function createSingleArrays() {
+		$this->voc_array = [];
+		$this->answer_array = [];
+		$this->user_data_array = [];
+		$this->complete_array = [];
+		$i = 0;
+		$array = $this->value_array;
+		foreach ($array as $key) {
+			$this->voc_array[] = $array[$i]->voc;
+			$this->answer_array[] = $array[$i]->answer;
+			$this->user_data_array[] = $array[$i]->user_data;
+			$this->complete_array[] = $array[$i]->complete;
+			$i++;
+		}
 	}
 
 	public function create3dArray() {
