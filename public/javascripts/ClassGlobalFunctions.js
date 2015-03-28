@@ -1,4 +1,8 @@
-function readTextFile(file) {
+function ClassGlobalFunctions() {
+
+}
+
+ClassGlobalFunctions.prototype.readTextFile = function(file) {
     var json_output = false;
     $.ajax({
         async: false,
@@ -14,7 +18,10 @@ function readTextFile(file) {
         }
     });
     return json_output;
-}
+};
 
-var data = readTextFile("/trainer/units/myUnit00/spec/json_files/listObject.txt");
-console.log(data);
+ClassGlobalFunctions.prototype.getListObject = function() {
+    var path = "/trainer/units/myUnit00/spec/json_files/listObject.txt";
+    var data = this.readTextFile(path);
+    return data;
+};

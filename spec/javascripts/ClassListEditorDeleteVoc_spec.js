@@ -5,7 +5,7 @@ ddescribe("ClassListEditorDeleteVoc***", function() {
     var class_db_test_list = new ClassDbTestList();
     var class_delete_voc = new ClassListEditorDeleteVoc();
     var json_array_1;
-    var voc_id_1 = class_db_test_list.value_array[0].voc_id;
+    var voc_id_1 = class_db_test_list.voc_array[0].voc_id;
     var voc_div_id = class_display_list.voc_div_id_prefix + voc_id_1;
     var list_id_to_be_tested = class_db_test_list.value_array[0].list_id;
 
@@ -39,7 +39,6 @@ ddescribe("ClassListEditorDeleteVoc***", function() {
         });
         describe("javascript part:", function() {
             describe("deleteVocDiv:", function() {
-                var voc_id;
                 it("should be defined", function() {
                     expect(class_display_list.class_list_editor.delete_voc.deleteVocDiv).toBeDefined();
                 });

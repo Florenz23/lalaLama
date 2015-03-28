@@ -43,6 +43,7 @@ function ClassDbTestList() {
 
     this.class_trainer_info = new ClassTrainerInfo();
     this.class_ajax = new ClassAjax();
+    this.object_array = this.getTestListObject();
     this.complete_obj_1 = new CompleteObject("10", "Pron", "7", "7", "ich", "0", "0", "-1", "0");
     this.complete_obj_2 = new CompleteObject("10", "Pron", "7", "8", "du", "0", "0", "-1", "0");
     this.complete_obj_3 = new CompleteObject("10", "Pron", "7", "9", "er", "0", "0", "-1", "0");
@@ -53,8 +54,12 @@ function ClassDbTestList() {
     this.complete_obj_8 = new CompleteObject("15", "fünf", "7", "14", "five", "0", "0", "-1", "0");
 
     this.value_array = [this.complete_obj_1, this.complete_obj_2, this.complete_obj_3, this.complete_obj_4, this.complete_obj_5, this.complete_obj_6, this.complete_obj_7, this.complete_obj_8];
-    console.log(JSON.stringify(this.value_array));
 }
+ClassDbTestList.prototype.getTestListObject = function() {
+    var global_function = new ClassGlobalFunctions();
+    var object = global_function.getListObject();
+    return object;
+};
 
 ClassDbTestList.prototype.iniButton = function() {
 
