@@ -24,7 +24,7 @@ class treeDataObject {
 	}
 }
 
-class classStartTree extends TrainerInfo {
+class classStartTree extends classTrainerInfo {
 
 	function __construct() {
 		parent::__construct();
@@ -48,7 +48,7 @@ class classStartTree extends TrainerInfo {
 	}
 	public function createStartTree() {
 		$returned_array = [];
-		$data['table'] = $this->tree_struct_table['name'];
+		$data['table'] = $this->tree_struct_table->name;
 		$data['values'] = $this->obj_array_struct[0];
 		$returned_array[] = $this->db->insertValues($data);
 
@@ -77,9 +77,9 @@ class classStartTree extends TrainerInfo {
 		$data['values']->pid = $returned_array[4];
 		$returned_array[] = $this->db->insertValues($data);
 
-		$data['key'] = $this->tree_struct_table['root_id_row'];
+		$data['key'] = $this->tree_struct_table->root_id_row;
 		$data['key_value'] = $returned_array[0];
-		$data['primary'] = $this->tree_struct_table['id'];
+		$data['primary'] = $this->tree_struct_table->id;
 		$data['primary_value'] = $returned_array[0];
 		$this->db->updateValue($data);
 
@@ -95,7 +95,7 @@ class classStartTree extends TrainerInfo {
 		}
 	}
 	public function insertData() {
-		$data['table'] = $this->tree_data_table['name'];
+		$data['table'] = $this->tree_data_table->name;
 		$i = 0;
 		foreach ($this->obj_array_data as $key) {
 			$data['values'] = $this->obj_array_data[$i];

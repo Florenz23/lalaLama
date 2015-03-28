@@ -9,14 +9,23 @@ class classDbCheckerTest extends classDbTestMain {
 		$this->db = new classDbFunctions;
 
 	}
-	public function testPrepareTestTable() {
+
+	public function test() {
+		$this->prepareTestTable();
+		$this->checkIfTableExists();
+		$this->insertValuesIntoTestTable();
+		$this->checkIfValueExists();
+		$this->checkIfValueExistsById();
+		$this->checkArray();
+	}
+	public function prepareTestTable() {
 		$this->data['db'] = $this->trainer_info->db;
 		$this->data['table'] = $this->trainer_info->test_table['name'];
 		$this->assertTrue($this->db->createTestTable($this->data), 'create Table');
 		$this->assertTrue($this->db->emptyTable($this->data), 'emptyTable');
 	}
 
-	public function testCheckIfTableExists() {
+	public function checkIfTableExists() {
 
 		$this->data['db'] = $this->trainer_info->db;
 		$this->data['table'] = $this->trainer_info->test_table['name'];
@@ -26,13 +35,13 @@ class classDbCheckerTest extends classDbTestMain {
 		$this->data['table'] = $this->trainer_info->test_table['name'];
 	}
 
-	public function testInsertValuesIntoTestTable() {
+	public function insertValuesIntoTestTable() {
 		$this->data['db'] = $this->trainer_info->db;
 		$this->data['table'] = $this->trainer_info->test_table['name'];
 		$this->assertEquals($this->db->insertValuesIntoTestTable($this->data), 3, 'message');
 	}
 
-	public function testCheckIfValueExists() {
+	public function checkIfValueExists() {
 		$this->data['db'] = $this->trainer_info->db;
 		$this->data['table'] = $this->trainer_info->test_table['name'];
 
@@ -46,7 +55,7 @@ class classDbCheckerTest extends classDbTestMain {
 
 	}
 
-	public function testCheckIfValueExistsById() {
+	public function checkIfValueExistsById() {
 		$this->data['db'] = $this->trainer_info->db;
 		$this->data['table'] = $this->trainer_info->test_table['name'];
 
@@ -58,7 +67,7 @@ class classDbCheckerTest extends classDbTestMain {
 
 	}
 
-	public function testArray() {
+	public function checkArray() {
 
 		$q1 = "q1";
 		$q2 = "q2";

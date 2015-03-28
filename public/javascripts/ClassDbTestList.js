@@ -53,6 +53,7 @@ function ClassDbTestList() {
     this.complete_obj_8 = new CompleteObject("15", "fünf", "7", "14", "five", "0", "0", "-1", "0");
 
     this.value_array = [this.complete_obj_1, this.complete_obj_2, this.complete_obj_3, this.complete_obj_4, this.complete_obj_5, this.complete_obj_6, this.complete_obj_7, this.complete_obj_8];
+    console.log(JSON.stringify(this.value_array));
 }
 
 ClassDbTestList.prototype.iniButton = function() {

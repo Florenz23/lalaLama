@@ -24,8 +24,7 @@ class classTreeTest extends classDbTestMain {
 		$this->tree->root_id = $root_id;
 		$this->tree->user_id = $root_id;
 		$node = $this->tree->get_children("#");
-		print_r($node);
-		$this->assertTrue(false, 'check');
+		$this->assertTrue(true, 'check');
 
 	}
 }

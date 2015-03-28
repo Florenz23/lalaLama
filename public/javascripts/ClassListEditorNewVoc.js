@@ -31,7 +31,6 @@
      });
  };
 
-
  ClassListEditorNewVoc.prototype.checkIfNewVocDivExists = function() {
      if ($("#" + this.div_id).length) {
          return true;

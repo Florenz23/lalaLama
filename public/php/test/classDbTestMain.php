@@ -7,7 +7,7 @@ class classDbTestMain extends \PHPUnit_Framework_TestCase {
 
 	function __construct() {
 
-		$this->trainer_info = new TrainerInfo();
+		$this->trainer_info = new classTrainerInfo();
 
 	}
 }

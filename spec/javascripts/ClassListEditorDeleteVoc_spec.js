@@ -1,4 +1,4 @@
-describe("ClassListEditorDeleteVoc***", function() {
+ddescribe("ClassListEditorDeleteVoc***", function() {
     var trainer_info = new ClassTrainerInfo();
     var class_ajax = new ClassAjax();
     var class_display_list = new ClassDisplayList();
@@ -7,13 +7,13 @@ describe("ClassListEditorDeleteVoc***", function() {
     var json_array_1;
     var voc_id_1 = class_db_test_list.value_array[0].voc_id;
     var voc_div_id = class_display_list.voc_div_id_prefix + voc_id_1;
+    var list_id_to_be_tested = class_db_test_list.value_array[0].list_id;
 
-    var list_id_to_be_tested = class_db_test_list.value_obj_1.list_id;
-    var test_value_json_array_from_db = class_display_list.getJsonData(list_id_to_be_tested);
+
     beforeEach(function() {
         class_display_list.setUpHTMLFixture();
         spyOn(class_display_list, "getJsonData").and.callFake(function() {
-            return test_value_json_array_from_db;
+            return class_db_test_list.value_array;
         });
         class_display_list.displayList(list_id_to_be_tested);
         $("#" + voc_div_id).trigger("mouseover");
@@ -61,39 +61,12 @@ describe("ClassListEditorDeleteVoc***", function() {
             });
 
         });
-        describe("db part", function() {
-            describe("deleteVocOfDb", function() {
-                var voc_table = trainer_info.voc_table.name;
-                var voc_id = trainer_info.voc_table.id;
-                var to_be_deleted_voc_id = class_db_test_list.value_obj_1.voc_id;
-                var to_be_deleted_list_id = class_db_test_list.value_obj_1.list_id;
-                it("should be defined", function() {
-                    expect(class_display_list.class_list_editor.delete_voc.deleteVocOfDb).toBeDefined();
-                });
-                it("voc should be deleted from", function() {
-                    var data = {
-                        table: voc_table,
-                        primary: voc_id,
-                        primary_value: to_be_deleted_voc_id
-                    };
-                    expect(class_ajax.checkIfValueExistsById(data)).toBe("1");
-                    expect(class_display_list.class_list_editor.delete_voc.deleteVocOfDb(to_be_deleted_voc_id)).toBe('1');
-                    expect(class_ajax.checkIfValueExistsById(data)).toBe("");
-
-
-                });
-            });
-            describe("clean db", function() {
-                it("created Values should be deleted again", function() {
-                    class_db_test_list.deleteTestValues();
-                });
+        describe('db part', function() {
+            it("should be defined", function() {
+                expect(class_display_list.class_list_editor.delete_voc.deleteVocOfDb).toBeDefined();
             });
         });
 
-        describe("prepare db for the tests", function() {
-            it("test values should be inserted into the database", function() {
-                expect(class_db_test_list.refreshTestListValues()).toBeTruthy();
-            });
-        });
+
     });
 });

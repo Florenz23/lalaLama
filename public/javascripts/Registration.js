@@ -48,7 +48,6 @@ Registration.prototype.createStartTree = function() {
 Registration.prototype.goToLogin = function() {
     window.location.href = "login_fixture.html";
 };
-
 Registration.prototype.displayWelcomeMessage = function() {
     var html = "";
     html += "Willkommen, du hast dich erfolgreich registriert<br>";

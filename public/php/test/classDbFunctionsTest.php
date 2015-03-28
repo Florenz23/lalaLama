@@ -13,29 +13,39 @@ class classDbFunctionsTest extends classDbTestMain {
 		$this->data['table'] = $this->trainer_info->test_table['name'];
 
 	}
+	public function test() {
+		$this->prepareTestTable();
+		$this->deleteTable();
+		$this->countRows();
+		$this->emptyTable();
+		$this->createQueryInsertValues();
+		$this->insertValues();
+		$this->selectFrom();
+		$this->deleteRow();
+	}
 
-	public function testPrepareTestTable() {
+	public function prepareTestTable() {
 		$this->assertTrue($this->db->createTestTable($this->data), 'create Table');
 		$this->assertTrue($this->db->emptyTable($this->data), 'emptyTable');
 	}
 
-	public function testDeleteTable() {
+	public function deleteTable() {
 		$this->assertTrue($this->db->deleteTable($this->data), 'deleteTable');
 		$this->assertFalse($this->db->checkIfTableExists($this->data), 'checkIfDeleted');
 		$this->assertTrue($this->db->createTestTable($this->data), 'create Table');
 	}
 
-	public function testCountRows() {
+	public function countRows() {
 		$this->assertEquals($this->db->insertValuesIntoTestTable($this->data), 3, 'insert values');
 		$this->assertEquals($this->db->countRows($this->data), 3, 'countRows');
 		$this->assertTrue($this->db->emptyTable($this->data), 'message');
 	}
-	public function testEmptyTable() {
+	public function emptyTable() {
 		$this->assertEquals($this->db->insertValuesIntoTestTable($this->data), 3, 'insert values');
 		$this->assertTrue($this->db->emptyTable($this->data), 'message');
 		$this->assertEquals($this->db->countRows($this->data), 0, 'countRows');
 	}
-	public function testCreateQueryInsertValues() {
+	public function createQueryInsertValues() {
 		$question = "q1";
 		$answer = "a1";
 		$this->data['values'] = array("question" => $question, "answer" => $answer);
@@ -45,7 +55,7 @@ class classDbFunctionsTest extends classDbTestMain {
 		$this->assertTrue($this->db->emptyTable($this->data), 'message');
 	}
 
-	public function testInsertValues() {
+	public function insertValues() {
 		$question = "q1";
 		$answer = "a1";
 		$this->data['values'] = array("question" => $question, "answer" => $answer);
@@ -63,7 +73,7 @@ class classDbFunctionsTest extends classDbTestMain {
 
 	}
 
-	public function testSelectFrom() {
+	public function selectFrom() {
 		$question = "q1";
 		$answer = "a1";
 		$this->data['values'] = array("question" => $question, "answer" => $answer);
@@ -89,7 +99,7 @@ class classDbFunctionsTest extends classDbTestMain {
 		$this->assertSame($select_from_answer, false, 'should return false if id does not exists');
 	}
 
-	public function testUpdateValue() {
+	public function updateValue() {
 		$question = "q1";
 		$answer = "a1";
 		$this->data['values'] = array("question" => $question, "answer" => $answer);
@@ -107,7 +117,7 @@ class classDbFunctionsTest extends classDbTestMain {
 		$this->assertTrue($this->db->emptyTable($this->data), 'message');
 	}
 
-	public function testDeleteRow() {
+	public function deleteRow() {
 		$question = "q1";
 		$answer = "moin";
 		$this->data['values'] = array("question" => $question, "answer" => $answer);

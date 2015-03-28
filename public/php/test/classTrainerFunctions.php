@@ -8,50 +8,6 @@ class classTrainerFunctions extends classDbFunctions {
 
 	}
 
-	function resetTestValues($data_object) {
-
-		$data['db'] = $this->db;
-
-		$data['table'] = $this->voc_table['name'];
-		$data['key'] = $this->voc_table['id'];
-		$data['value'] = $data_object['object_0']->whole_object->voc_id;
-		$this->deleteRow($data);
-
-		$data['values'] = $data_object['object_0']->voc_table;
-		$this->insertValues($data);
-
-		$data['table'] = $this->answer_table['name'];
-		$data['key'] = $this->answer_table['id'];
-		$data['value'] = $data_object['object_0']->whole_object->answer_id;
-		$this->deleteRow($data);
-		$data['values'] = $data_object['object_0']->answer_table;
-		$this->insertValues($data);
-		$data['value'] = $data_object['object_1']->whole_object->answer_id;
-		$this->deleteRow($data);
-		$data['values'] = $data_object['object_1']->answer_table;
-		$this->insertValues($data);
-		$data['value'] = $data_object['object_2']->whole_object->answer_id;
-		$this->deleteRow($data);
-		$data['values'] = $data_object['object_2']->answer_table;
-		$this->insertValues($data);
-
-		$data['table'] = $this->voc_user_data_table['name'];
-		$data['key'] = $this->voc_user_data_table['id'];
-		$data['value'] = $data_object['object_0']->whole_object->answer_id;
-		$this->deleteRow($data);
-		$data['values'] = $data_object['object_0']->voc_user_data_table;
-		$this->insertValues($data);
-		$data['value'] = $data_object['object_1']->whole_object->answer_id;
-		$this->deleteRow($data);
-		$data['values'] = $data_object['object_1']->voc_user_data_table;
-		$this->insertValues($data);
-		$data['value'] = $data_object['object_2']->whole_object->answer_id;
-		$this->deleteRow($data);
-		$data['values'] = $data_object['object_2']->voc_user_data_table;
-		$this->insertValues($data);
-
-		// $expected_value = $this->trainer_functions->insertValues($this->send_data);
-	}
 	function getVocsEncoded($data) {
 		$multi_array = $this->getVocs($data);
 		$multi_array = json_encode($multi_array);
@@ -64,15 +20,19 @@ class classTrainerFunctions extends classDbFunctions {
 
 	}
 	function getVocArray($data) {
+		$voc_table = "vocs";
+		$answer_table = "answer_table";
+		$join_1 = "voc_id";
+		$join_2 = "answer_id";
 		$query = "SELECT *\n"
 		. " FROM\n"
-		. "`" . $data['db'] . "` .`" . $data['table_1'] . "` v\n"
+		. "`" . $data['db'] . "` .`" . $voc_table . "` v\n"
 		. "LEFT JOIN\n"
-		. " `" . $data['db'] . "`.`" . $data['table_2'] . "` a ON "
-		. "(v.`" . $data['join_row_1'] . "` = a.`" . $data['join_row_2'] . "`)"
-		. "LEFT JOIN `" . $data['db'] . "`.`voc_user_data` u ON (a.answer_id = u.answer_id)  "
+		. " `" . $data['db'] . "`.`" . $answer_table . "` a ON "
+		. "(v.`" . $join_1 . "` = a.`" . $join_1 . "`)"
+		. "LEFT JOIN `" . $data['db'] . "`.`voc_user_data` u ON (a.`" . $join_2 . "` = u.`" . $join_2 . "`)  "
 		. " where v.`" . $data['key'] . "` = '" . $data['key_value']
-		. "'ORDER BY v.`" . $data['join_row_1'] . "`ASC;";
+		. "'ORDER BY v.`" . $join_1 . "`ASC;";
 		$query_answer = $this->query($query);
 		if ($query_answer[0]) {
 			$result = $query_answer[1];
@@ -85,7 +45,7 @@ class classTrainerFunctions extends classDbFunctions {
 			}
 			return $three_d_array;
 		}
-
+		print_r($query_answer[1]);
 		return $query_answer[1];
 	}
 	function create3dArray($db_array) {
@@ -191,8 +151,8 @@ class classTrainerFunctions extends classDbFunctions {
 	}
 	function trainerUpdateVocRating($obj) {
 		$data['db'] = $this->db;
-		$data['table'] = $this->voc_user_data_table['name'];
-		$data['primary'] = $this->voc_user_data_table['id'];
+		$data['table'] = $this->voc_user_data_table->name;
+		$data['primary'] = $this->voc_user_data_table->id;
 		$result_arr = array();
 		$right = $obj['right'];
 		$wrong = $obj['wrong'];
@@ -206,19 +166,19 @@ class classTrainerFunctions extends classDbFunctions {
 		$i = 0;
 		foreach ($ratingarr as $value) {
 			$data['primary_value'] = $obj['answer_id'][$i];
-			$data['key'] = $this->voc_user_data_table['right_row'];
+			$data['key'] = $this->voc_user_data_table->right_row;
 			$data['key_value'] = $right[$i];
 			$result = $this->updateValue($data);
 			if ($result != true) {
 				return $result;
 			}
-			$data['key'] = $this->voc_user_data_table['wrong_row'];
+			$data['key'] = $this->voc_user_data_table->wrong_row;
 			$data['key_value'] = $wrong[$i];
 			$result = $this->updateValue($data);
 			if ($result != true) {
 				return $result;
 			}
-			$data['key'] = $this->voc_user_data_table['rating_row'];
+			$data['key'] = $this->voc_user_data_table->rating_row;
 			$data['key_value'] = $ratingarr[$i];
 			$result = $this->updateValue($data);
 			if ($result != true) {
@@ -231,8 +191,8 @@ class classTrainerFunctions extends classDbFunctions {
 	}
 	function trainerReSetVoc($obj) {
 		$data['db'] = $this->db;
-		$data['table'] = $this->voc_user_data_table['name'];
-		$data['primary'] = $this->voc_user_data_table['id'];
+		$data['table'] = $this->voc_user_data_table->name;
+		$data['primary'] = $this->voc_user_data_table->id;
 		$result_arr = array();
 		$right = $obj['right'];
 		$wrong = $obj['wrong'];
@@ -241,19 +201,19 @@ class classTrainerFunctions extends classDbFunctions {
 		$i = 0;
 		foreach ($rating as $value) {
 			$data['primary_value'] = $obj['answer_id'][$i];
-			$data['key'] = $this->voc_user_data_table['right_row'];
+			$data['key'] = $this->voc_user_data_table->right_row;
 			$data['key_value'] = 0;
 			$result = $this->updateValue($data);
 			if ($result != true) {
 				return $result;
 			}
-			$data['key'] = $this->voc_user_data_table['wrong_row'];
+			$data['key'] = $this->voc_user_data_table->wrong_row;
 			$data['key_value'] = 0;
 			$result = $this->updateValue($data);
 			if ($result != true) {
 				return $result;
 			}
-			$data['key'] = $this->voc_user_data_table['rating_row'];
+			$data['key'] = $this->voc_user_data_table->rating_row;
 			$data['key_value'] = 0;
 			$result = $this->updateValue($data);
 			if ($result != true) {

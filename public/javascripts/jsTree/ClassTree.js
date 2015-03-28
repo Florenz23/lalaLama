@@ -160,6 +160,7 @@ ClassTree.prototype.typeAction = function(data) {
     }
 
 };
+//jojo
 
 ClassTree.prototype.listOnClickAction = function(data) {
     var id = data.node.id;

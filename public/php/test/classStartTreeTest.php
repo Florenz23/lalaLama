@@ -40,9 +40,9 @@ class classStartTreeTest extends classDbTestMain {
 	}
 
 	public function setSelectStructResult() {
-		$data['table'] = $this->trainer_info->tree_struct_table['name'];
-		$data['key'] = $this->trainer_info->tree_struct_table['root_id_row'];
-		$data['primary'] = $this->trainer_info->tree_struct_table['id'];
+		$data['table'] = $this->trainer_info->tree_struct_table->name;
+		$data['key'] = $this->trainer_info->tree_struct_table->root_id_row;
+		$data['primary'] = $this->trainer_info->tree_struct_table->id;
 		$data['value'] = $this->start_tree_result[0];
 		$this->select_struct_result = $this->db->selectFrom($data);
 		$this->select_struct_result = json_decode($this->select_struct_result);
@@ -88,9 +88,9 @@ class classStartTreeTest extends classDbTestMain {
 
 	}
 	public function setSelectDataResult($i) {
-		$data['table'] = $this->trainer_info->tree_data_table['name'];
-		$data['key'] = $this->trainer_info->tree_data_table['id'];
-		$data['primary'] = $this->trainer_info->tree_data_table['id'];
+		$data['table'] = $this->trainer_info->tree_data_table->name;
+		$data['key'] = $this->trainer_info->tree_data_table->id;
+		$data['primary'] = $this->trainer_info->tree_data_table->id;
 		$data['value'] = $this->start_tree_result[$i];
 		$this->select_data_result = $this->db->selectFrom($data);
 		$this->select_data_result = json_decode($this->select_data_result);
@@ -107,8 +107,8 @@ class classStartTreeTest extends classDbTestMain {
 	}
 
 	public function deleteCreatedStructValues() {
-		$data['table'] = $this->trainer_info->tree_struct_table['name'];
-		$data['key'] = $this->trainer_info->tree_struct_table['id'];
+		$data['table'] = $this->trainer_info->tree_struct_table->name;
+		$data['key'] = $this->trainer_info->tree_struct_table->id;
 		$i = 0;
 		foreach ($this->start_tree_result as $key) {
 			$data['value'] = $this->start_tree_result[$i];
@@ -117,8 +117,8 @@ class classStartTreeTest extends classDbTestMain {
 		}
 	}
 	public function deleteCreatedDataValues() {
-		$data['table'] = $this->trainer_info->tree_data_table['name'];
-		$data['key'] = $this->trainer_info->tree_data_table['id'];
+		$data['table'] = $this->trainer_info->tree_data_table->name;
+		$data['key'] = $this->trainer_info->tree_data_table->id;
 		$i = 0;
 		foreach ($this->start_tree_result as $key) {
 			$data['value'] = $this->start_tree_result[$i];

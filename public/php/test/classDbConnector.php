@@ -1,7 +1,7 @@
 <?php
 require_once "classTrainerInfo.php";
 
-class classDbConnector extends TrainerInfo {
+class classDbConnector extends classTrainerInfo {
 
 	function __construct() {
 
@@ -32,6 +32,7 @@ class classDbConnector extends TrainerInfo {
 			}
 			return true;
 		}
+		print_r($query_answer[1]);
 		return $query_answer[1];
 	}
 }
