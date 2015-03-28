@@ -1,5 +1,7 @@
 <?php
 
+// Dies ist ein Test.
+
 require_once "classTrainerFunctions.php";
 require_once "classFileHandler.php";
 require_once "classTrainerInfo.php";
