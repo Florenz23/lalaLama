@@ -54,18 +54,16 @@ class completeVocObject {
 class completeObject {
 	function __construct($voc_id, $list_id, $question, $answer_id, $answer, $multi_choice, $img_id, $user_id, $right, $wrong, $rating, $last_access) {
 
-		$this->voc = new VocObject($voc_id, $list_id, $question);
-		$this->answer = new AnswerObject($answer_id, $voc_id, $answer, $multi_choice, $img_id);
-		$this->user_data = new UserDataObject($answer_id, $user_id, $right, $wrong, $rating);
-		$this->complete = new CompleteVocObject($voc_id, $list_id, $question, $answer_id, $answer, $multi_choice, $img_id, $user_id, $right, $wrong, $rating, $last_access);
+		$this->voc = new vocObject($voc_id, $list_id, $question);
+		$this->answer = new answerObject($answer_id, $voc_id, $answer, $multi_choice, $img_id);
+		$this->user_data = new userDataObject($answer_id, $user_id, $right, $wrong, $rating);
+		$this->complete = new completeVocObject($voc_id, $list_id, $question, $answer_id, $answer, $multi_choice, $img_id, $user_id, $right, $wrong, $rating, $last_access);
 	}
 }
 
-class completeObjectArrays
-{
+class completeObjectArrays {
 
-	function __construct($voc_array,$answer_array,$user_data_array,$complete_array);
-	{
+	function __construct($voc_array, $answer_array, $user_data_array, $complete_array) {
 		$this->voc_array = $voc_array;
 		$this->answer_array = $answer_array;
 		$this->user_data_array = $user_data_array;
@@ -78,21 +76,22 @@ class classDbTestList {
 		$this->trainer_functions = new classTrainerFunctions;
 		$this->trainer_info = new classTrainerInfo();
 		$this->createObjects();
+		$this->createSingleArrays();
+		$this->createCompleteArray();
 		$this->updateJsonFile();
 		$this->create3dArray();
 		$this->createSingleArrays();
 	}
-	public function createObjects()
-	{
+	public function createObjects() {
 		$this->value_array = [];
-		$this->value_array[] = new CompleteObject("10", "7", "Pron", "7", "ich", "0", "0", "111", "0", "0", "-1", 0);
-		$this->value_array[] = new CompleteObject("10", "7", "Pron", "8", "du", "0", "0", "111", "0", "0", "-1", 0);
-		$this->value_array[] = new CompleteObject("10", "7", "Pron", "9", "er", "0", "0", "111", "0", "0", "-1", 0);
-		$this->value_array[] = new CompleteObject("11", "7", "eins", "10", "one", "0", "0", "111", "0", "0", "-1", 0);
-		$this->value_array[] = new CompleteObject("12", "7", "zwei", "11", "two", "0", "0", "111", "0", "0", "-1", 0);
-		$this->value_array[] = new CompleteObject("13", "7", "drei", "12", "three", "0", "0", "111", "0", "0", "-1", 0);
-		$this->value_array[] = new CompleteObject("14", "7", "vier", "13", "four", "0", "0", "111", "0", "0", "-1", 0);
-		$this->value_array[] = new CompleteObject("15", "7", "fünf", "14", "five", "0", "0", "111", "0", "0", "-1", 0);
+		$this->value_array[] = new completeObject("10", "7", "Pron", "7", "ich", "0", "0", "111", "0", "0", "-1", 0);
+		$this->value_array[] = new completeObject("10", "7", "Pron", "8", "du", "0", "0", "111", "0", "0", "-1", 0);
+		$this->value_array[] = new completeObject("10", "7", "Pron", "9", "er", "0", "0", "111", "0", "0", "-1", 0);
+		$this->value_array[] = new completeObject("11", "7", "eins", "10", "one", "0", "0", "111", "0", "0", "-1", 0);
+		$this->value_array[] = new completeObject("12", "7", "zwei", "11", "two", "0", "0", "111", "0", "0", "-1", 0);
+		$this->value_array[] = new completeObject("13", "7", "drei", "12", "three", "0", "0", "111", "0", "0", "-1", 0);
+		$this->value_array[] = new completeObject("14", "7", "vier", "13", "four", "0", "0", "111", "0", "0", "-1", 0);
+		$this->value_array[] = new completeObject("15", "7", "fünf", "14", "five", "0", "0", "111", "0", "0", "-1", 0);
 	}
 
 	public function createSingleArrays() {
@@ -111,13 +110,12 @@ class classDbTestList {
 			$i++;
 		}
 	}
-	public function createCompleteArray()
-	{
+	public function createCompleteArray() {
 		$vocs = $this->voc_array;
 		$answer = $this->answer_array;
 		$user_data = $this->user_data_array;
 		$complete_array = $this->complete_array;
-		$this->value_array = new CompleteObjectArrays($vocs,$answer,$user_data,$complete_array);
+		$this->single_arrays = new completeObjectArrays($vocs, $answer, $user_data, $complete_array);
 
 	}
 
@@ -132,7 +130,7 @@ class classDbTestList {
 	}
 	public function updateJsonFile() {
 		$file_handler = new classFileHandler;
-		$json_array = json_encode($this->value_array);
+		$json_array = json_encode($this->single_arrays);
 		$path = "/Library/WebServer/Documents/trainer/units/myUnit00/spec/json_files/listObject.txt";
 		$file_handler->writeIntoFile($path, $json_array);
 	}
