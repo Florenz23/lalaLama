@@ -15,6 +15,33 @@ ClassAjax.prototype.setAjaxPhpFile = function(new_ajax_php_file) {
 
 };
 
+ClassAjax.prototype.masterAjaxFunction = function(operation, data) {
+
+    var json_output = false;
+    var ajax = $.ajax({
+        async: false,
+        type: 'POST',
+        url: this.ajax_php_file,
+        dataType: 'json',
+        data: {
+            "operation": operation,
+            "data": data,
+        },
+        success: function(data) {
+            json_output = data;
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            var output = jqXHR.responseText;
+            console.log(output);
+        }
+    });
+    if (!json_output) {
+        return false;
+    }
+    return json_output;
+
+};
+
 ClassAjax.prototype.checkIfTableExists = function(table_name) {
 
     var ajax = $.ajax({
