@@ -7,13 +7,13 @@ ddescribe("ClassListEditorDeleteVoc***", function() {
     var json_array_1;
     var voc_id_1 = class_db_test_list.voc_array[0].voc_id;
     var voc_div_id = class_display_list.voc_div_id_prefix + voc_id_1;
-    var list_id_to_be_tested = class_db_test_list.value_array[0].list_id;
+    var list_id_to_be_tested = class_db_test_list.voc_array[0].list_id;
 
 
     beforeEach(function() {
         class_display_list.setUpHTMLFixture();
         spyOn(class_display_list, "getJsonData").and.callFake(function() {
-            return class_db_test_list.value_array;
+            return class_db_test_list.complete_array;
         });
         class_display_list.displayList(list_id_to_be_tested);
         $("#" + voc_div_id).trigger("mouseover");
