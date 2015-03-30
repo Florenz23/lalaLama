@@ -11,7 +11,7 @@ class classDbChecker extends classDbConnector {
 	}
 
 	function checkIfTableExists($data) {
-		$query = "SHOW TABLES IN `" . $data['db'] . "` LIKE '" . $data['table'] . "'";
+		$query = "SHOW TABLES IN `" . $this->db . "` LIKE '" . $data['table'] . "'";
 		$query_answer = $this->query($query);
 		if ($query_answer[0]) {
 
@@ -20,11 +20,12 @@ class classDbChecker extends classDbConnector {
 			}
 			return false;
 		}
+		echo $query_answer[1];
 		return $query_answer[1];
 	}
 
 	function checkIfValueExists($data) {
-		$query = "select * from `" . $data['db'] . "`.`" . $data['table'] . "`";
+		$query = "select * from `" . $this->db . "`.`" . $data['table'] . "`";
 		$query .= " WHERE `" . $data['table'] . "`.`" . $data['primary'] . "` = '" . $data['primary_value'] . "'";
 		$query .= " AND `" . $data['table'] . "`.`" . $data['key'] . "` = '" . $data['key_value'] . "'  ;";
 		$query_answer = $this->query($query);
@@ -34,10 +35,11 @@ class classDbChecker extends classDbConnector {
 			}
 			return false;
 		}
+		echo $query_answer[1];
 		return $query_answer[1];
 	}
 	function checkIfValueExistsById($data) {
-		$query = "select * from `" . $data['db'] . "`.`" . $data['table'] . "`";
+		$query = "select * from `" . $this->db . "`.`" . $data['table'] . "`";
 		$query .= " WHERE `" . $data['table'] . "`.`" . $data['primary'] . "` = '" . $data['primary_value'] . "';";
 		$query_answer = $this->query($query);
 		if ($query_answer[0]) {
@@ -46,11 +48,12 @@ class classDbChecker extends classDbConnector {
 			}
 			return false;
 		}
+		echo $query_answer[1];
 		return $query_answer[1];
 	}
 
 	function createTestTable($data) {
-		$query = "CREATE TABLE IF NOT EXISTS `" . $data['db'] . "`.`test_table` (
+		$query = "CREATE TABLE IF NOT EXISTS `" . $this->db . "`.`test_table` (
 				`id` int( 11 ) NOT NULL AUTO_INCREMENT,
 				`question` text NOT NULL ,
 				`answer` text NOT NULL ,
@@ -61,7 +64,7 @@ class classDbChecker extends classDbConnector {
 	}
 
 	function insertValuesIntoTestTable($data) {
-		$query = "INSERT INTO `" . $data['db'] . "`.`test_table` (
+		$query = "INSERT INTO `" . $this->db . "`.`test_table` (
 				`id` ,
 				`question` ,
 				`answer`

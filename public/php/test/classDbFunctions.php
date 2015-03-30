@@ -90,7 +90,12 @@ class classDbFunctions extends classDbChecker {
 		$query = "DELETE FROM `" . $this->db . "`.`" . $data['table']
 		. "` WHERE `" . $data['table'] . "`. `" . $data['key']
 		. "` = '" . $data['value'] . "'";
-		return $this->checkQuery($query);
+		$query_answer = $this->query($query);
+		if ($query_answer[0]) {
+			return '{"status":"deleted.ok"';
+		}
+		echo $query_answer[1];
+		return false;
 
 	}
 

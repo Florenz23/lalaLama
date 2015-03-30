@@ -1,60 +1,19 @@
-function VocObject(voc_id, question, list_id) {
-    this.voc_id = voc_id;
-    this.question = question;
-    this.list_id = list_id;
-}
-
-function AnswerObject(answer_id, voc_id, answer, multi_choice) {
-    this.answer_id = answer_id;
-    this.voc_id = voc_id;
-    this.answer = answer;
-    this.multi_choice = multi_choice;
-}
-
-function UserDataObject(answer_id, right, wrong, rating, multi_choice) {
-    this.answer_id = answer_id;
-    this.right = right;
-    this.wrong = wrong;
-    this.rating = rating;
-}
-
-function CompleteVocObject(voc_id, question, list_id, answer_id, answer, right, wrong, rating, multi_choice) {
-    this.voc_id = voc_id;
-    this.question = question;
-    this.list_id = list_id;
-    this.answer_id = answer_id;
-    this.answer = answer;
-    this.multi_choice = multi_choice;
-    this.right = right;
-    this.wrong = wrong;
-    this.rating = rating;
-}
-
-function CompleteObject(voc_id, question, list_id, answer_id, answer, right, wrong, rating, multi_choice) {
-    this.voc = new VocObject(voc_id, question, list_id);
-    this.answer = new AnswerObject(answer_id, voc_id, answer, multi_choice);
-    this.user_data = new UserDataObject(answer_id, right, wrong, rating);
-    this.complete = new CompleteVocObject(voc_id, question, list_id, answer_id, answer, right, wrong, rating, multi_choice);
-}
-
-
-
 function ClassDbTestList() {
 
-    this.class_trainer_info = new ClassTrainerInfo();
-    this.class_ajax = new ClassAjax();
-    this.object_array = this.getTestListObject();
-    this.complete_obj_1 = new CompleteObject("10", "Pron", "7", "7", "ich", "0", "0", "-1", "0");
-    this.complete_obj_2 = new CompleteObject("10", "Pron", "7", "8", "du", "0", "0", "-1", "0");
-    this.complete_obj_3 = new CompleteObject("10", "Pron", "7", "9", "er", "0", "0", "-1", "0");
-    this.complete_obj_4 = new CompleteObject("11", "eins", "7", "10", "one", "0", "0", "-1", "0");
-    this.complete_obj_5 = new CompleteObject("12", "zwei", "7", "11", "two", "0", "0", "-1", "0");
-    this.complete_obj_6 = new CompleteObject("13", "drei", "7", "12", "three", "0", "0", "-1", "0");
-    this.complete_obj_7 = new CompleteObject("14", "vier", "7", "13", "four", "0", "0", "-1", "0");
-    this.complete_obj_8 = new CompleteObject("15", "fünf", "7", "14", "five", "0", "0", "-1", "0");
-
-    this.value_array = [this.complete_obj_1, this.complete_obj_2, this.complete_obj_3, this.complete_obj_4, this.complete_obj_5, this.complete_obj_6, this.complete_obj_7, this.complete_obj_8];
+    this.createListObjects();
 }
+
+
+ClassDbTestList.prototype.createListObjects = function() {
+
+    var all_list_objects = this.getTestListObject();
+    this.voc_array = all_list_objects.voc_array;
+    this.answer_array = all_list_objects.answer_array;
+    this.user_data_array = all_list_objects.user_data_array;
+    this.complete_array = all_list_objects.complete_array;
+
+};
+
 ClassDbTestList.prototype.getTestListObject = function() {
     var global_function = new ClassGlobalFunctions();
     var object = global_function.getListObject();

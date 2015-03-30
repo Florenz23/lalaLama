@@ -15,7 +15,7 @@ ClassListEditorDeleteVoc.prototype.addListener = function() {
     });
 };
 
-ClassListEditorDeleteVoc.prototype.deleteVoc = function(delete_button_id) {
+ClassListEditorDeleteVoc.prototype.deleteVoc = function() {
     this.deleteVocDiv();
     this.deleteVocOfDb();
 };
@@ -25,8 +25,10 @@ ClassListEditorDeleteVoc.prototype.deleteVocDiv = function() {
     $("#" + voc_div_id).remove();
 };
 ClassListEditorDeleteVoc.prototype.deleteVocOfDb = function() {
-    var table = this.trainer_info.voc_table.name;
-    var id_row = this.trainer_info.voc_table.id;
     var voc_id = this.voc_id;
-    return this.class_ajax.deleteRow(table, id_row, voc_id);
+    var operation = "classListEditorDeleteVoc";
+    var data = {
+        voc_id_to_be_deleted: voc_id
+    };
+    return this.class_ajax.masterAjaxFunction(operation, data);
 };

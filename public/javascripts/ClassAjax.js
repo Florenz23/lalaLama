@@ -16,12 +16,39 @@ ClassAjax.prototype.setAjaxPhpFile = function(new_ajax_php_file) {
 };
 
 ClassAjax.prototype.masterAjaxFunction = function(operation, data) {
+    console.log(data);
+    var json_output = false;
+    var ajax = $.ajax({
+        async: false,
+        type: 'POST',
+        url: "/trainer/units/myUnit00/public/php/test/ajax_server.php",
+        dataType: 'json',
+        data: {
+            "operation": operation,
+            "data": data,
+        },
+        success: function(data) {
+            json_output = data;
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            var output = jqXHR.responseText;
+            console.log(output);
+        }
+    });
+    if (!json_output) {
+        return false;
+    }
+    return json_output;
+
+};
+
+ClassAjax.prototype.masterAjaxTest = function(operation, data) {
 
     var json_output = false;
     var ajax = $.ajax({
         async: false,
         type: 'POST',
-        url: this.ajax_php_file,
+        url: "/trainer/units/myUnit00/public/php/test/ajax_server_test.php",
         dataType: 'json',
         data: {
             "operation": operation,

@@ -124,7 +124,7 @@ class classDbFunctionsTest extends classDbTestMain {
 		$this->assertsame($this->db->insertvalues($this->data), 1, 'check if returned id is correct');
 		$this->data['key'] = "id";
 		$this->data['value'] = "1";
-		$this->assertTrue($this->db->deleteRow($this->data), 'deleteRow');
+		$this->assertSame($this->db->deleteRow($this->data), 'deleted.ok', 'deleteRow');
 		$this->data['primary'] = "id";
 		$this->data['primary_value'] = "1";
 		$this->data['key'] = "answer";

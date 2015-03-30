@@ -21,7 +21,7 @@ class answerTable {
 	function __construct() {
 		$this->name = "answer_table";
 		$this->id = "answer_id";
-		$this->voc_id = "voc_id";
+		$this->voc_id_row = "voc_id";
 		$this->answer_row = "answer";
 		$this->multi_choice_row = "multi_choice";
 		$this->img_id_row = "img_id";
