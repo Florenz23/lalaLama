@@ -1,4 +1,4 @@
-ddescribe("ClassListEditorDeleteVoc***", function() {
+describe("ClassListEditorDeleteVoc***", function() {
     var trainer_info = new ClassTrainerInfo();
     var class_ajax = new ClassAjax();
     var class_display_list = new ClassDisplayList();
@@ -8,6 +8,7 @@ ddescribe("ClassListEditorDeleteVoc***", function() {
     var voc_id_1 = class_db_test_list.voc_array[0].voc_id;
     var voc_div_id = class_display_list.voc_div_id_prefix + voc_id_1;
     var list_id_to_be_tested = class_db_test_list.voc_array[0].list_id;
+
 
 
     beforeEach(function() {
@@ -72,7 +73,7 @@ ddescribe("ClassListEditorDeleteVoc***", function() {
                 var voc_id = class_db_test_list.complete_array[0].voc_id;
                 class_delete_voc.voc_id = voc_id;
                 var check_value = class_delete_voc.deleteVocOfDb();
-                expect(check_value).toBe("deleted.ok");
+                expect(check_value.status).toBe("deleted.ok");
             });
         });
 

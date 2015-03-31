@@ -12,6 +12,15 @@ function ClassListEditorUpdateAnswer() {
 
 }
 
+ClassListEditorUpdateAnswer.prototype.updateAnswer = function() {
+    if (this.updateAnswerInDb()) {
+        this.changeBackgroundcolorToUpdated();
+        this.unfocusAnswerInputField();
+        return;
+    }
+    alert("Fehler beim Update");
+};
+
 ClassListEditorUpdateAnswer.prototype.addListener = function() {
 
     this.createKeypressIniciator();
@@ -70,11 +79,6 @@ ClassListEditorUpdateAnswer.prototype.createKeypressListener = function() {
 
 };
 
-ClassListEditorUpdateAnswer.prototype.updateAnswer = function() {
-    this.saveUpdatedAnswerValue();
-    this.changeBackgroundcolorToUpdated();
-    this.unfocusAnswerInputField();
-};
 
 ClassListEditorUpdateAnswer.prototype.unfocusAnswerInputField = function() {
 
@@ -83,21 +87,19 @@ ClassListEditorUpdateAnswer.prototype.unfocusAnswerInputField = function() {
 
 };
 
-ClassListEditorUpdateAnswer.prototype.saveUpdatedAnswerValue = function() {
-
+ClassListEditorUpdateAnswer.prototype.updateAnswerInDb = function() {
+    var operation = "classListEditorUpdateAnswer";
     var updated_value = this.getAnswerValue();
     var id = this.answer_id;
-    var id_row = this.trainer_info.answer_table.id;
-    var key = this.trainer_info.answer_table.answer_row;
-    var table = this.trainer_info.answer_table.name;
     var value_obj = {
-        table: table,
-        primary: id_row,
-        primary_value: id,
-        key: key,
-        key_value: updated_value,
+        id: id,
+        new_value: updated_value,
     };
-    this.class_ajax.updateValue(value_obj);
+    var ajax_answer = this.class_ajax.masterAjaxFunction(operation, value_obj);
+    if (ajax_answer.status == "updated.ok") {
+        return true;
+    }
+    return false;
 
 };
 ClassListEditorUpdateAnswer.prototype.getAnswerValue = function() {

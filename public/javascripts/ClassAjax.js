@@ -16,7 +16,6 @@ ClassAjax.prototype.setAjaxPhpFile = function(new_ajax_php_file) {
 };
 
 ClassAjax.prototype.masterAjaxFunction = function(operation, data) {
-    console.log(data);
     var json_output = false;
     var ajax = $.ajax({
         async: false,

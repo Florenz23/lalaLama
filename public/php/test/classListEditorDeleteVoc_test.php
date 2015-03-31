@@ -15,11 +15,16 @@ class classListEditorDeleteVoc_test extends classDbTestMain {
 
 	}
 	public function test() {
+		$this->resetTestValues();
 		$this->setVocTableData();
 		$this->setAnswerTableData();
 		$this->valuesShouldStillExist();
 		$this->deleteVoc();
 		$this->valuesShouldBeDeleted();
+	}
+
+	public function resetTestValues() {
+		$this->class_db_test_list->resetTestValues();
 	}
 
 	public function setVocTableData() {
@@ -34,19 +39,19 @@ class classListEditorDeleteVoc_test extends classDbTestMain {
 		$this->data_answer['primary_value'] = $this->to_be_deleted_voc_id;
 	}
 	public function valuesShouldStillExist() {
-		$this->assertTrue($this->class_db_functions->checkIfValueExistsById($this->data_voc), 'voc values should exist');
-		$this->assertTrue($this->class_db_functions->checkIfValueExistsById($this->data_answer), 'answer values should exist');
+		$this->assertTrue( $this->class_db_functions->checkIfValueExistsById( $this->data_voc ), 'voc values should exist' );
+		$this->assertTrue( $this->class_db_functions->checkIfValueExistsById( $this->data_answer ), 'answer values should exist' );
 	}
 
 	public function deleteVoc() {
-		$send_data['voc_id_to_be_deleted'] = $this->to_be_deleted_voc_id;
-		$check_result = $this->ajax_server->classListEditorDeleteVoc($send_data);
-		$this->assertSame($check_result, "deleted.ok", 'message');
+		$send_data['data']['voc_id_to_be_deleted'] = $this->to_be_deleted_voc_id;
+		$check_result = $this->ajax_server->classListEditorDeleteVoc( $send_data );
+		$this->assertSame( $check_result, '{"status":"deleted.ok"}', 'message' );
 	}
 
 	public function valuesShouldBeDeleted() {
-		$this->assertFalse($this->class_db_functions->checkIfValueExistsById($this->data_voc), 'voc values should be deleted');
-		$this->assertFalse($this->class_db_functions->checkIfValueExistsById($this->data_answer), 'answer values should be deleted');
+		$this->assertFalse( $this->class_db_functions->checkIfValueExistsById( $this->data_voc ), 'voc values should be deleted' );
+		$this->assertFalse( $this->class_db_functions->checkIfValueExistsById( $this->data_answer ), 'answer values should be deleted' );
 	}
 
 }

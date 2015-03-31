@@ -9,6 +9,16 @@ function ClassListEditorUpdateQuestion() {
 
 }
 
+ClassListEditorUpdateQuestion.prototype.updateQuestion = function() {
+    var ajax_answer = this.updateQuestionInDb();
+    if (ajax_answer) {
+        this.changeBackgroundcolorToUpdated();
+        this.unfocusQuestionInputField();
+        return true;
+    }
+    alert("Fehler beim Update");
+};
+
 ClassListEditorUpdateQuestion.prototype.addListener = function() {
 
     this.createKeypressIniciator();
@@ -36,7 +46,6 @@ ClassListEditorUpdateQuestion.prototype.addChangeBackgroundListener = function()
 };
 
 ClassListEditorUpdateQuestion.prototype.createChangeBackgroundColorListener = function() {
-
     var question_input_id = this.question_input_id_prefix + this.voc_id;
     var class_update_voc = this;
     $('#' + question_input_id).keypress(function() {
@@ -66,11 +75,6 @@ ClassListEditorUpdateQuestion.prototype.createKeypressListener = function() {
 
 };
 
-ClassListEditorUpdateQuestion.prototype.updateQuestion = function() {
-    this.saveUpdatedQuestionValue();
-    this.changeBackgroundcolorToUpdated();
-    this.unfocusQuestionInputField();
-};
 
 ClassListEditorUpdateQuestion.prototype.unfocusQuestionInputField = function() {
 
@@ -79,22 +83,22 @@ ClassListEditorUpdateQuestion.prototype.unfocusQuestionInputField = function() {
 
 };
 
-ClassListEditorUpdateQuestion.prototype.saveUpdatedQuestionValue = function() {
-
+ClassListEditorUpdateQuestion.prototype.updateQuestionInDb = function() {
+    var operation = "classListEditorUpdateQuestion";
     var updated_value = this.getQuestionValue();
     var id = this.voc_id;
     var id_row = this.trainer_info.voc_table.id;
     var key = this.trainer_info.voc_table.question_row;
     var table = this.trainer_info.voc_table.name;
     var value_obj = {
-        table: table,
-        primary: id_row,
-        primary_value: id,
-        key: key,
-        key_value: updated_value,
+        id: id,
+        new_value: updated_value,
     };
-    this.class_ajax.updateValue(value_obj);
-
+    var ajax_answer = this.class_ajax.masterAjaxFunction(operation, value_obj);
+    if (ajax_answer.status == "updated.ok") {
+        return true;
+    }
+    return false;
 };
 ClassListEditorUpdateQuestion.prototype.getQuestionValue = function() {
     var question_input_id = this.question_input_id_prefix + this.voc_id;

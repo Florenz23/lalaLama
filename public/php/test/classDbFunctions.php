@@ -92,7 +92,7 @@ class classDbFunctions extends classDbChecker {
 		. "` = '" . $data['value'] . "'";
 		$query_answer = $this->query($query);
 		if ($query_answer[0]) {
-			return '{"status":"deleted.ok"';
+			return '{"status":"deleted.ok"}';
 		}
 		echo $query_answer[1];
 		return false;
@@ -105,7 +105,12 @@ class classDbFunctions extends classDbChecker {
 		. " `" . $data['key'] . "` = '" . $data['key_value']
 		. "' WHERE \n" . " `" . $data['table'] . "`.`"
 		. $data['primary'] . "` =\n" . " '" . $data['primary_value'] . "';";
-		return $this->checkQuery($query);
+		$query_answer = $this->query($query);
+		if ($query_answer[0]) {
+			return '{"status":"updated.ok"}';
+		}
+		echo $query_answer[1];
+		return false;
 
 	}
 	function selectJoinTable($data) {

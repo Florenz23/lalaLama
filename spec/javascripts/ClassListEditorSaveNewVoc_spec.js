@@ -1,4 +1,4 @@
-describe("ClassListEditorSaveNewVoc***", function() {
+ddescribe("ClassListEditorSaveNewVoc***", function() {
     var class_trainer_info = new ClassTrainerInfo();
     var class_ajax = new ClassAjax();
     var class_list_editor = new ClassListEditor();
@@ -6,12 +6,12 @@ describe("ClassListEditorSaveNewVoc***", function() {
     var class_div_height_setter = new ClassDivHeightSetter();
     var class_list_editor_save_new_voc = class_display_list.class_list_editor.save_new_voc;
     var class_db_test_list = new ClassDbTestList();
-    var list_id_to_be_tested = class_db_test_list.value_obj_1.list_id;
+    var list_id_to_be_tested = class_db_test_list.complete_array[0].list_id;
     var test_value_json_array_from_db = class_display_list.getJsonData(list_id_to_be_tested);
     beforeEach(function() {
         class_list_editor.setUpHTMLFixture();
         spyOn(class_display_list, "getJsonData").and.callFake(function() {
-            return test_value_json_array_from_db;
+            return class_db_test_list.complete_array;
         });
         class_display_list.displayList(list_id_to_be_tested);
     });
@@ -193,7 +193,7 @@ describe("ClassListEditorSaveNewVoc***", function() {
         });
         it("list_id should be delivered", function() {
             var list_id = class_list_editor_save_new_voc.list_id;
-            var expected_list_id = class_db_test_list.value_obj_1.list_id;
+            var expected_list_id = class_db_test_list.complete_array[0].list_id;
             expect(list_id).toBe(expected_list_id);
         });
         it("check returned_question_id", function() {
@@ -297,7 +297,7 @@ describe("ClassListEditorSaveNewVoc***", function() {
         });
         it("list_id should be delivered", function() {
             var list_id = class_list_editor_save_new_voc.list_id;
-            var expected_list_id = class_db_test_list.value_obj_1.list_id;
+            var expected_list_id = class_db_test_list.complete_array[0].list_id;
             expect(list_id).toBe(expected_list_id);
         });
         it("check returned_question_id", function() {

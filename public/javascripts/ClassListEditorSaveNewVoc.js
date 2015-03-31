@@ -16,6 +16,19 @@ function ClassListEditorSaveNewVoc() {
     this.img_path = "../../../public/img/";
 
 }
+ClassListEditorSaveNewVoc.prototype.saveNewVoc = function() {
+    console.log("jo");
+    var returned_question_id = this.saveQuestionInDb();
+    var returned_answer_array = this.saveAnswerInDb();
+    var value_obj = {
+        question_id: returned_question_id,
+        answer_id_array: returned_answer_array
+    };
+    var class_display_list = new ClassDisplayList();
+    class_display_list.displayList(this.list_id);
+    this.selectNewQuestion();
+    return value_obj;
+};
 
 ClassListEditorSaveNewVoc.prototype.addListener = function() {
 
@@ -109,18 +122,6 @@ ClassListEditorSaveNewVoc.prototype.addDeleteNewAnswerDivListener = function() {
     $("." + answer_delete_button_class).click(function() {
         class_new_voc.deleteAnswerDiv();
     });
-};
-ClassListEditorSaveNewVoc.prototype.saveNewVoc = function() {
-    var returned_question_id = this.saveQuestionInDb();
-    var returned_answer_array = this.saveAnswerInDb();
-    var value_obj = {
-        question_id: returned_question_id,
-        answer_id_array: returned_answer_array
-    };
-    var class_display_list = new ClassDisplayList();
-    class_display_list.displayList(this.list_id);
-    this.selectNewQuestion();
-    return value_obj;
 };
 
 

@@ -10,6 +10,7 @@ class ajax_server_test {
 
 	public function resetVocList() {
 		$this->db_test_list->resetTestValues();
+		return '{"status":"ok"}';
 	}
 }
 
