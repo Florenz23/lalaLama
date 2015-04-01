@@ -27,20 +27,20 @@ class classDbFunctions extends classDbChecker {
 	function emptyTable($data) {
 		$query = "TRUNCATE TABLE `" . $this->db . "`.`" . $data['table'] . "`;";
 		$query_answer = $this->checkQuery($query);
-		if ($query_answer[0]) {
-			return $query_answer[1];
+		if ($query_answer) {
+			return $query_answer;
 		}
-		echo $query_answer[1];
+		echo $query_answer;
 		return false;
 	}
 
 	function insertValues($data) {
 		$query = $this->createQueryInsertValues($data);
-	    $query_answer = $this->checkQuery($query);
-		if ($query_answer[0]) {
-			return $query_answer[1];
+	    $query_answer = $this->checkQueryInsert($query);
+		if ($query_answer ) {
+			return $query_answer;
 		}
-		echo $query_answer[1];
+		echo $query_answer;
 		return false;
 	}
 

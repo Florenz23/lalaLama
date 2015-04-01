@@ -26,12 +26,20 @@ class classDbConnector extends classTrainerInfo {
 
 	function checkQuery($query) {
 		$query_answer = $this->query($query);
-		if ($query_answer[0]) {
+		if ($query_answer[0] === true) {
+			return true;
+		}
+		print_r($query_answer[1]);
+		return $query_answer[1];
+	}
+	function checkQueryInsert($query) {
+		$query_answer = $this->query($query);
+		if ($query_answer[0] === true) {
 			$insert_id = $this->mysqli->insert_id;
 			if ($insert_id != null) {
 				return $insert_id;
 			}
-			return true;
+			return false;
 		}
 		print_r($query_answer[1]);
 		return $query_answer[1];
