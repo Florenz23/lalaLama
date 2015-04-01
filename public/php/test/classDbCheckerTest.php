@@ -1,4 +1,4 @@
-<?php
+	<?php
 include_once "classDbTestMain.php";
 
 class classDbCheckerTest extends classDbTestMain {

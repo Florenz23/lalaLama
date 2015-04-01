@@ -21,6 +21,7 @@ class classDbConnector extends classTrainerInfo {
 		if ($error = mysqli_error($this->mysqli)) {
 			return array(false, $error . " Query: " . $query);
 		}
+		return array(true, "keine Rückgabe");
 	}
 
 	function checkQuery($query) {

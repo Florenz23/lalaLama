@@ -56,9 +56,11 @@ class classDbFunctionsTest extends classDbTestMain {
 	}
 
 	public function insertValues() {
+		$this->assertTrue( $this->db->emptyTable( $this->data ), 'message' );
 		$question = "q1";
 		$answer = "a1";
 		$this->data['values'] = array( "question" => $question, "answer" => $answer );
+		print_r($this->data);
 		$this->assertsame( $this->db->insertvalues( $this->data ), 1, 'check if returned id is correct' );
 		$this->assertsame( $this->db->insertvalues( $this->data ), 2, 'check if returned id is correct' );
 		$this->data['primary'] = "id";
@@ -69,7 +71,6 @@ class classDbFunctionsTest extends classDbTestMain {
 		$this->data['key'] = "answer";
 		$this->data['key_value'] = "a1";
 		$this->assertTrue( $this->db_checker->checkIfValueExists( $this->data ), "check if added value exists 2" );
-		$this->assertTrue( $this->db->emptyTable( $this->data ), 'message' );
 
 	}
 

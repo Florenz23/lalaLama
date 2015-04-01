@@ -56,6 +56,7 @@ class classListEditorSaveNewVoc_test extends classDbTestMain {
 		$data['primary_value'] = $this->new_answer_id;
 		$data['key'] = $this->trainer_info->answer_table->answer_row;
 		$data['key_value'] = $this->answer_value;
+		print_r($data);
 		$this->answer_data = $data;
 	}
 

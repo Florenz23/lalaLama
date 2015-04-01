@@ -54,7 +54,9 @@ class ajax_server {
 		$send_data['table'] = $this->trainer_info->answer_table->name;
 		$send_data['values']['answer'] = $data['data']['answer'];
 		$send_data['values']['voc_id'] = $data['data']['voc_id'];
+		print_r($send_data);
 		$check_result = $this->db_functions->insertValues( $send_data );
+		echo $check_result;
 		return $check_result;
 	}
 }

@@ -26,14 +26,26 @@ class classDbFunctions extends classDbChecker {
 
 	function emptyTable($data) {
 		$query = "TRUNCATE TABLE `" . $this->db . "`.`" . $data['table'] . "`;";
-		return $this->checkQuery($query);
+		$query_answer = $this->checkQuery($query);
+		if ($query_answer[0]) {
+			return $query_answer[1];
+		}
+		echo $query_answer[1];
+		return false;
 	}
 
 	function insertValues($data) {
 		$query = $this->createQueryInsertValues($data);
-		return $this->checkQuery($query);
-
+	    $query_answer = $this->checkQuery($query);
+		if ($query_answer[0]) {
+			return $query_answer[1];
+		}
+		echo $query_answer[1];
+		return false;
 	}
+
+
+
 	function createQueryInsertValues($data) {
 		//table,values
 		$query = "INSERT INTO `" . $this->db . "`.`" . $data['table'] . "` (";
