@@ -72,6 +72,12 @@ class completeObjectArrays {
 }
 class classDbTestList {
 
+	    public $voc_array ;
+		public $answer_array ;
+		public $user_data_array ;
+		public $complete_array ;
+		public $multi_array ;
+
 	function __construct() {
 		$this->trainer_functions = new classTrainerFunctions;
 		$this->trainer_info = new classTrainerInfo();
@@ -98,7 +104,6 @@ class classDbTestList {
 		$this->voc_array = [];
 		$this->answer_array = [];
 		$this->user_data_array = [];
-		$this->complete_array = [];
 		$this->complete_array = [];
 		$i = 0;
 		$array = $this->value_array;

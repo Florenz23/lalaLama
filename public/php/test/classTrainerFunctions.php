@@ -33,9 +33,9 @@ class classTrainerFunctions extends classDbFunctions {
 		. "LEFT JOIN `" . $data['db'] . "`.`voc_user_data` u ON (a.`" . $join_2 . "` = u.`" . $join_2 . "`)  "
 		. " where v.`" . $data['key'] . "` = '" . $data['key_value']
 		. "'ORDER BY v.`" . $join_1 . "`ASC;";
-		$query_answer = $this->query($query);
-		if ($query_answer[0]) {
-			$result = $query_answer[1];
+		$query_answer = $this->checkQuery($query);
+		if ($query_answer) {
+			$result = $query_answer;
 			$three_d_array = array();
 			while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
 				$three_d_array[] = $row;
@@ -45,8 +45,7 @@ class classTrainerFunctions extends classDbFunctions {
 			}
 			return $three_d_array;
 		}
-		print_r($query_answer[1]);
-		return $query_answer[1];
+		return $query_answer;
 	}
 	function create3dArray($db_array) {
 		date_default_timezone_set('UTC');

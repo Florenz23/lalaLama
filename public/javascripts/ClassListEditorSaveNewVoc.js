@@ -17,124 +17,36 @@ function ClassListEditorSaveNewVoc() {
 
 }
 ClassListEditorSaveNewVoc.prototype.saveNewVoc = function() {
-    console.log("jo");
     var returned_question_id = this.saveQuestionInDb();
-    var returned_answer_array = this.saveAnswerInDb();
+    var returned_answer_array = this.saveMultiAnswersInDb();
     var value_obj = {
         question_id: returned_question_id,
         answer_id_array: returned_answer_array
     };
-    var class_display_list = new ClassDisplayList();
-    class_display_list.displayList(this.list_id);
+    this.displayList();
     this.selectNewQuestion();
     return value_obj;
 };
 
-ClassListEditorSaveNewVoc.prototype.addListener = function() {
-
-    this.addNewAnswerFieldListener();
-    this.addDeleteAnswerListener();
-    this.addSetAnswerIdListener();
-    this.addSaveNewAnswerListener();
-    this.addSelectListener();
-    this.addSaveNewVocListener();
-
+ClassListEditorSaveNewVoc.prototype.displayList = function() {
+    var class_display_list = new ClassDisplayList();
+    class_display_list.displayList(this.list_id);
 };
 
-ClassListEditorSaveNewVoc.prototype.addSaveNewVocListener = function() {
-    var input_answer_option_id = this.new_voc_answer_input_option;
-    var class_save_new_voc = this;
-    $("#" + input_answer_option_id).keypress(function(event) {
-        if (event.which == 13) {}
-    });
-};
-
-ClassListEditorSaveNewVoc.prototype.addNewAnswerFieldListener = function() {
-    var answer_add_button_class = this.new_answer_add_button_class;
-    var class_new_voc = this;
-    $("." + answer_add_button_class).click(function() {
-        class_new_voc.saveNewAnswer();
-    });
-};
-ClassListEditorSaveNewVoc.prototype.addSelectListener = function() {
-    var question_input = this.new_voc_question_input_id;
-    var answer_input = this.new_voc_answer_input_option;
-    var class_new_voc = this;
-    $("#" + question_input).click(function() {
-        class_new_voc.selectNewQuestion();
-    });
-    $("#" + answer_input).click(function() {
-        class_new_voc.selectNewAnswer();
-    });
-};
-ClassListEditorSaveNewVoc.prototype.addDeleteAnswerListener = function() {
-    var answer_delete_button_class = this.answer_delete_button_class;
-    var class_new_voc = this;
-    $("." + answer_delete_button_class).click(function() {
-        class_new_voc.deleteAnswer();
-    });
-};
-
-ClassListEditorSaveNewVoc.prototype.addSaveNewAnswerListener = function() {
-    var answer_nr = this.answer_counter;
-    var answer_option_id = this.new_voc_answer_input_option;
-    var class_answer_edit = this;
-    var typingTimer;
-    var doneTypingInterval = this.done_typing_interval;
-    var class_save_new_voc = this;
-    $('#' + answer_option_id).keydown(function(event) {
-        if (event.which == 9) {
-            event.preventDefault();
-            clearTimeout(typingTimer);
-            class_answer_edit.saveNewAnswer();
-            return;
-        }
-        if (event.which == 13) {
-            event.preventDefault();
-            clearTimeout(typingTimer);
-            class_save_new_voc.saveNewVoc();
-            return;
-        }
-
-        // clearTimeout(typingTimer);
-        // if ($('#' + answer_option_id).val) {
-        //     typingTimer = setTimeout(function() {
-        //         class_answer_edit.saveNewAnswer();
-        //     }, doneTypingInterval);
-        // }
-
-
-    });
-
-};
-
-ClassListEditorSaveNewVoc.prototype.addDeleteAnswerListener = function() {
-    var answer_delete_button_class = this.answer_delete_button_class;
-    var class_new_voc = this;
-    $("." + answer_delete_button_class).click(function() {
-        class_new_voc.deleteAnswer();
-    });
-};
-
-ClassListEditorSaveNewVoc.prototype.addDeleteNewAnswerDivListener = function() {
-    var answer_delete_button_class = this.answer_delete_button_class;
-    var class_new_voc = this;
-    $("." + answer_delete_button_class).click(function() {
-        class_new_voc.deleteAnswerDiv();
-    });
-};
 
 
 
 ClassListEditorSaveNewVoc.prototype.saveQuestionInDb = function() {
+    var operation = "classListEditorSaveNewVocQuestion";
     var table = this.voc_table.name;
     var question_obj = this.createQuestionObj();
-    var voc_id = this.class_ajax.insertValues(table, question_obj);
-    if (voc_id < 1) {
+    var returned_insert_id = this.class_ajax.masterAjaxFunction(operation, question_obj);
+    this.voc_id = returned_insert_id;
+    if (!returned_insert_id && returned_insert_id <= 0) {
         return false;
     }
-    this.voc_id = voc_id;
-    return voc_id;
+    this.returned_insert_id = returned_insert_id;
+    return returned_insert_id;
 };
 
 ClassListEditorSaveNewVoc.prototype.createQuestionObj = function() {
@@ -156,8 +68,8 @@ ClassListEditorSaveNewVoc.prototype.getQuestionValue = function() {
 };
 
 
-ClassListEditorSaveNewVoc.prototype.saveAnswerInDb = function() {
-
+ClassListEditorSaveNewVoc.prototype.saveMultiAnswersInDb = function() {
+    var operation = "classListEditorSaveNewVocAnswer";
     var answer_id_array = [];
     var answer_id;
     var answer_obj;
@@ -165,13 +77,24 @@ ClassListEditorSaveNewVoc.prototype.saveAnswerInDb = function() {
     var answer_obj_array = this.createAnswerValueObjArray();
     for (var i = 0; i < answer_obj_array.length; i++) {
         answer_obj = answer_obj_array[i];
-        answer_id = this.class_ajax.insertValues(table, answer_obj);
+        answer_id = this.saveAnswerInDb(operation, answer_obj);
         answer_id_array[i] = answer_id;
-        if (!answer_id && answer_id <= 0) {
+        if (!answer_id) {
             return false;
         }
     }
     return answer_id_array;
+
+};
+
+ClassListEditorSaveNewVoc.prototype.saveAnswerInDb = function(operation, answer_obj) {
+
+    var returned_insert_id = this.class_ajax.masterAjaxFunction(operation, answer_obj);
+    if (!returned_insert_id && returned_insert_id <= 0) {
+        return false;
+    }
+    return returned_insert_id;
+
 };
 
 
@@ -332,4 +255,98 @@ ClassListEditorSaveNewVoc.prototype.deleteAnswer = function() {
 ClassListEditorSaveNewVoc.prototype.selectNewAddedAnswer = function() {
     var answer_option_id = this.new_voc_answer_input_option;
     $("#" + answer_option_id).select();
+};
+
+ClassListEditorSaveNewVoc.prototype.addListener = function() {
+
+    this.addNewAnswerFieldListener();
+    this.addDeleteAnswerListener();
+    this.addSetAnswerIdListener();
+    this.addSaveNewAnswerListener();
+    this.addSelectListener();
+    this.addSaveNewVocListener();
+
+};
+
+ClassListEditorSaveNewVoc.prototype.addSaveNewVocListener = function() {
+    var input_answer_option_id = this.new_voc_answer_input_option;
+    var class_save_new_voc = this;
+    $("#" + input_answer_option_id).keypress(function(event) {
+        if (event.which == 13) {}
+    });
+};
+
+ClassListEditorSaveNewVoc.prototype.addNewAnswerFieldListener = function() {
+    var answer_add_button_class = this.new_answer_add_button_class;
+    var class_new_voc = this;
+    $("." + answer_add_button_class).click(function() {
+        class_new_voc.saveNewAnswer();
+    });
+};
+ClassListEditorSaveNewVoc.prototype.addSelectListener = function() {
+    var question_input = this.new_voc_question_input_id;
+    var answer_input = this.new_voc_answer_input_option;
+    var class_new_voc = this;
+    $("#" + question_input).click(function() {
+        class_new_voc.selectNewQuestion();
+    });
+    $("#" + answer_input).click(function() {
+        class_new_voc.selectNewAnswer();
+    });
+};
+ClassListEditorSaveNewVoc.prototype.addDeleteAnswerListener = function() {
+    var answer_delete_button_class = this.answer_delete_button_class;
+    var class_new_voc = this;
+    $("." + answer_delete_button_class).click(function() {
+        class_new_voc.deleteAnswer();
+    });
+};
+
+ClassListEditorSaveNewVoc.prototype.addSaveNewAnswerListener = function() {
+    var answer_nr = this.answer_counter;
+    var answer_option_id = this.new_voc_answer_input_option;
+    var class_answer_edit = this;
+    var typingTimer;
+    var doneTypingInterval = this.done_typing_interval;
+    var class_save_new_voc = this;
+    $('#' + answer_option_id).keydown(function(event) {
+        if (event.which == 9) {
+            event.preventDefault();
+            clearTimeout(typingTimer);
+            class_answer_edit.saveNewAnswer();
+            return;
+        }
+        if (event.which == 13) {
+            event.preventDefault();
+            clearTimeout(typingTimer);
+            class_save_new_voc.saveNewVoc();
+            return;
+        }
+
+        // clearTimeout(typingTimer);
+        // if ($('#' + answer_option_id).val) {
+        //     typingTimer = setTimeout(function() {
+        //         class_answer_edit.saveNewAnswer();
+        //     }, doneTypingInterval);
+        // }
+
+
+    });
+
+};
+
+ClassListEditorSaveNewVoc.prototype.addDeleteAnswerListener = function() {
+    var answer_delete_button_class = this.answer_delete_button_class;
+    var class_new_voc = this;
+    $("." + answer_delete_button_class).click(function() {
+        class_new_voc.deleteAnswer();
+    });
+};
+
+ClassListEditorSaveNewVoc.prototype.addDeleteNewAnswerDivListener = function() {
+    var answer_delete_button_class = this.answer_delete_button_class;
+    var class_new_voc = this;
+    $("." + answer_delete_button_class).click(function() {
+        class_new_voc.deleteAnswerDiv();
+    });
 };

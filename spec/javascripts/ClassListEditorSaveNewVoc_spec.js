@@ -1,4 +1,4 @@
-ddescribe("ClassListEditorSaveNewVoc***", function() {
+describe("ClassListEditorSaveNewVoc***", function() {
     var class_trainer_info = new ClassTrainerInfo();
     var class_ajax = new ClassAjax();
     var class_list_editor = new ClassListEditor();
@@ -16,11 +16,64 @@ ddescribe("ClassListEditorSaveNewVoc***", function() {
         class_display_list.displayList(list_id_to_be_tested);
     });
 
-
-    it("test values should be inserted into the database", function() {
-        expect(class_db_test_list.refreshTestListValues()).toBeTruthy();
+    describe('db part: ', function() {
+        var returned_id;
+        describe('saveQuestionInDb', function() {
+            it('should be defined', function() {
+                expect(class_list_editor_save_new_voc.saveQuestionInDb).toBeDefined();
+            });
+            it('voc should be inserted', function() {
+                spyOn(class_list_editor_save_new_voc, "createQuestionObj").and.callFake(function() {
+                    var obj = {
+                        list_id: 12,
+                        question: "jo"
+                    };
+                    return obj;
+                });
+                returned_id = class_list_editor_save_new_voc.saveQuestionInDb();
+                expect(returned_id).toBeGreaterThan("1");
+            });
+            it('voc should be deleted again', function() {
+                var table = class_trainer_info.voc_table.name;
+                var key = class_trainer_info.voc_table.id;
+                var value = returned_id;
+                class_ajax.deleteRow(table, key, value);
+            });
+        });
+        describe('saveMultiAnswersInDb', function() {
+            var answer_id_array;
+            it('should be defined', function() {
+                expect(class_list_editor_save_new_voc.saveMultiAnswersInDb).toBeDefined();
+            });
+            it('save multi answers', function() {
+                spyOn(class_list_editor_save_new_voc, "createAnswerValueObjArray").and.callFake(function() {
+                    var obj_array = [];
+                    var obj = {
+                        voc_id: class_list_editor_save_new_voc.voc_id,
+                        answer: "moin"
+                    };
+                    obj_array[0] = obj;
+                    obj_array[1] = obj;
+                    obj_array[2] = obj;
+                    return obj_array;
+                });
+                expect(class_list_editor_save_new_voc.voc_id).not.toBe("not_set");
+                answer_id_array = class_list_editor_save_new_voc.saveMultiAnswersInDb();
+                expect(answer_id_array.length).toBe(3);
+                expect(answer_id_array[0]).toBeGreaterThan("1");
+            });
+            it('answers should be deleted again', function() {
+                var table = class_trainer_info.answer_table.name;
+                var key = class_trainer_info.answer_table.id;
+                var value = answer_id_array[0];
+                class_ajax.deleteRow(table, key, value);
+                value = answer_id_array[1];
+                class_ajax.deleteRow(table, key, value);
+                value = answer_id_array[2];
+                class_ajax.deleteRow(table, key, value);
+            });
+        });
     });
-
 
     describe("addNewAnswer", function() {
         describe("stpep 1", function() {
@@ -73,14 +126,11 @@ ddescribe("ClassListEditorSaveNewVoc***", function() {
                 $("#" + answer_input_option_id).val(new_answer_value_1);
                 $("#" + add_button_id).trigger("click");
                 $("#" + answer_input_option_id).val(new_answer_value_2);
-                // jasmine.clock().install();
                 spyOn(class_list_editor_save_new_voc, "saveNewAnswer").and.callThrough();
                 $("#" + answer_input_option_id).trigger({
                     type: 'keydown',
                     which: 9
                 });
-                // jasmine.clock().tick(done_typing_interval);
-                // jasmine.clock().uninstall();
             });
 
             it("add_button should exist", function() {
@@ -196,50 +246,7 @@ ddescribe("ClassListEditorSaveNewVoc***", function() {
             var expected_list_id = class_db_test_list.complete_array[0].list_id;
             expect(list_id).toBe(expected_list_id);
         });
-        it("check returned_question_id", function() {
-            returned_id_array = class_list_editor_save_new_voc.saveNewVoc();
-            returned_question_id = returned_id_array.question_id;
-            expect(returned_question_id).toBeTruthy();
-        });
 
-        it("check returned_answer_id_array", function() {
-            returned_answer_id_array = returned_id_array.answer_id_array;
-            returned_answer_id_1 = returned_answer_id_array[0];
-            expect(returned_answer_id_1).toBeTruthy();
-        });
-        it("check question db answer entry", function() {
-            voc_info = class_trainer_info.voc_table;
-            var data = {
-                table: voc_info.name,
-                primary: voc_info.id,
-                primary_value: returned_question_id,
-                key: voc_info.question_row,
-                key_value: question_value
-            };
-            expect(class_ajax.checkIfValueExists(data)).toBe('1');
-        });
-
-        it("check first db answer entry", function() {
-            answer_info = class_trainer_info.answer_table;
-            var data = {
-                table: answer_info.name,
-                primary: answer_info.id,
-                primary_value: returned_answer_id_1,
-                key: answer_info.answer_row,
-                key_value: new_answer_value_1
-            };
-            expect(class_ajax.checkIfValueExists(data)).toBe('1');
-        });
-        it("delete values again", function() {
-            var voc_table = voc_info.name;
-            var answer_table = answer_info.name;
-            var voc_table_row = voc_info.id;
-            var answer_table_row = answer_info.id;
-            var delete_question_answer = class_ajax.deleteRow(voc_table, voc_table_row, returned_question_id);
-            var delete_answer_answer_1 = class_ajax.deleteRow(answer_table, answer_table_row, returned_answer_id_1);
-            expect(delete_question_answer).toBe('1');
-            expect(delete_answer_answer_1).toBe('1');
-        });
     });
 
     describe("saveNewVoc multiple input", function() {
@@ -267,10 +274,6 @@ ddescribe("ClassListEditorSaveNewVoc***", function() {
             $("#" + add_button_id).trigger("click");
             $("#" + answer_input_option_id).val(new_answer_value_2);
             class_list_editor_save_new_voc.saveNewAnswer();
-            // $("#" + answer_input_option_id).trigger({
-            //     type: 'keypress',
-            //     which: '13',
-            // });
 
         });
         it("answer_input_elements should exist", function() {
@@ -286,10 +289,6 @@ ddescribe("ClassListEditorSaveNewVoc***", function() {
             expect("#" + answer_input_id_2).toHaveValue(new_answer_value_2);
         });
 
-        // it("saveNewVoc should have been called", function() {
-        //     expect(class_list_editor_save_new_voc.saveNewVoc).toHaveBeenCalled();
-        // });
-
         it("answer_array should be correct", function() {
             var answer_array = class_list_editor_save_new_voc.getAnswerArray();
             var expcted_answer_array = [new_answer_value_1, new_answer_value_2];
@@ -301,6 +300,14 @@ ddescribe("ClassListEditorSaveNewVoc***", function() {
             expect(list_id).toBe(expected_list_id);
         });
         it("check returned_question_id", function() {
+            spyOn(class_list_editor_save_new_voc, "displayList");
+            spyOn(class_list_editor_save_new_voc, "saveNewVoc").and.callFake(function() {
+                var object = {
+                    question_id: "1",
+                    answer_id_array: ["1", "2", "3"]
+                };
+                return object;
+            });
             returned_id_array = class_list_editor_save_new_voc.saveNewVoc();
             returned_question_id = returned_id_array.question_id;
             expect(returned_question_id).toBeTruthy();
@@ -312,51 +319,6 @@ ddescribe("ClassListEditorSaveNewVoc***", function() {
             returned_answer_id_2 = returned_answer_id_array[1];
             expect(returned_answer_id_1).toBeTruthy();
             expect(returned_answer_id_2).toBeTruthy();
-        });
-        it("check question db answer entry", function() {
-            voc_info = class_trainer_info.voc_table;
-            var data = {
-                table: voc_info.name,
-                primary: voc_info.id,
-                primary_value: returned_question_id,
-                key: voc_info.question_row,
-                key_value: question_value
-            };
-            expect(class_ajax.checkIfValueExists(data)).toBe('1');
-        });
-
-        it("check first db answer entry", function() {
-            answer_info = class_trainer_info.answer_table;
-            var data = {
-                table: answer_info.name,
-                primary: answer_info.id,
-                primary_value: returned_answer_id_1,
-                key: answer_info.answer_row,
-                key_value: new_answer_value_1
-            };
-            expect(class_ajax.checkIfValueExists(data)).toBe('1');
-        });
-        it("check second db question entry", function() {
-            var data = {
-                table: answer_info.name,
-                primary: answer_info.id,
-                primary_value: returned_answer_id_2,
-                key: answer_info.answer_row,
-                key_value: new_answer_value_2
-            };
-            expect(class_ajax.checkIfValueExists(data)).toBe('1');
-        });
-        it("delete values again", function() {
-            var voc_table = voc_info.name;
-            var answer_table = answer_info.name;
-            var voc_table_row = voc_info.id;
-            var answer_table_row = answer_info.id;
-            var delete_question_answer = class_ajax.deleteRow(voc_table, voc_table_row, returned_question_id);
-            var delete_answer_answer_1 = class_ajax.deleteRow(answer_table, answer_table_row, returned_answer_id_1);
-            var delete_answer_answer_2 = class_ajax.deleteRow(answer_table, answer_table_row, returned_answer_id_2);
-            expect(delete_question_answer).toBe('1');
-            expect(delete_answer_answer_1).toBe('1');
-            expect(delete_answer_answer_2).toBe('1');
         });
     });
 });

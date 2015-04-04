@@ -60,7 +60,6 @@ ClassDisplayList.prototype.learnList = function() {
 };
 
 ClassDisplayList.prototype.getJsonData = function(list_id) {
-
     var data_obj = {
         db: this.trainer_info.db,
         table_1: this.trainer_info.voc_table.name,

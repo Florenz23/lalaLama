@@ -36,7 +36,7 @@ class classDbFunctions extends classDbChecker {
 
 	function insertValues($data) {
 		$query = $this->createQueryInsertValues($data);
-	    $query_answer = $this->checkQueryInsert($query);
+	    $query_answer = $this->checkQuery($query);
 		if ($query_answer ) {
 			return $query_answer;
 		}
@@ -70,9 +70,9 @@ class classDbFunctions extends classDbChecker {
 			$query .= " ORDER BY `" . $data['table'] . "`.`" . $data['primary'] . "`ASC";
 		}
 		$query .= ";";
-		$query_answer = $this->query($query);
-		if ($query_answer[0]) {
-			$result = $query_answer[1];
+		$query_answer = $this->checkQuery($query);
+		if ($query_answer) {
+			$result = $query_answer;
 			$rows = array();
 			while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
 				$rows[] = $row;
@@ -82,20 +82,20 @@ class classDbFunctions extends classDbChecker {
 			}
 			return json_encode($rows);
 		}
-		return $query_answer[1];
+		return $query_answer;
 	}
 	function getValue($data) {
 		$query = "SELECT `" . $data['table'] . "`.`" . $data['key'] . "` FROM `" . $this->db . "`.`" . $data['table'] . "` WHERE `" . $data['table'] . "`. `" . $data['primary'] . "` = '" . $data['primary_value'] . "';";
-		$query_answer = $this->query($query);
-		if ($query_answer[0]) {
-			$result = $query_answer[1];
+		$query_answer = $this->checkQuery($query);
+		if ($query_answer) {
+			$result = $query_answer;
 			$row = $result->fetch_row();
 			if ($row[0] || $row[0] == 0) {
 				return $row[0];
 			}
 			return false;
 		}
-		return $query_answer[1];
+		return $query_answer;
 	}
 
 	function deleteRow($data) {
@@ -103,10 +103,9 @@ class classDbFunctions extends classDbChecker {
 		. "` WHERE `" . $data['table'] . "`. `" . $data['key']
 		. "` = '" . $data['value'] . "'";
 		$query_answer = $this->query($query);
-		if ($query_answer[0]) {
+		if ($query_answer) {
 			return '{"status":"deleted.ok"}';
 		}
-		echo $query_answer[1];
 		return false;
 
 	}
@@ -118,10 +117,9 @@ class classDbFunctions extends classDbChecker {
 		. "' WHERE \n" . " `" . $data['table'] . "`.`"
 		. $data['primary'] . "` =\n" . " '" . $data['primary_value'] . "';";
 		$query_answer = $this->query($query);
-		if ($query_answer[0]) {
+		if ($query_answer) {
 			return '{"status":"updated.ok"}';
 		}
-		echo $query_answer[1];
 		return false;
 
 	}
@@ -133,9 +131,9 @@ class classDbFunctions extends classDbChecker {
 		. " `" . $this->db . "`.`" . $data['table_2'] . "` a ON "
 		. "(v.`" . $data['join_row_1'] . "` = a.`" . $data['join_row_2'] . "`)"
 		. " where v.`" . $data['key'] . "` = '" . $data['key_value'] . "'ORDER BY v.`" . $data['join_row_1'] . "` DESC;";
-		$query_answer = $this->query($query);
-		if ($query_answer[0]) {
-			$result = $query_answer[1];
+		$query_answer = $this->checkQuery($query);
+		if ($query_answer) {
+			$result = $query_answer;
 			$rows = array();
 			while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
 				$rows[] = $row;
@@ -145,7 +143,7 @@ class classDbFunctions extends classDbChecker {
 			}
 			return json_encode($rows);
 		}
-		return $query_answer[1];
+		return $query_answer;
 	}
 	function selectJoinTableTrainer($data) {
 		$query = "SELECT *\n"
@@ -157,9 +155,9 @@ class classDbFunctions extends classDbChecker {
 		. "LEFT JOIN `" . $this->db . "`.`voc_user_data` u ON (a.answer_id = u.answer_id)  "
 		. " where v.`" . $data['key'] . "` = '" . $data['key_value']
 		. "'ORDER BY v.`" . $data['join_row_1'] . "`DESC;";
-		$query_answer = $this->query($query);
-		if ($query_answer[0]) {
-			$result = $query_answer[1];
+		$query_answer = $this->checkQuery($query);
+		if ($query_answer) {
+			$result = $query_answer;
 			$rows = array();
 			while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
 				$rows[] = $row;
@@ -170,7 +168,7 @@ class classDbFunctions extends classDbChecker {
 			return $rows;
 		}
 
-		return $query_answer[1];
+		return $query_answer;
 	}
 }
 

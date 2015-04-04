@@ -35,7 +35,7 @@ class classListEditorSaveNewVoc_test extends classDbTestMain {
 		$this->new_voc_id = $new_voc_id;
 	}
 	public function insertAnswer() {
-		$data['data']['answer'] = $this->question_value;
+		$data['data']['answer'] = $this->answer_value;
 		$data['data']['voc_id'] = $this->new_voc_id;
 		$new_answer_id = $this->ajax_server->classListEditorSaveNewVocAnswer( $data );
 		$this->new_answer_id = $new_answer_id;
@@ -56,22 +56,21 @@ class classListEditorSaveNewVoc_test extends classDbTestMain {
 		$data['primary_value'] = $this->new_answer_id;
 		$data['key'] = $this->trainer_info->answer_table->answer_row;
 		$data['key_value'] = $this->answer_value;
-		print_r($data);
 		$this->answer_data = $data;
 	}
 
 	public function checkEntryShouldBeTrue() {
 		$check_result_0 = $this->class_db_functions->checkIfValueExists( $this->question_data );
 		$check_result_1 = $this->class_db_functions->checkIfValueExists( $this->answer_data );
-		$this->assertTrue( $check_result_0, 'question values should been inserted ' );
-		$this->assertTrue( $check_result_1, 'answer values should been inserted' );
+		$this->assertSame( $check_result_0,true, 'question values should been inserted ' );
+		$this->assertSame( $check_result_1,true, 'answer values should been inserted' );
 	}
 	public function deleteQuestion() {
 		$data['table'] = $this->trainer_info->voc_table->name;
 		$data['key'] = $this->trainer_info->voc_table->id;
 		$data['key_value'] = $this->new_voc_id;
 		$query_anser = $this->class_db_functions->deleteRow( $data );
-		$this->assertSame( $query_anser, ' {"status":"deleted.ok"}' , 'delete ok' );
+		$this->assertSame( $query_anser, '{"status":"deleted.ok"}' , 'delete ok' );
 
 	}
 	public function deleteAnswer() {
@@ -79,7 +78,7 @@ class classListEditorSaveNewVoc_test extends classDbTestMain {
 		$data['key'] = $this->trainer_info->answer_table->id;
 		$data['key_value'] = $this->new_answer_id;
 		$query_anser = $this->class_db_functions->deleteRow( $data );
-		$this->assertSame( $query_anser, ' {"status":"deleted.ok"}' , 'delete ok' );
+		$this->assertSame( $query_anser, '{"status":"deleted.ok"}' , 'delete ok' );
 	}
 
 }

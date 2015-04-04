@@ -28,15 +28,14 @@ class classDbChecker extends classDbConnector {
 		$query = "select * from `" . $this->db . "`.`" . $data['table'] . "`";
 		$query .= " WHERE `" . $data['table'] . "`.`" . $data['primary'] . "` = '" . $data['primary_value'] . "'";
 		$query .= " AND `" . $data['table'] . "`.`" . $data['key'] . "` = '" . $data['key_value'] . "'  ;";
-		$query_answer = $this->query($query);
-		if ($query_answer[0]) {
+		$query_answer = $this->checkQuery($query);
+		if ($query_answer) {
 			if ($this->mysqli->affected_rows >= 1) {
 				return true;
 			}
 			return false;
 		}
-		echo $query_answer[1];
-		return $query_answer[1];
+		return $query_answer;
 	}
 	function checkIfValueExistsById($data) {
 		$query = "select * from `" . $this->db . "`.`" . $data['table'] . "`";

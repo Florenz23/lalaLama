@@ -50,11 +50,7 @@ class classStartTree extends classTrainerInfo {
 		$returned_array = [];
 		$data['table'] = $this->tree_struct_table->name;
 		$data['values'] = $this->obj_array_struct[0];
-		print_r($data);
 		$returned_array[] = $this->db->insertValues($data);
-		echo "jojoj";
-		echo ($returned_array[0]);
-		echo "jojoj";
 
 		$data['values'] = $this->obj_array_struct[1];
 		$data['values']->root_id = $returned_array[0];

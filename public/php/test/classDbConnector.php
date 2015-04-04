@@ -14,34 +14,35 @@ class classDbConnector extends classTrainerInfo {
 
 	}
 
-	function query($query) {
-		if ($result = $this->mysqli->query($query)) {
-			return array(true, $result);
-		}
-		if ($error = mysqli_error($this->mysqli)) {
-			return array(false, $error . " Query: " . $query);
-		}
-		return array(true, "keine Rückgabe");
+		function query($query) {
+		$result = $this->mysqli->query($query);
+
+        if ($result === false && $error = mysqli_error($this->mysqli)) {
+            return array(false, $error . " Query: " . $query);
+        };
+
+        if (gettype($result) == 'object') {
+            return array(true, $result);
+        }
+        else { return array(true, null); }
 	}
 
 	function checkQuery($query) {
 		$query_answer = $this->query($query);
-		if ($query_answer[0] === true) {
-			return true;
-		}
-		print_r($query_answer[1]);
-		return $query_answer[1];
-	}
-	function checkQueryInsert($query) {
-		$query_answer = $this->query($query);
-		if ($query_answer[0] === true) {
-			$insert_id = $this->mysqli->insert_id;
-			if ($insert_id != null) {
-				return $insert_id;
-			}
+
+        if ($this -> mysqli -> insert_id != 0) {
+            return $this -> mysqli -> insert_id;
+        }
+        else if ($query_answer[0] == false) {
+            print_r($query_answer[1]);
 			return false;
-		}
-		print_r($query_answer[1]);
-		return $query_answer[1];
+        }
+        else if ($query_answer[0] == true) {
+			if ($query_answer[1] != null){
+				return $query_answer[1];
+			}
+        }
+        return true;
 	}
+
 }

@@ -10,4 +10,8 @@ class classDbTestMain extends \PHPUnit_Framework_TestCase {
 		$this->trainer_info = new classTrainerInfo();
 
 	}
+	public function test()
+	{
+		$this->assertTrue(true, 'message');
+	}
 }
