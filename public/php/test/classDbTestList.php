@@ -97,7 +97,7 @@ class classDbTestList {
 		$this->value_array[] = new completeObject("12", "7", "zwei", "11", "two", "0", "0", "111", "0", "0", "-1", 0);
 		$this->value_array[] = new completeObject("13", "7", "drei", "12", "three", "0", "0", "111", "0", "0", "-1", 0);
 		$this->value_array[] = new completeObject("14", "7", "vier", "13", "four", "0", "0", "111", "0", "0", "-1", 0);
-		$this->value_array[] = new completeObject("15", "7", "fünf", "14", "five", "0", "0", "111", "0", "0", "-1", 0);
+		$this->value_array[] = new completeObject("15", "7", "fünf", "14", "five", "0", "0", "111", "0", "0", "3", 0);
 	}
 
 	public function createSingleArrays() {
@@ -160,21 +160,21 @@ class classDbTestList {
 	public function resetVocTable($i, $array) {
 		$data['table'] = $this->trainer_info->voc_table->name;
 		$data['key'] = $this->trainer_info->voc_table->id;
-		$data['value'] = $array[$i]->complete->voc_id;
+		$data['key_value'] = $array[$i]->complete->voc_id;
 		$data['values'] = (array) $array[$i]->voc;
 		return $data;
 	}
 	public function resetAnswerTable($i, $array) {
 		$data['table'] = $this->trainer_info->answer_table->name;
 		$data['key'] = $this->trainer_info->answer_table->id;
-		$data['value'] = $array[$i]->complete->answer_id;
+		$data['key_value'] = $array[$i]->complete->answer_id;
 		$data['values'] = (array) $array[$i]->answer;
 		return $data;
 	}
 	public function resetVocUserDataTable($i, $array) {
 		$data['table'] = $this->trainer_info->voc_user_data_table->name;
 		$data['key'] = $this->trainer_info->voc_user_data_table->id;
-		$data['value'] = $array[$i]->complete->answer_id;
+		$data['key_value'] = $array[$i]->complete->answer_id;
 		$data['values'] = (array) $array[$i]->user_data;
 		return $data;
 	}

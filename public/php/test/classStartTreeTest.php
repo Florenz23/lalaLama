@@ -111,7 +111,7 @@ class classStartTreeTest extends classDbTestMain {
 		$data['key'] = $this->trainer_info->tree_struct_table->id;
 		$i = 0;
 		foreach ($this->start_tree_result as $key) {
-			$data['value'] = $this->start_tree_result[$i];
+			$data['key_value'] = $this->start_tree_result[$i];
 			$this->db->deleteRow($data);
 			$i++;
 		}
@@ -121,7 +121,7 @@ class classStartTreeTest extends classDbTestMain {
 		$data['key'] = $this->trainer_info->tree_data_table->id;
 		$i = 0;
 		foreach ($this->start_tree_result as $key) {
-			$data['value'] = $this->start_tree_result[$i];
+			$data['key_value'] = $this->start_tree_result[$i];
 			$this->db->deleteRow($data);
 			$i++;
 		}

@@ -231,25 +231,26 @@ ClassTrainer.prototype.updateLeftVocsDisplay = function() {
 };
 
 ClassTrainer.prototype.calculateRating = function() {
+    var operation = "classTrainerUpdateVocRating";
     var class_ajax = new ClassAjax();
     var voc_data = this.poolnode.data;
     var data = {
         answer_id: voc_data.answer_id,
         ok: voc_data.ok,
-        right: voc_data.right,
-        wrong: voc_data.wrong,
-        rating: voc_data.rating
     };
-    var new_ratings = class_ajax.trainerUpdateVocRating(data);
+    var new_ratings = class_ajax.masterAjaxFunction(operation, data);
+    new_ratings = new_ratings.rating_array;
     for (var i = 0; i < new_ratings.length; i++) {
         new_ratings[i] = parseFloat(new_ratings, 10);
     }
     this.vocllist.update_rating(voc_data.id, new_ratings);
+    return new_ratings;
 };
 
 ClassTrainer.prototype.loadData = function() {
 
-    var json_data = this.getEncodedArray();
+    var list_id = this.getUrlParameter("list_arr");
+    var json_data = this.getEncodedArray(list_id);
     voclist = json_data;
     if (voclist === false) {
         return false;
@@ -307,32 +308,18 @@ ClassTrainer.prototype.checkkIfAllArrayValuesAreNotNull = function(array) {
     return true;
 };
 
-ClassTrainer.prototype.getEncodedArray = function() {
-
+ClassTrainer.prototype.getEncodedArray = function(list_id) {
+    var operation = "classTrainerGetVocs";
     var class_ajax = new ClassAjax();
-    var trainer_info = new ClassTrainerInfo();
     var voclist;
-    var list_arr = this.getUrlParameter("list_arr");
-    if (!list_arr) {
-        list_arr = 7;
+    if (!list_id) {
+        list_id = 7;
     }
-    var list_id = list_arr;
-    var obj = {
-        list_arr: list_arr
+    var send_obj = {
+        list_id: list_id
     };
-    var obj_json = JSON.stringify(obj);
-    var data_obj = {
-        db: trainer_info.db,
-        table_1: trainer_info.voc_table.name,
-        table_2: trainer_info.answer_table.name,
-        join_row_1: trainer_info.voc_table.id,
-        join_row_2: trainer_info.answer_table.voc_id,
-        key: trainer_info.voc_table.list_row,
-        key_value: list_id
-    };
-    var json_data = class_ajax.getVocsEncoded(data_obj);
+    var json_data = class_ajax.masterAjaxFunction(operation, send_obj);
     return json_data;
-
 };
 
 ClassTrainer.prototype.already_answered = function(n) {

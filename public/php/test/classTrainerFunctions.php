@@ -1,11 +1,14 @@
 <?php
 require_once "classDbFunctions.php";
+require_once "classSessionHandler.php";
 
 class classTrainerFunctions extends classDbFunctions {
 
 	function __construct() {
 		parent::__construct();
-
+		$this->trainer_info = new ClassTrainerInfo();
+		$session_handler = new classSessionHandler();
+		$this->user_id = $session_handler->getUserId();
 	}
 
 	function getVocsEncoded($data) {
@@ -20,19 +23,15 @@ class classTrainerFunctions extends classDbFunctions {
 
 	}
 	function getVocArray($data) {
-		$voc_table = "vocs";
-		$answer_table = "answer_table";
-		$join_1 = "voc_id";
-		$join_2 = "answer_id";
-		$query = "SELECT *\n"
-		. " FROM\n"
-		. "`" . $data['db'] . "` .`" . $voc_table . "` v\n"
-		. "LEFT JOIN\n"
-		. " `" . $data['db'] . "`.`" . $answer_table . "` a ON "
-		. "(v.`" . $join_1 . "` = a.`" . $join_1 . "`)"
-		. "LEFT JOIN `" . $data['db'] . "`.`voc_user_data` u ON (a.`" . $join_2 . "` = u.`" . $join_2 . "`)  "
-		. " where v.`" . $data['key'] . "` = '" . $data['key_value']
-		. "'ORDER BY v.`" . $join_1 . "`ASC;";
+		$query =""
+		. " SELECT v.`voc_id`,v.`list_id`,v.`question`, a.`answer_id`, a.`answer`, u.`right`, u.`wrong`, u.`rating`,u.`last_access`,a.`img_id`,a.`multi_choice`"
+		. " FROM `" . $this->db . "` .`" . $data['voc_table'] . "` v\n"
+		. " LEFT JOIN `" . $this->db . "`.`" . $data['answer_table'] . "`"
+		. " a ON (v.`" . $data['voc_id_row'] . "` = a.`" . $data['voc_id_row'] . "`)"
+		. " LEFT JOIN `" . $this->db . "`.`".$data['voc_user_data_table']."` u "
+		. " ON (a.`" . $data['answer_id_row'] . "` = u.`" . $data['answer_id_row'] . "`)  "
+		. " where v.`" . $data['list_id_row'] . "` = '" . $data['list_id_value'] . "'"
+		. " ORDER BY v.`" . $data['voc_id_row'] . "`ASC;";
 		$query_answer = $this->checkQuery($query);
 		if ($query_answer) {
 			$result = $query_answer;
@@ -188,6 +187,120 @@ class classTrainerFunctions extends classDbFunctions {
 
 		return json_encode($ratingarr);
 	}
+
+	public function updateVocRating($data,$counter)
+	{
+		$answer_id_array = $data['answer_id'];
+		$rating_arr = [];
+		for ($i = $counter; $i<count($answer_id_array);$i++) {
+			if (!$this->checkIfAnswerExistsInVocUserDataTable($answer_id_array[$i])){
+				$this->insertStandardValuesUserDataValues($answer_id_array[$i]);
+				return $this->updateVocRating($data,$i);
+			}
+			if ($data['ok'][$i] == 1){
+				$right_answer = $this->updateVocRatingCreateQueryCorrectAnswerRight($data,$i);
+				$rating_answer = $this->updateVocRatingCreateQueryCorrectAnswerRating($data,$i);
+				$rating_arr[] = $this->getUpdatedRatingValue($answer_id_array[$i]);
+			}
+			if ($data['ok'][$i] == 0){
+				$right_answer = $this->updateVocRatingCreateQueryWrongAnswerWrong($data,$i);
+				$rating_answer = $this->updateVocRatingCreateQueryWrongAnswerRating($data,$i);
+				$rating_arr[] = $this->getUpdatedRatingValue($answer_id_array[$i]);
+			}
+			if(!$right_answer){
+				return $right_answer;
+			}
+			if(!$rating_answer){
+				return $wrong_answer;
+			}
+		}
+		$rating_arr = json_encode($rating_arr);
+		$json_answer =  '{"status":"update.ok","rating_array":'.$rating_arr.'}';
+		return $json_answer;
+	}
+	public function getUpdatedRatingValue($answer_id)
+	{
+		$data['table'] = $this->trainer_info->voc_user_data_table->name;
+		$data['answer_id_row'] = $this->trainer_info->voc_user_data_table->id;
+		$data['rating_row'] = $this->trainer_info->voc_user_data_table->rating_row;
+		$data['answer_id'] = $answer_id;
+		$query = ""
+		."SELECT `".$data['rating_row']."`"
+		." FROM `".$this->db."`.`".$data['table']."`"
+		." WHERE `".$data['table']."`.`".$data['answer_id_row']."`"
+		." = '".$data['answer_id']."'";
+		$result = $this->selectFromWithQuery($query);
+		$result_encoded = json_decode($result);
+		$rating = $result_encoded[0]->rating;
+		return $rating;
+	}
+	public function updateVocRatingCreateQueryCorrectAnswerRight($data,$i){
+		$query = "UPDATE `".$this->db."`.`".$data['table']."`"
+		." SET `".$data['table']."`.`".$data['right_row']."` = `".$data['table']."`.`".$data['right_row']."`+1 "
+		."where `".$data['table']."`.`".$data['key']."` = '".$data['answer_id'][$i]."';";
+		$query_answer = $this->checkQuery($query);
+		return $query_answer;
+	}
+	public function updateVocRatingCreateQueryCorrectAnswerRating($data,$i){
+		$query = "UPDATE `".$this->db."`.`".$data['table']."`"
+		." SET `".$data['table']."`.`".$data['rating_row']."` = `".$data['table']."`.`".$data['rating_row']."`+1 "
+		."where `".$data['table']."`.`".$data['key']."` = '".$data['answer_id'][$i]."';";
+		$query_answer = $this->checkQuery($query);
+		return $query_answer;
+	}
+	public function updateVocRatingCreateQueryWrongAnswerWrong($data,$i){
+		$query = "UPDATE `".$this->db."`.`".$data['table']."`"
+		." SET `".$data['table']."`.`".$data['wrong_row']."` = `".$data['table']."`.`".$data['wrong_row']."`+1 "
+		."where `".$data['table']."`.`".$data['key']."` = '".$data['answer_id'][$i]."';";
+		$query_answer = $this->checkQuery($query);
+		return $query_answer;
+	}
+	public function updateVocRatingCreateQueryWrongAnswerRating($data,$i){
+		$query = "UPDATE `".$this->db."`.`".$data['table']."`"
+		." SET `".$data['table']."`.`".$data['rating_row']."`"
+		." = (IF(`".$data['table']."`.`".$data['rating_row']."`>-1,"
+		."`".$data['table']."`.`".$data['rating_row']."` *-0.1-1.1,"
+		."`".$data['table']."`.`".$data['rating_row']."`))"
+		." where `".$data['table']."`.`".$data['key']."`"
+		." = '".$data['answer_id'][$i]."';";
+		$query_answer = $this->checkQuery($query);
+		return $query_answer;
+	}
+
+	public function checkIfAnswerExistsInVocUserDataTable($answer_id)
+	{
+		$data['table'] = $this->trainer_info->voc_user_data_table->name;
+		$data['primary'] = $this->trainer_info->voc_user_data_table->id;
+		$data['primary_value'] = $answer_id;
+		return $this->checkIfValueExistsById($data);
+	}
+
+	public function insertStandardValuesUserDataValues($answer_id)
+	{
+		if ($this->user_id == -1){
+			$this->user_id = 111;
+		}
+		$data['table'] = $this->trainer_info->voc_user_data_table->name;
+		$data['values']['answer_id'] = $answer_id;
+		$data['values']['user_id'] = $this->user_id;
+		return $this->insertValues($data);
+	}
+
+	function rating_algorithm($correct, $rating) {
+		$new_rating = $rating;
+
+		if ($correct == 1) {
+			$new_rating = $rating + 1;
+		}
+
+		if ($correct == 0) {
+			if ($rating > -1) {
+				$new_rating = -0.1 * $rating - 1.1;
+			}
+		}
+
+		return $new_rating;
+	}
 	function trainerReSetVoc($obj) {
 		$data['db'] = $this->db;
 		$data['table'] = $this->voc_user_data_table->name;
@@ -224,21 +337,6 @@ class classTrainerFunctions extends classDbFunctions {
 		return json_encode($ratingarr);
 	}
 
-	function rating_algorithm($correct, $rating) {
-		$new_rating = $rating;
-
-		if ($correct == 1) {
-			$new_rating = $rating + 1;
-		}
-
-		if ($correct == 0) {
-			if ($rating > -1) {
-				$new_rating = -0.1 * $rating - 1.1;
-			}
-		}
-
-		return $new_rating;
-	}
 }
 
 $trainer_functions = new classTrainerFunctions();

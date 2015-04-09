@@ -124,7 +124,7 @@ class classDbFunctionsTest extends classDbTestMain {
 		$this->data['values'] = array( "question" => $question, "answer" => $answer );
 		$this->assertsame( $this->db->insertvalues( $this->data ), 1, 'check if returned id is correct' );
 		$this->data['key'] = "id";
-		$this->data['value'] = "1";
+		$this->data['key_value'] = "1";
 		$this->assertSame( $this->db->deleteRow( $this->data ), '{"status":"deleted.ok"}', 'deleteRow' );
 		$this->data['primary'] = "id";
 		$this->data['primary_value'] = "1";

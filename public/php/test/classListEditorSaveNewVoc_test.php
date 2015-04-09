@@ -19,7 +19,7 @@ class classListEditorSaveNewVoc_test extends classDbTestMain {
 	}
 
 	public function test() {
-		$this->insertQuestion();
+			$this->insertQuestion();
 		$this->insertAnswer();
 		$this->setDataQuestionCheck();
 		$this->setDataAnswerCheck();

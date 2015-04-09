@@ -63,6 +63,11 @@ class classDbFunctions extends classDbChecker {
 	}
 
 	function selectFrom($data) {
+		if (!$data['value']){
+			echo "\n!!!!!!!selectFrom ERROR: there is no key set.!!!!!!!";
+			echo "\n".$query;
+			return false;
+		}
 		//table,key,value,(primary)
 		$query = "SELECT * FROM `" . $this->db . "`.`" . $data['table']
 		. "` WHERE `" . $data['table'] . "`. `" . $data['key'] . "` = '" . $data['value'] . "'";
@@ -70,6 +75,10 @@ class classDbFunctions extends classDbChecker {
 			$query .= " ORDER BY `" . $data['table'] . "`.`" . $data['primary'] . "`ASC";
 		}
 		$query .= ";";
+		return $this->selectFromWithQuery($query);
+	}
+	public function selectFromWithQuery($query)
+	{
 		$query_answer = $this->checkQuery($query);
 		if ($query_answer) {
 			$result = $query_answer;
@@ -101,9 +110,14 @@ class classDbFunctions extends classDbChecker {
 	function deleteRow($data) {
 		$query = "DELETE FROM `" . $this->db . "`.`" . $data['table']
 		. "` WHERE `" . $data['table'] . "`. `" . $data['key']
-		. "` = '" . $data['value'] . "'";
+		. "` = '" . $data['key_value'] . "'";
+		if (!$data['key_value']){
+			echo "\n!!!!!!! delete row ,ERROR: there is no key set.!!!!!!!";
+			echo "\n".$query;
+			return false;
+		}
 		$query_answer = $this->query($query);
-		if ($query_answer) {
+		if ($query_answer == true) {
 			return '{"status":"deleted.ok"}';
 		}
 		return false;

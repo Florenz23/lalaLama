@@ -41,6 +41,6 @@ class classAccountManagerTest extends PHPUnit_Framework_TestCase {
 			'db' => 'test',
 			'table' => 'accounts',
 			'key' => 'user_email',
-			'value' => $this->test_mail));
+			'key_value' => $this->test_mail));
 	}
 }

@@ -25,6 +25,7 @@ class classDbChecker extends classDbConnector {
 	}
 
 	function checkIfValueExists($data) {
+		//table,primary,primary_value,key,key_value
 		$query = "select * from `" . $this->db . "`.`" . $data['table'] . "`";
 		$query .= " WHERE `" . $data['table'] . "`.`" . $data['primary'] . "` = '" . $data['primary_value'] . "'";
 		$query .= " AND `" . $data['table'] . "`.`" . $data['key'] . "` = '" . $data['key_value'] . "'  ;";
@@ -38,6 +39,7 @@ class classDbChecker extends classDbConnector {
 		return $query_answer;
 	}
 	function checkIfValueExistsById($data) {
+		//table, primary,primary_value
 		$query = "select * from `" . $this->db . "`.`" . $data['table'] . "`";
 		$query .= " WHERE `" . $data['table'] . "`.`" . $data['primary'] . "` = '" . $data['primary_value'] . "';";
 		$query_answer = $this->query($query);
