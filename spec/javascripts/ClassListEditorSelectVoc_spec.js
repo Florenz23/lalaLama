@@ -1,15 +1,15 @@
-describe("ClassListEditorSelectVoc***", function() {
+xdescribe("ClassListEditorSelectVoc***", function() {
     var class_display_list = new ClassDisplayList();
     var class_db_test_list = new ClassDbTestList();
     var class_select_voc = new ClassListEditorSelectVoc();
     var rgb_code_color_input = "rgb(255, 255, 255)";
     var rgb_code_color_input_selected = "rgb(240, 255, 255)";
-    var voc_id_1 = class_db_test_list.value_obj_1.voc_id;
-    var voc_id_2 = class_db_test_list.value_obj_2.voc_id;
+    var voc_id_1 = class_db_test_list.complete_array[0].voc_id;
+    var voc_id_2 = class_db_test_list.complete_array[1].voc_id;
     beforeEach(function() {
         class_select_voc.setUpHTMLFixture();
         spyOn(class_display_list, "getJsonData").and.callFake(function() {
-            return class_db_test_list.value_array;
+            return class_db_test_list.complete_array;
         });
         class_display_list.displayList(7);
         class_select_voc.addListener();

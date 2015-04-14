@@ -1,4 +1,5 @@
-describe("ClassListEditorAnswerEdit***", function() {
+//checkt ClassListEditorAnswerEdit
+describe("ClassListEditorNewAnswer***", function() {
     var class_trainer_info = new ClassTrainerInfo();
     var class_ajax = new ClassAjax();
     var class_list_editor = new ClassListEditor();
@@ -6,26 +7,48 @@ describe("ClassListEditorAnswerEdit***", function() {
     var class_div_height_setter = new ClassDivHeightSetter();
     var class_list_editor_answer_edit = class_display_list.class_list_editor.answer_edit;
     var class_db_test_list = new ClassDbTestList();
-    var list_id_to_be_tested = class_db_test_list.value_obj_1.list_id;
-    var test_value_json_array_from_db = class_display_list.getJsonData(list_id_to_be_tested);
+    var list_id_to_be_tested = class_db_test_list.complete_array[0].list_id;
+    var test_value_json_array_from_db = class_db_test_list.complete_array;
     beforeEach(function() {
         class_list_editor.setUpHTMLFixture();
+        class_db_test_list.createListObjects();
         spyOn(class_display_list, "getJsonData").and.callFake(function() {
-            return test_value_json_array_from_db;
+            return class_db_test_list.complete_array;
         });
         class_display_list.displayList(list_id_to_be_tested);
     });
-
-
-    it("test values should be inserted into the database", function() {
-        expect(class_db_test_list.refreshTestListValues()).toBeTruthy();
+    describe('db part: ', function() {
+        describe('saveMultiAnswersInDb', function() {
+            var answer_id_array;
+            it('should be defined', function() {
+                expect(class_list_editor_answer_edit.saveNewAnswerInDb).toBeDefined();
+            });
+            it('save multi answers', function() {
+                class_list_editor_answer_edit.voc_id = class_db_test_list.complete_array[0].voc_id;
+                spyOn(class_list_editor_answer_edit, "createValueObj").and.callFake(function() {
+                    var obj = {
+                        voc_id: class_list_editor_answer_edit.voc_id,
+                        answer: "test_answer"
+                    };
+                    return obj;
+                });
+                expect(class_list_editor_answer_edit.voc_id).not.toBe("not_set");
+                answer_id = class_list_editor_answer_edit.saveNewAnswerInDb();
+                expect(answer_id).toBeGreaterThan("1");
+            });
+            it('answers should be deleted again', function() {
+                var table = class_trainer_info.answer_table.name;
+                var key = class_trainer_info.answer_table.id;
+                var value = answer_id;
+                class_ajax.deleteRow(table, key, value);
+            });
+        });
     });
-
 
     describe("addNewAnswer", function() {
         describe("check list", function() {
             var voc_id = 10;
-            it("should been called", function() {
+            it("should   been called", function() {
                 spyOn(class_list_editor_answer_edit, "addNewAnswerField");
                 $("#" + class_display_list.answer_add_button_id_prefix + voc_id).trigger("click");
                 expect(class_list_editor_answer_edit.addNewAnswerField).toHaveBeenCalled();
@@ -45,10 +68,10 @@ describe("ClassListEditorAnswerEdit***", function() {
 
         });
         describe("saveNewAnswer", function() {
-            var new_answer_id = parseInt(class_db_test_list.answer_obj_6.answer_id, 10) + 1;
-            var voc_nr = class_db_test_list.value_obj_2.voc_id;
-            var div_id = class_display_list.voc_div_id_prefix + class_db_test_list.value_obj_1.voc_id;
-            var answer_input_id_1 = class_list_editor.answer_input_id_prefix + class_db_test_list.answer_obj_4.answer_id;
+            var new_answer_id = parseInt(class_db_test_list.complete_array[6].answer_id, 10) + 1;
+            var voc_nr = class_db_test_list.complete_array[1].voc_id;
+            var div_id = class_display_list.voc_div_id_prefix + class_db_test_list.complete_array[0].voc_id;
+            var answer_input_id_1 = class_list_editor.answer_input_id_prefix + class_db_test_list.complete_array[3].answer_id;
             var answer_input_id_2 = class_list_editor.answer_input_id_prefix + new_answer_id;
             var prefix = class_list_editor_answer_edit.new_answer_prefix;
             var new_answer_input_id = prefix + class_display_list.answer_input_id_prefix + 1;
@@ -82,7 +105,8 @@ describe("ClassListEditorAnswerEdit***", function() {
                     jasmine.clock().install();
                     spyOn(class_list_editor_answer_edit, "saveNewAnswer");
                     $("#" + new_answer_input_id).trigger({
-                        type: 'keypress',
+                        type: 'keydown',
+                        which: 9
                     });
                     jasmine.clock().tick(1000);
                     expect(class_list_editor_answer_edit.saveNewAnswer).toHaveBeenCalled();
@@ -110,17 +134,6 @@ describe("ClassListEditorAnswerEdit***", function() {
                 afterEach(function() {
                     class_ajax.deleteRow(table, id_row_name, answer_id);
                 });
-                it("check db entry", function() {
-                    var voc_info = class_trainer_info.answer_table;
-                    var data = {
-                        table: voc_info.name,
-                        primary: voc_info.id,
-                        primary_value: answer_id,
-                        key: voc_info.answer_row,
-                        key_value: new_answer_value
-                    };
-                    expect(class_ajax.checkIfValueExists(data)).toBe('1');
-                });
                 it("check if new value is displayed and has value", function() {
                     saved_value_input_id = class_list_editor.answer_input_id_prefix + answer_id;
                     expect("#" + saved_value_input_id).toExist();
@@ -137,7 +150,7 @@ describe("ClassListEditorAnswerEdit***", function() {
                 });
             });
             describe("check div height of main divs", function() {
-                var voc_nr = class_db_test_list.value_obj_2.voc_id;
+                var voc_nr = class_db_test_list.complete_array[1].voc_id;
                 var voc_div_id = "#" + class_display_list.voc_div_id_prefix + voc_nr;
                 var question_main_div_id = voc_div_id + " ." + class_display_list.question_main_div_class;
                 var answer_main_div_id = voc_div_id + " ." + class_display_list.answer_main_div_class;
@@ -211,81 +224,6 @@ describe("ClassListEditorAnswerEdit***", function() {
                         expect("#" + answer_input_id).not.toExist();
                     });
                 });
-            });
-        });
-
-
-    });
-    describe("deleteAnswerDiv", function() {
-        describe("list", function() {
-            var voc_id = 9;
-            var answer_div_id = class_display_list.answer_div_id_prefix + voc_id;
-            var answer_delete_button_id = class_display_list.answer_delete_button_id_prefix + voc_id;
-            it("should be defined", function() {
-                expect(class_list_editor_answer_edit.deleteAnswerDiv).toBeDefined();
-            });
-            it("should been called", function() {
-                spyOn(class_list_editor_answer_edit, "deleteAnswerDiv");
-                $("#" + answer_div_id).trigger("mouseover");
-                $("#" + answer_delete_button_id).trigger("click");
-                expect(class_list_editor_answer_edit.deleteAnswerDiv).toHaveBeenCalled();
-            });
-            it("answer should been deleted", function() {
-                var delete_button_id = class_display_list.answer_delete_button_id_prefix + voc_id;
-                class_display_list.answer_counter = 0;
-                expect("#" + delete_button_id).toExist();
-                expect("#" + answer_div_id).toExist();
-                $("#" + answer_div_id).trigger("mouseover");
-                $("#" + delete_button_id).trigger("click");
-                expect("#" + answer_div_id).not.toExist();
-            });
-        });
-        describe("delete Answer", function() {
-            var answer_table = class_trainer_info.answer_table.name;
-            var answer_table_primary = class_trainer_info.answer_table.id;
-            var to_be_deleted_answer_id = class_db_test_list.answer_obj_1.answer_id;
-            var answer_div_id = class_list_editor_answer_edit.answer_div_id_prefix + to_be_deleted_answer_id;
-            var data = {
-                table: answer_table,
-                primary: answer_table_primary,
-                primary_value: to_be_deleted_answer_id,
-            };
-            beforeEach(function() {
-                var delete_button_id = class_display_list.answer_delete_button_id_prefix + to_be_deleted_answer_id;
-                $("#" + answer_div_id).trigger("mouseover");
-                $("#" + delete_button_id).trigger("click");
-            });
-            it("should be defined", function() {
-                expect(class_list_editor_answer_edit.deleteAnswer).toBeDefined();
-            });
-            it("should be defined", function() {
-                expect(class_list_editor_answer_edit.deleteAnswerOfDb).toBeDefined();
-            });
-            it("answer to be deleted should still exist", function() {
-                expect(class_db_test_list.refreshTestListValues()).toBeTruthy();
-                expect(class_ajax.checkIfValueExistsById(data)).toBe("1");
-            });
-            it("answer should be deleted correctly", function() {
-                expect(class_list_editor_answer_edit.deleteAnswerOfDb()).toBe('1');
-            });
-            it("answer should be deleted from db", function() {
-                expect(class_ajax.checkIfValueExistsById(data)).toBe("");
-            });
-            it("deleteAnswerOfDb should been called", function() {
-                spyOn(class_list_editor_answer_edit, "deleteAnswerOfDb");
-                class_list_editor_answer_edit.deleteAnswer();
-                expect(class_list_editor_answer_edit.deleteAnswerOfDb).toHaveBeenCalled();
-            });
-            it("deleteAnswerDiv should been called", function() {
-                spyOn(class_list_editor_answer_edit, "deleteAnswerDiv");
-                class_list_editor_answer_edit.deleteAnswer();
-                expect(class_list_editor_answer_edit.deleteAnswerDiv).toHaveBeenCalled();
-            });
-            it("answer_div should been removed", function() {
-                expect("#" + answer_div_id).not.toExist();
-            });
-            it("test values should be inserted into the database", function() {
-                expect(class_db_test_list.refreshTestListValues()).toBeTruthy();
             });
         });
     });

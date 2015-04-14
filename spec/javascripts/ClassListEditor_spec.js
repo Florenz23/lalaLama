@@ -11,20 +11,20 @@ describe("ClassListEditor***", function() {
         expect(class_list_editor).toBeDefined();
     });
     it("prepare db", function() {
-        class_db_test_list.refreshTestListValues();
+        class_db_test_list.createListObjects();
     });
     describe("ListEditor interaction", function() {
-        var test_voc_array = class_db_test_list.value_array;
-        var voc_nr = class_db_test_list.value_obj_1.voc_id;
+        var test_voc_array = class_db_test_list.complete_array;
+        var voc_nr = class_db_test_list.complete_array[0].voc_id;
         var voc_div_id = class_display_list.voc_div_id_prefix + voc_nr;
-        var answer_nr = class_db_test_list.answer_obj_1.answer_id;
+        var answer_nr = class_db_test_list.complete_array[0].answer_id;
         var answer_div_id = class_display_list.answer_div_id_prefix + answer_nr;
         beforeEach(function() {
             class_display_list.setUpHTMLFixture();
             spyOn(class_display_list, "getJsonData").and.callFake(function() {
                 return test_voc_array;
             });
-            class_display_list.displayList(test_voc_array);
+            class_display_list.displayList(test_voc_array[0].list_id);
             spyOn(class_display_list.class_list_editor, "setVocId").and.callThrough();
             spyOn(class_display_list.class_list_editor.answer_edit, "setAnswerId").and.callThrough();
             $("#" + voc_div_id).trigger("mouseover");

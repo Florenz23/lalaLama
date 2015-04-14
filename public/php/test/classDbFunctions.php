@@ -159,39 +159,31 @@ class classDbFunctions extends classDbChecker {
 		}
 		return $query_answer;
 	}
-	function selectJoinTableTrainer($data) {
-		$query = "SELECT *\n"
-		. " FROM\n"
-		. "`" . $this->db . "` .`" . $data['table_1'] . "` v\n"
-		. "LEFT JOIN\n"
-		. " `" . $this->db . "`.`" . $data['table_2'] . "` a ON "
-		. "(v.`" . $data['join_row_1'] . "` = a.`" . $data['join_row_2'] . "`)"
-		. "LEFT JOIN `" . $this->db . "`.`voc_user_data` u ON (a.answer_id = u.answer_id)  "
-		. " where v.`" . $data['key'] . "` = '" . $data['key_value']
-		. "'ORDER BY v.`" . $data['join_row_1'] . "`DESC;";
+	function listGetVocs($data) {
+		$query =""
+		. " SELECT * "
+		. " FROM `" . $this->db . "` .`" . $data['voc_table'] . "` v\n"
+		. " LEFT JOIN `" . $this->db . "`.`" . $data['answer_table'] . "`"
+		. " a ON (v.`" . $data['voc_id_row'] . "` = a.`" . $data['voc_id_row'] . "`)"
+		. " where v.`" . $data['list_id_row'] . "` = '" . $data['list_id_value'] . "'"
+		. " ORDER BY v.`" . $data['voc_id_row'] . "`DESC;";
 		$query_answer = $this->checkQuery($query);
 		if ($query_answer) {
 			$result = $query_answer;
-			$rows = array();
+			$three_d_array = array();
 			while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-				$rows[] = $row;
+				$three_d_array[] = $row;
 			}
-			if (count($rows) == 0) {
+			if (count($three_d_array) == 0) {
 				return false;
 			}
-			return $rows;
+			$three_d_array = json_encode($three_d_array);
+			return $three_d_array;
 		}
-
 		return $query_answer;
 	}
 }
 
-$db_functions = new classDbFunctions();
-if (isset($_REQUEST["operation"]) && strpos($_REQUEST["operation"], "_") !== 0 && method_exists($db_functions, $_REQUEST["operation"])) {
-
-	echo $db_functions->{$_REQUEST["operation"]}($_REQUEST);
-	die();
-}
 
 // SELECT *
 //  FROM

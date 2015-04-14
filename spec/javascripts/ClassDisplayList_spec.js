@@ -4,8 +4,8 @@ describe("ClassDisplayList***", function() {
     var class_db_test_list = new ClassDbTestList();
     var class_div_height_setter = new ClassDivHeightSetter();
     var test_value_json_array_from_db_0;
-    var list_id_to_be_tested_1 = class_db_test_list.value_obj_1.list_id;
-    var list_id_to_be_tested_2 = class_db_test_list.value_obj_2.list_id;
+    var list_id_to_be_tested_1 = class_db_test_list.complete_array[0].list_id;
+    var list_id_to_be_tested_2 = class_db_test_list.complete_array[1].list_id;
     var test_value_json_array_from_db_1;
     beforeEach(function() {
         class_display_list.setUpHTMLFixture();
@@ -14,9 +14,6 @@ describe("ClassDisplayList***", function() {
 
     describe("Preperation for the test:", function() {
         describe("prepare the database for the test", function() {
-            it("test values should be inserted into the database", function() {
-                expect(class_db_test_list.refreshTestListValues()).toBeTruthy();
-            });
             it("values of list 7 should be read of the db", function() {
                 test_value_json_array_from_db_0 = class_display_list.getJsonData(list_id_to_be_tested_1);
                 expect(test_value_json_array_from_db_0).toBeTruthy();
@@ -35,7 +32,7 @@ describe("ClassDisplayList***", function() {
         var id_voc_to_be_tested_1;
         beforeEach(function() {
             spyOn(class_display_list, "getJsonData").and.callFake(function() {
-                return class_db_test_list.value_array;
+                return class_db_test_list.complete_array;
             });
             class_display_list.displayList(list_id_to_be_tested_1);
         });
@@ -45,8 +42,8 @@ describe("ClassDisplayList***", function() {
             });
         });
         describe("check the results of the first test_list:", function() {
-            var id_voc_to_be_tested_0 = class_db_test_list.value_obj_1.voc_id;
-            var id_voc_to_be_tested_1 = class_db_test_list.value_obj_2.voc_id;
+            var id_voc_to_be_tested_0 = class_db_test_list.complete_array[0].voc_id;
+            var id_voc_to_be_tested_1 = class_db_test_list.complete_array[1].voc_id;
 
             var question_field_id_0 = class_display_list.input_question_id_prefix + id_voc_to_be_tested_0;
             var question_field_id_1 = class_display_list.input_question_id_prefix + id_voc_to_be_tested_1;
@@ -161,8 +158,8 @@ describe("ClassDisplayList***", function() {
                     var question_input_id_0 = class_display_list.question_input_id_prefix + id_voc_to_be_tested_0;
                     var question_input_id_1 = class_display_list.question_input_id_prefix + id_voc_to_be_tested_1;
                     var question_input_class = class_display_list.question_input_class;
-                    var question_input_value_1 = class_db_test_list.value_obj_1.question;
-                    var question_input_value_2 = class_db_test_list.value_obj_2.question;
+                    var question_input_value_1 = class_db_test_list.complete_array[0].question;
+                    var question_input_value_2 = class_db_test_list.complete_array[1].question;
                     it("question_inputs should exist", function() {
                         expect("#" + question_input_id_0).toExist();
                         expect("#" + question_input_id_1).toExist();
@@ -203,12 +200,12 @@ describe("ClassDisplayList***", function() {
                     });
                 });
                 describe("answer_div", function() {
-                    var voc_div_id_1 = class_display_list.voc_div_id_prefix + class_db_test_list.value_obj_1.voc_id;
-                    var voc_div_id_2 = class_display_list.voc_div_id_prefix + class_db_test_list.value_obj_2.voc_id;
-                    var answer_div_id_1 = class_display_list.answer_div_id_prefix + class_db_test_list.answer_obj_1.answer_id;
-                    var answer_div_id_2 = class_display_list.answer_div_id_prefix + class_db_test_list.answer_obj_2.answer_id;
-                    var answer_div_id_3 = class_display_list.answer_div_id_prefix + class_db_test_list.answer_obj_3.answer_id;
-                    var answer_div_id_4 = class_display_list.answer_div_id_prefix + class_db_test_list.answer_obj_4.answer_id;
+                    var voc_div_id_1 = class_display_list.voc_div_id_prefix + class_db_test_list.complete_array[0].voc_id;
+                    var voc_div_id_2 = class_display_list.voc_div_id_prefix + class_db_test_list.complete_array[3].voc_id;
+                    var answer_div_id_1 = class_display_list.answer_div_id_prefix + class_db_test_list.complete_array[0].answer_id;
+                    var answer_div_id_2 = class_display_list.answer_div_id_prefix + class_db_test_list.complete_array[1].answer_id;
+                    var answer_div_id_3 = class_display_list.answer_div_id_prefix + class_db_test_list.complete_array[2].answer_id;
+                    var answer_div_id_4 = class_display_list.answer_div_id_prefix + class_db_test_list.complete_array[3].answer_id;
                     var answer_div_class = class_display_list.answer_div_class;
                     it("answer_divs should exist", function() {
                         expect("#" + answer_div_id_1).toExist();
@@ -230,19 +227,19 @@ describe("ClassDisplayList***", function() {
                     });
                 });
                 describe("answer_input", function() {
-                    var answer_div_id_1 = class_display_list.answer_div_id_prefix + class_db_test_list.answer_obj_1.answer_id;
-                    var answer_div_id_2 = class_display_list.answer_div_id_prefix + class_db_test_list.answer_obj_2.answer_id;
-                    var answer_div_id_3 = class_display_list.answer_div_id_prefix + class_db_test_list.answer_obj_3.answer_id;
-                    var answer_div_id_4 = class_display_list.answer_div_id_prefix + class_db_test_list.answer_obj_4.answer_id;
-                    var answer_input_id_1 = class_display_list.answer_input_id_prefix + class_db_test_list.answer_obj_1.answer_id;
-                    var answer_input_id_2 = class_display_list.answer_input_id_prefix + class_db_test_list.answer_obj_2.answer_id;
-                    var answer_input_id_3 = class_display_list.answer_input_id_prefix + class_db_test_list.answer_obj_3.answer_id;
-                    var answer_input_id_4 = class_display_list.answer_input_id_prefix + class_db_test_list.answer_obj_4.answer_id;
+                    var answer_div_id_1 = class_display_list.answer_div_id_prefix + class_db_test_list.complete_array[0].answer_id;
+                    var answer_div_id_2 = class_display_list.answer_div_id_prefix + class_db_test_list.complete_array[1].answer_id;
+                    var answer_div_id_3 = class_display_list.answer_div_id_prefix + class_db_test_list.complete_array[2].answer_id;
+                    var answer_div_id_4 = class_display_list.answer_div_id_prefix + class_db_test_list.complete_array[3].answer_id;
+                    var answer_input_id_1 = class_display_list.answer_input_id_prefix + class_db_test_list.complete_array[0].answer_id;
+                    var answer_input_id_2 = class_display_list.answer_input_id_prefix + class_db_test_list.complete_array[1].answer_id;
+                    var answer_input_id_3 = class_display_list.answer_input_id_prefix + class_db_test_list.complete_array[2].answer_id;
+                    var answer_input_id_4 = class_display_list.answer_input_id_prefix + class_db_test_list.complete_array[3].answer_id;
                     var answer_input_class = class_display_list.answer_input_class;
-                    var answer_input_value_1 = class_db_test_list.answer_obj_1.answer;
-                    var answer_input_value_2 = class_db_test_list.answer_obj_2.answer;
-                    var answer_input_value_3 = class_db_test_list.answer_obj_3.answer;
-                    var answer_input_value_4 = class_db_test_list.answer_obj_4.answer;
+                    var answer_input_value_1 = class_db_test_list.complete_array[0].answer;
+                    var answer_input_value_2 = class_db_test_list.complete_array[1].answer;
+                    var answer_input_value_3 = class_db_test_list.complete_array[2].answer;
+                    var answer_input_value_4 = class_db_test_list.complete_array[3].answer;
                     it("answer_divs should exist", function() {
                         expect("#" + answer_input_id_1).toExist();
                         expect("#" + answer_input_id_2).toExist();
@@ -269,14 +266,14 @@ describe("ClassDisplayList***", function() {
                     });
                 });
                 describe("answer_delete_button", function() {
-                    var answer_div_id_1 = class_display_list.answer_div_id_prefix + class_db_test_list.answer_obj_1.answer_id;
-                    var answer_div_id_2 = class_display_list.answer_div_id_prefix + class_db_test_list.answer_obj_2.answer_id;
-                    var answer_div_id_3 = class_display_list.answer_div_id_prefix + class_db_test_list.answer_obj_3.answer_id;
-                    var answer_div_id_4 = class_display_list.answer_div_id_prefix + class_db_test_list.answer_obj_4.answer_id;
-                    var answer_delete_button_id_1 = class_display_list.answer_delete_button_id_prefix + class_db_test_list.answer_obj_1.answer_id;
-                    var answer_delete_button_id_2 = class_display_list.answer_delete_button_id_prefix + class_db_test_list.answer_obj_2.answer_id;
-                    var answer_delete_button_id_3 = class_display_list.answer_delete_button_id_prefix + class_db_test_list.answer_obj_3.answer_id;
-                    var answer_delete_button_id_4 = class_display_list.answer_delete_button_id_prefix + class_db_test_list.answer_obj_4.answer_id;
+                    var answer_div_id_1 = class_display_list.answer_div_id_prefix + class_db_test_list.complete_array[0].answer_id;
+                    var answer_div_id_2 = class_display_list.answer_div_id_prefix + class_db_test_list.complete_array[1].answer_id;
+                    var answer_div_id_3 = class_display_list.answer_div_id_prefix + class_db_test_list.complete_array[2].answer_id;
+                    var answer_div_id_4 = class_display_list.answer_div_id_prefix + class_db_test_list.complete_array[3].answer_id;
+                    var answer_delete_button_id_1 = class_display_list.answer_delete_button_id_prefix + class_db_test_list.complete_array[0].answer_id;
+                    var answer_delete_button_id_2 = class_display_list.answer_delete_button_id_prefix + class_db_test_list.complete_array[1].answer_id;
+                    var answer_delete_button_id_3 = class_display_list.answer_delete_button_id_prefix + class_db_test_list.complete_array[2].answer_id;
+                    var answer_delete_button_id_4 = class_display_list.answer_delete_button_id_prefix + class_db_test_list.complete_array[3].answer_id;
                     var answer_delete_button_class = class_display_list.answer_delete_button_class;
                     var answer_delete_button_value = class_display_list.answer_delete_button_value;
                     it("answer_divs should exist", function() {
@@ -342,6 +339,9 @@ describe("ClassDisplayList***", function() {
         });
     });
     describe('learnList', function() {
+        beforeEach(function() {
+            class_display_list.displayLearnButton();
+        });
         var learn_button_id = "learn_button_id";
         it('should be defined', function() {
             expect(class_display_list.learnList).toBeDefined();

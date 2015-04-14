@@ -2,8 +2,8 @@ describe("ClassdivHeightSetter***", function() {
     var class_display_list = new ClassDisplayList();
     var class_div_height_setter = new ClassDivHeightSetter();
     var class_list_editor_answer_edit = new ClassListEditorAnswerEdit();
-    var list_id_to_be_tested_1 = class_db_test_list.value_obj_1.list_id;
-    var test_value_json_array_from_db_0 = class_db_test_list.value_array;
+    var list_id_to_be_tested_1 = class_db_test_list.complete_array[0].list_id;
+    var test_value_json_array_from_db_0 = class_db_test_list.complete_array;
     var div_height;
     var voc_nr;
     beforeEach(function() {

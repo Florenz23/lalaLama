@@ -24,6 +24,21 @@ describe("ClassListEditorDeleteVoc***", function() {
         it("ClassListEditorDeleteVoc should be defined", function() {
             expect(class_delete_voc).toBeDefined();
         });
+        describe('db part', function() {
+            it("should be defined", function() {
+                expect(class_display_list.class_list_editor.delete_voc.deleteVocOfDb).toBeDefined();
+            });
+            it('reset db_test_list', function() {
+                var operation = "resetVocList";
+                class_ajax.masterAjaxTest(operation);
+            });
+            it('delete Voc should work', function() {
+                var voc_id = class_db_test_list.complete_array[0].voc_id;
+                class_delete_voc.voc_id = voc_id;
+                var check_value = class_delete_voc.deleteVocOfDb();
+                expect(check_value.status).toBe("deleted.ok");
+            });
+        });
 
 
         describe("functionality", function() {
@@ -60,21 +75,6 @@ describe("ClassListEditorDeleteVoc***", function() {
                 });
             });
 
-        });
-        describe('db part', function() {
-            it("should be defined", function() {
-                expect(class_display_list.class_list_editor.delete_voc.deleteVocOfDb).toBeDefined();
-            });
-            it('reset db_test_list', function() {
-                var operation = "resetVocList";
-                class_ajax.masterAjaxTest(operation);
-            });
-            it('delete Voc should work', function() {
-                var voc_id = class_db_test_list.complete_array[0].voc_id;
-                class_delete_voc.voc_id = voc_id;
-                var check_value = class_delete_voc.deleteVocOfDb();
-                expect(check_value.status).toBe("deleted.ok");
-            });
         });
 
 

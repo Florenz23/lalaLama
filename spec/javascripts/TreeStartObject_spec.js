@@ -1,4 +1,4 @@
-describe('TreeStartObject', function() {
+xdescribe('TreeStartObject', function() {
     var user_id_to_test = 5;
     var tree = new TreeStartObject(user_id_to_test);
     var trainer_info = new ClassTrainerInfo();

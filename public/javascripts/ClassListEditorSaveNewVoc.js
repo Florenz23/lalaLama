@@ -122,13 +122,14 @@ ClassListEditorSaveNewVoc.prototype.getAnswerArray = function() {
         input_id = $(this).attr("id");
         if (typeof(input_id) != "undefined") {
             answer_value = $("#" + input_id).val();
-            answer_array[i] = answer_value;
+            if (answer_value !== "") {
+                answer_array[i] = answer_value;
+            }
         }
         i++;
     });
-    if (answer_array.length === 0) {
-        answer_array[0] = $("#" + this.new_voc_answer_input_option).val();
-    }
+    var option_field_value = $("#" + this.new_voc_answer_input_option).val();
+    answer_array[i] = option_field_value;
     return answer_array;
 };
 

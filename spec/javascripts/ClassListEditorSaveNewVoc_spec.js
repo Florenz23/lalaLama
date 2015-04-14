@@ -1,4 +1,4 @@
-describe("ClassListEditorSaveNewVoc***", function() {
+ddescribe("ClassListEditorSaveNewVoc***", function() {
     var class_trainer_info = new ClassTrainerInfo();
     var class_ajax = new ClassAjax();
     var class_list_editor = new ClassListEditor();
@@ -215,6 +215,7 @@ describe("ClassListEditorSaveNewVoc***", function() {
         var answer_input_id_1 = class_display_list.new_answer_input_id_prefix + 0;
         var question_value = "moin";
         var new_answer_value_1 = "moin_1";
+        var new_answer_value_2 = "moin_2";
         var returned_id_array;
         var returned_question_id;
         var returned_answer_id_array;
@@ -239,6 +240,14 @@ describe("ClassListEditorSaveNewVoc***", function() {
         it("answer_array should be correct", function() {
             var answer_array = class_list_editor_save_new_voc.getAnswerArray();
             var expcted_answer_array = [new_answer_value_1];
+            expect(answer_array).toEqual(expcted_answer_array);
+        });
+        it("answer_array longer than 1 should be correct", function() {
+            var add_button_id = class_display_list.new_answer_add_button_id_prefix + 0;
+            $("#" + answer_input_option_id).val(new_answer_value_2);
+            $("#" + add_button_id).trigger("click");
+            var answer_array = class_list_editor_save_new_voc.getAnswerArray();
+            var expcted_answer_array = [new_answer_value_1, new_answer_value_2];
             expect(answer_array).toEqual(expcted_answer_array);
         });
         it("list_id should be delivered", function() {

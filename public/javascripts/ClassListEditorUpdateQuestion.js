@@ -64,6 +64,7 @@ ClassListEditorUpdateQuestion.prototype.createKeypressListener = function() {
     //         class_update_voc.UpdateQuestion();
     //     }, doneTypingInterval);
     // });
+    $('#' + question_input_id).unbind('keypress');
     $('#' + question_input_id).keypress(function() {
         clearTimeout(typingTimer);
         if ($('#' + question_input_id).val) {

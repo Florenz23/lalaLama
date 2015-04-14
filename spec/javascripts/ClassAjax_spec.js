@@ -1,4 +1,4 @@
-describe("ClassAjaxSpec:", function() {
+xdescribe("ClassAjaxSpec:", function() {
 
     beforeEach(function() {
         class_ajax = new ClassAjax();

@@ -38,7 +38,6 @@ class classTrainerFunctionsTest extends classDbTestMain {
 		$this->trainerReSetVoc();
 		$this->orderByImportance();
 		$this->create3dArray();
-		$this->lastAccess();
 		$this->getVocs_and_Importance();
 		$this->calculateImportance();
 	}
@@ -73,34 +72,19 @@ class classTrainerFunctionsTest extends classDbTestMain {
 		$list_id = 7;
 		$data['data']['list_id'] = $list_id;
 		$manipulated_array = $this->ajax_server->classTrainerGetVocs( $data );
-		$manipulated_array =json_decode($manipulated_array);
+		$manipulated_array =json_decode( $manipulated_array );
 		$expected_arr = $this->db_test_list->multi_array[0];
 		$given_arr = $manipulated_array[0];
 		$this->assertSame( $given_arr->question, $expected_arr['question'], "question" );
 		$this->assertSame( $given_arr->answer, $expected_arr['answer'], "answer" );
 		$this->assertSame( $given_arr->rating, $expected_arr['rating'], "rating" );
 	}
-	public function lastAccess() {
-		$list_id = 7;
-		$data['db'] = "test";
-		$data['table_1'] = "vocs";
-		$data['table_2'] = "answer_table";
-		$data['join_row_1'] = "voc_id";
-		$data['join_row_2'] = "voc_id";
-		$data['key'] = "list_id";
-		$data['key_value'] = $list_id;
-		$expected_arr = [0];
-		$manipulated_array = $this->trainer_functions->selectJoinTableTrainer( $data );
-		$manipulated_array = $manipulated_array[0];
-		$manipulated_array_last_acess = $manipulated_array['last_access'];
-		$this->assertNotSame( $manipulated_array_last_acess, $expected_arr, "Create3dArray" );
-	}
 	public function getVocs_and_Importance() {
 		$list_id = 7;
 		$data['data']['list_id'] = $list_id;
 		$expected_arr = [0, 0, 0];
 		$manipulated_array = $this->ajax_server->classTrainerGetVocs( $data );
-		$manipulated_array =json_decode($manipulated_array);
+		$manipulated_array =json_decode( $manipulated_array );
 		$manipulated_array = $manipulated_array[1];
 		$manipulated_array_importance = $manipulated_array->importance;
 		$this->assertNotSame( $manipulated_array_importance, $expected_arr, "check importance" );

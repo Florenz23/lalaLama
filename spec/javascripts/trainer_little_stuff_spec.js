@@ -11,7 +11,7 @@ describe("ClassTrainer little functions***", function() {
     });
     describe("refresh values", function() {
         it("values should be resetted", function() {
-            class_db_test_list.refreshTestListValues();
+            class_db_test_list.createListObjects();
         });
     });
 
@@ -32,7 +32,7 @@ describe("ClassTrainer little functions***", function() {
             importance: [0.5],
         };
         it("values should be resetted", function() {
-            class_db_test_list.refreshTestListValues();
+            class_db_test_list.createListObjects();
         });
         beforeEach(function() {
             spyOn(trainer, "getEncodedArray").and.callFake(function() {
@@ -125,7 +125,7 @@ describe("ClassTrainer little functions***", function() {
             expect(trainer.mastered_vocs).toBe(1);
         });
         it("values should be resetted", function() {
-            class_db_test_list.refreshTestListValues();
+            class_db_test_list.createListObjects();
         });
     });
     describe('setPoolsize', function() {

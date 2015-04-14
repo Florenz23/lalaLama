@@ -1,17 +1,18 @@
-describe("ClassTrainer***", function() {
+xdescribe("ClassTrainer***", function() {
     var class_ajax = new ClassAjax();
     var class_trainer_info = new ClassTrainerInfo();
     var class_db_test_list = new ClassDbTestList();
     var trainer = new ClassTrainer();
     var answer_textarea_id = "answer";
     var question_div = "question";
+    var test_voc_object = class_db_test_list.complete_array[0];
 
     beforeEach(function() {
         trainer.setUpHTMLFixture();
     });
     describe("refresh values", function() {
         it("values should be resetted", function() {
-            class_db_test_list.refreshTestListValues();
+            class_db_test_list.createListObjects();
         });
     });
 
@@ -68,14 +69,14 @@ describe("ClassTrainer***", function() {
             it("check object", function() {
                 var vocllist_first_object = trainer.vocllist.first.data;
                 var expected_object = {
-                    id: class_db_test_list.complete_obj_4.complete.voc_id,
-                    question: class_db_test_list.complete_obj_4.complete.question,
-                    answer_id: class_db_test_list.complete_obj_4.complete.answer_id,
-                    answer: class_db_test_list.complete_obj_4.complete.answer,
-                    right: class_db_test_list.complete_obj_4.complete.right,
-                    wrong: class_db_test_list.complete_obj_4.complete.wrong,
-                    rating: class_db_test_list.complete_obj_4.complete.rating,
-                    multi_choice: class_db_test_list.complete_obj_4.complete.multi_choice
+                    id: class_db_test_list.complete_array[3].voc_id,
+                    question: class_db_test_list.complete_array[3].question,
+                    answer_id: class_db_test_list.complete_array[3].answer_id,
+                    answer: class_db_test_list.complete_array[3].answer,
+                    right: class_db_test_list.complete_array[3].right,
+                    wrong: class_db_test_list.complete_array[3].wrong,
+                    rating: class_db_test_list.complete_array[3].rating,
+                    multi_choice: class_db_test_list.complete_array[3].multi_choice
                 };
                 var given_object = {
                     id: vocllist_first_object.id,
@@ -108,14 +109,14 @@ describe("ClassTrainer***", function() {
             importance: [0.5],
         };
         it("values should be resetted", function() {
-            class_db_test_list.refreshTestListValues();
+            class_db_test_list.createListObjects();
         });
         beforeEach(function() {
             spyOn(trainer, "getEncodedArray").and.callFake(function() {
                 var array = [test_voc_object_1];
                 return array;
             });
-            class_db_test_list.refreshTestListValues();
+            class_db_test_list.createListObjects();
             trainer.poolsize = 3;
             trainer.pool_size_max = 8;
             trainer.pool_size_min = 2;
@@ -162,14 +163,14 @@ describe("ClassTrainer***", function() {
             importance: [0.5],
         };
         it("values should be resetted", function() {
-            class_db_test_list.refreshTestListValues();
+            class_db_test_list.createListObjects();
         });
         beforeEach(function() {
             spyOn(trainer, "getEncodedArray").and.callFake(function() {
                 var array = [test_voc_object_1];
                 return array;
             });
-            class_db_test_list.refreshTestListValues();
+            class_db_test_list.createListObjects();
             trainer.poolsize = 3;
             trainer.pool_size_max = 8;
             trainer.pool_size_min = 2;
@@ -222,7 +223,7 @@ describe("ClassTrainer***", function() {
         describe("check db", function() {
             var answer_id = test_voc_object_1.answer_id[0];
             it("values should be resetted", function() {
-                class_db_test_list.refreshTestListValues();
+                class_db_test_list.createListObjects();
             });
             it("right", function() {
                 var obj = {
@@ -262,7 +263,7 @@ describe("ClassTrainer***", function() {
     });
     describe("check wrong answer", function() {
         var trainer = new ClassTrainer();
-        var answer_id = class_db_test_list.complete_obj_1.answer.answer_id;
+        var answer_id = class_db_test_list.complete_array[0].answer_id;
         var test_voc_object_1 = {
             voc_id: "11",
             list_id: "7",
@@ -278,14 +279,14 @@ describe("ClassTrainer***", function() {
             importance: [0.5],
         };
         it("values should be resetted", function() {
-            class_db_test_list.refreshTestListValues();
+            class_db_test_list.createListObjects();
         });
         beforeEach(function() {
             spyOn(trainer, "getEncodedArray").and.callFake(function() {
                 var array = [test_voc_object_1];
                 return array;
             });
-            class_db_test_list.refreshTestListValues();
+            class_db_test_list.createListObjects();
             trainer.poolsize = 3;
             trainer.pool_size_max = 8;
             trainer.pool_size_min = 2;
@@ -344,7 +345,7 @@ describe("ClassTrainer***", function() {
         describe("check db", function() {
             var answer_id = test_voc_object_1.answer_id[0];
             it("values should be resetted", function() {
-                class_db_test_list.refreshTestListValues();
+                class_db_test_list.createListObjects();
             });
             it("right", function() {
                 var obj = {
@@ -384,7 +385,7 @@ describe("ClassTrainer***", function() {
 
     describe('check custom ll', function() {
         it('refresh', function() {
-            class_db_test_list.refreshTestListValues();
+            class_db_test_list.createListObjects();
         });
         beforeEach(function() {
             spyOn(trainer, "getEncodedArray").and.callFake(function() {
@@ -512,7 +513,7 @@ describe("ClassTrainer***", function() {
     });
     describe("refresh values", function() {
         it("values should be resetted", function() {
-            class_db_test_list.refreshTestListValues();
+            class_db_test_list.createListObjects();
         });
     });
 });

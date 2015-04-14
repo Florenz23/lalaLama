@@ -25,6 +25,18 @@ class ajax_server {
 			}
 		}
 	}
+	public function classListEditorDeleteAnswer( $data ) {
+		$data['table'] = $this->trainer_info->answer_table->name;
+		$data['key'] = $this->trainer_info->answer_table->id;
+		$data['key_value'] = $data['data']['answer_id_to_be_deleted'];
+		if ( $this->db_functions->deleteRow( $data ) ) {
+			$data['table'] = $this->trainer_info->voc_user_data_table->name;
+			$check_result = $this->db_functions->deleteRow( $data );
+			if ( $check_result ) {
+				return $check_result;
+			}
+		}
+	}
 	public function classListEditorUpdateQuestion( $data ) {
 		$send_data['table'] = $this->trainer_info->voc_table->name;
 		$send_data['key'] = $this->trainer_info->voc_table->question_row;
@@ -78,6 +90,17 @@ class ajax_server {
 		$send_data['list_id_row'] = $this->trainer_info->voc_table->list_id_row;
 		$send_data['list_id_value'] = $data['data']['list_id'];
 		$threeDArray= $this->trainer_functions->getVocsEncoded($send_data);
+		return $threeDArray;
+	}
+	public function classDisplayListGetVocs($data)
+	{
+		$send_data['voc_table'] = $this->trainer_info->voc_table->name;
+		$send_data['answer_table'] = $this->trainer_info->answer_table->name;
+		$send_data['voc_id_row'] = $this->trainer_info->voc_table->id;
+		$send_data['answer_id_row'] = $this->trainer_info->answer_table->id;
+		$send_data['list_id_row'] = $this->trainer_info->voc_table->list_id_row;
+		$send_data['list_id_value'] = $data['data']['list_id'];
+		$threeDArray= $this->db_functions->listGetVocs($send_data);
 		return $threeDArray;
 	}
 }

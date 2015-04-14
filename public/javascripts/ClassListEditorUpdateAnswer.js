@@ -63,11 +63,7 @@ ClassListEditorUpdateAnswer.prototype.createKeypressListener = function() {
     var class_update_answer = this;
     var typingTimer;
     var doneTypingInterval = 1000;
-    // $('#' + answer_input_id).keypress(function() {
-    //     setTimeout(function() {
-    //         class_update_answer.UpdateAnswer();
-    //     }, doneTypingInterval);
-    // });
+    $('#' + answer_input_id).unbind('keypress');
     $('#' + answer_input_id).keypress(function() {
         clearTimeout(typingTimer);
         if ($('#' + answer_input_id).val) {

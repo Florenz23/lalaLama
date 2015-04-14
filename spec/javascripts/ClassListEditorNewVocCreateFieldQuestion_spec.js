@@ -1,13 +1,13 @@
 describe("ClassListEditorNewVocCreateFieldQuestion***", function() {
     var class_display_list = new ClassDisplayList();
     var class_db_test_list = new ClassDbTestList();
-    var test_voc_array = class_db_test_list.value_array;
+    var test_voc_array = class_db_test_list.complete_array;
     beforeEach(function() {
         class_display_list.setUpHTMLFixture();
         spyOn(class_display_list, "getJsonData").and.callFake(function() {
             return test_voc_array;
         });
-        class_display_list.displayList(test_voc_array);
+        class_display_list.displayList(test_voc_array[0].list_id);
     });
 
     describe("question_main_div", function() {

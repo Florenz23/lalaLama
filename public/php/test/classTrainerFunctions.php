@@ -198,20 +198,22 @@ class classTrainerFunctions extends classDbFunctions {
 				return $this->updateVocRating($data,$i);
 			}
 			if ($data['ok'][$i] == 1){
-				$right_answer = $this->updateVocRatingCreateQueryCorrectAnswerRight($data,$i);
-				$rating_answer = $this->updateVocRatingCreateQueryCorrectAnswerRating($data,$i);
+				$right_answer = $this->updateVocRatingCorrectAnswerRight($data,$i);
+				$rating_answer = $this->updateVocRatingCorrectAnswerRating($data,$i);
 				$rating_arr[] = $this->getUpdatedRatingValue($answer_id_array[$i]);
 			}
 			if ($data['ok'][$i] == 0){
-				$right_answer = $this->updateVocRatingCreateQueryWrongAnswerWrong($data,$i);
-				$rating_answer = $this->updateVocRatingCreateQueryWrongAnswerRating($data,$i);
+				$right_answer = $this->updateVocRatingWrongAnswerWrong($data,$i);
+				$rating_answer = $this->updateVocRatingWrongAnswerRating($data,$i);
 				$rating_arr[] = $this->getUpdatedRatingValue($answer_id_array[$i]);
 			}
-			if(!$right_answer){
-				return $right_answer;
-			}
-			if(!$rating_answer){
-				return $wrong_answer;
+			if ($data['ok'][$i] != -2){
+				if(!$right_answer){
+					return $right_answer;
+				}
+				if(!$rating_answer){
+					return $wrong_answer;
+				}
 			}
 		}
 		$rating_arr = json_encode($rating_arr);
@@ -234,28 +236,28 @@ class classTrainerFunctions extends classDbFunctions {
 		$rating = $result_encoded[0]->rating;
 		return $rating;
 	}
-	public function updateVocRatingCreateQueryCorrectAnswerRight($data,$i){
+	public function updateVocRatingCorrectAnswerRight($data,$i){
 		$query = "UPDATE `".$this->db."`.`".$data['table']."`"
 		." SET `".$data['table']."`.`".$data['right_row']."` = `".$data['table']."`.`".$data['right_row']."`+1 "
 		."where `".$data['table']."`.`".$data['key']."` = '".$data['answer_id'][$i]."';";
 		$query_answer = $this->checkQuery($query);
 		return $query_answer;
 	}
-	public function updateVocRatingCreateQueryCorrectAnswerRating($data,$i){
+	public function updateVocRatingCorrectAnswerRating($data,$i){
 		$query = "UPDATE `".$this->db."`.`".$data['table']."`"
 		." SET `".$data['table']."`.`".$data['rating_row']."` = `".$data['table']."`.`".$data['rating_row']."`+1 "
 		."where `".$data['table']."`.`".$data['key']."` = '".$data['answer_id'][$i]."';";
 		$query_answer = $this->checkQuery($query);
 		return $query_answer;
 	}
-	public function updateVocRatingCreateQueryWrongAnswerWrong($data,$i){
+	public function updateVocRatingWrongAnswerWrong($data,$i){
 		$query = "UPDATE `".$this->db."`.`".$data['table']."`"
 		." SET `".$data['table']."`.`".$data['wrong_row']."` = `".$data['table']."`.`".$data['wrong_row']."`+1 "
 		."where `".$data['table']."`.`".$data['key']."` = '".$data['answer_id'][$i]."';";
 		$query_answer = $this->checkQuery($query);
 		return $query_answer;
 	}
-	public function updateVocRatingCreateQueryWrongAnswerRating($data,$i){
+	public function updateVocRatingWrongAnswerRating($data,$i){
 		$query = "UPDATE `".$this->db."`.`".$data['table']."`"
 		." SET `".$data['table']."`.`".$data['rating_row']."`"
 		." = (IF(`".$data['table']."`.`".$data['rating_row']."`>-1,"

@@ -2,7 +2,6 @@ function ClassDisplayList() {
     HtmlIdsAndClasses.call(this);
 
     this.trainer_info = new ClassTrainerInfo();
-    this.class_ajax = new ClassAjax();
     this.class_list_editor = new ClassListEditor();
     this.class_new_voc = new ClassListEditorNewVoc();
     this.class_div_height_setter = new ClassDivHeightSetter();
@@ -60,16 +59,12 @@ ClassDisplayList.prototype.learnList = function() {
 };
 
 ClassDisplayList.prototype.getJsonData = function(list_id) {
+    var ajax = new ClassAjax();
+    var operation = "classDisplayListGetVocs";
     var data_obj = {
-        db: this.trainer_info.db,
-        table_1: this.trainer_info.voc_table.name,
-        table_2: this.trainer_info.answer_table.name,
-        join_row_1: this.trainer_info.voc_table.id,
-        join_row_2: this.trainer_info.answer_table.voc_id,
-        key: this.trainer_info.voc_table.list_row,
-        key_value: list_id
+        list_id: list_id,
     };
-    var json_data = this.class_ajax.selectJoinTable(data_obj);
+    var json_data = ajax.masterAjaxFunction(operation, data_obj);
     return json_data;
 
 };
@@ -169,11 +164,15 @@ ClassDisplayList.prototype.createAnswerMain = function(i, json_data) {
     var id = json_data[i].voc_id;
     var recent_json_data_voc_id = json_data[i].voc_id;
     var html = "";
+    var check_first = false;
     while (json_data[i] && json_data[i].voc_id == recent_json_data_voc_id) {
         this.createAnswerDiv(json_data[i]);
         this.createAnswerInput(json_data[i]);
-        this.createAnswerDeleteButton(json_data[i]);
+        if (check_first) {
+            this.createAnswerDeleteButton(json_data[i]);
+        }
         i++;
+        check_first = true;
     }
     $("#" + this.voc_div_id_prefix + id).append(html);
     return i;
