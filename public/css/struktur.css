@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
 }
+
 body {
     background-color: white;
     font: 100% Arial, Helvetica, sans-serif;
@@ -24,12 +25,14 @@ body {
 #menu {
     width: 100%;
 }
+
 #main {
     width: 100%;
 }
+
 #header_logo {
     /* Kopfbereich  */
-    
+
     margin: 0 auto;
     height: 100px;
     width: 1200px;
@@ -38,30 +41,40 @@ body {
     -moz-border-radius: 12px;
     border-radius: 12px;
 }
+
 .login_div {
     float: right;
     width: 800px;
     height: 50px;
 }
+
+.link_div {
+    float: right;
+}
+
 .login_buttons {
     float: right;
     width: 200px;
 }
+
 .info_div {
     padding-top: 10px;
     float: right;
     width: 300px;
 }
+
 #hidden_to_user {
     width: 500px;
     height: 100px;
 }
+
 #voclist {
     width: 400px;
     height: 200px;
     resize: none;
     font-size: 1px;
 }
+
 #vocpool {
     width: 400px;
     height: 200px;
