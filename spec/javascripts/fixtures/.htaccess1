@@ -1,0 +1,3 @@
+AuthName "/"
+AuthType Basic
+AuthUserFile /pw/.htpasswd
