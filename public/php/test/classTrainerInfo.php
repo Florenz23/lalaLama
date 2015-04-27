@@ -62,7 +62,7 @@ class registrationTable {
 class classTrainerInfo {
 
 	function __construct() {
-
+//jo
 		$this->host = "localhost";
 		$this->user = "root";
 		$this->pass = "";
