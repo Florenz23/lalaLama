@@ -27,11 +27,11 @@ ClassListEditorNewVocCreateFieldQuestion.prototype.createQuestionInput = functio
     var value = this.new_question_value;
     var html = "";
     html += " <form class='" + this.voc_form_class + "'>";
-    html += "<input type='text'";
+    html += "<textarea";
     html += " id='" + this.new_voc_question_input_id + "'";
-    html += " class='" + this.new_voc_question_input_class + "'";
-    html += " value='" + value + "'";
-    html += " />";
+    html += " class='" + this.new_voc_question_input_class + "'>";
+    html += value;
+    html += "</textarea>";
     html += "  </form>";
     $("#" + this.question_div_id_prefix + 0).append(html);
 };

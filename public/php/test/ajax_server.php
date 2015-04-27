@@ -3,6 +3,7 @@
 require_once "classTrainerInfo.php";
 require_once "classDbFunctions.php";
 require_once "classTrainerFunctions.php";
+require_once "classCopyPublicList.php";
 
 class ajax_server {
 	protected $trainer_info;
@@ -11,6 +12,7 @@ class ajax_server {
 		$this->trainer_info = new classTrainerInfo;
 		$this->db_functions = new classDbFunctions;
 		$this->trainer_functions = new classTrainerFunctions;
+		$this->copy_public_lists = new classCopyPublicList;
 	}
 
 	public function classListEditorDeleteVoc( $data ) {
@@ -102,6 +104,13 @@ class ajax_server {
 		$send_data['list_id_value'] = $data['data']['list_id'];
 		$threeDArray= $this->db_functions->listGetVocs($send_data);
 		return $threeDArray;
+	}
+	public function classCopyPublicList($data)
+	{
+		$list_id = $data['data']['list_id'];
+		$returned_array = $this->copy_public_lists->copyList($list_id);
+		$download_id = $returned_array['download_id'];
+		return $download_id;
 	}
 }
 $ajax_functions = new ajax_server();

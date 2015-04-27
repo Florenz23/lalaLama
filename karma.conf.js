@@ -16,6 +16,7 @@ module.exports = function(config) {
         // list of files / patterns to load in the browser
         files: [
             'public/javascripts/libs/jquery.js',
+            'public/javascripts/libs/jquery.elastic.source.js',
             'public/javascripts/HtmlIdsAndClasses.js',
             'public/javascripts/ClassTrainerInfo.js',
             'public/javascripts/ClassAjax.js',

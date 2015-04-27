@@ -1,37 +1,51 @@
 .main {
     padding: 50px 0 0 50px;
 }
+
 .finder_main_div {
     height: 800px;
-    width: 500px;
+    width: 30%;
     float: left;
 }
+
 .finder_menu_div {
     float: left;
-    width: 500px;
+    width: 100%;
     padding: 10px;
 }
-.finder {
+
+.finder_public {
     padding: 10px;
-    height: 800px;
-    width: 450px;
+    width: 100%;
     float: left;
     font-size: 20px;
     text-align: left;
 }
+
+.finder_user {
+    padding: 10px;
+    width: 100%;
+    float: left;
+    font-size: 20px;
+    text-align: left;
+}
+
 .jstree a {
     margin: 3px;
 }
+
 .list_main_div {
-    width: 900px;
+    width: 70%;
     float: left;
 }
+
 .learn_button_div {
     width: 300px;
     text-align: center;
     margin: 0 auto;
     height: 100px;
 }
+
 .learn_button_div input {
     width: 200px;
     height: 50px;
@@ -41,48 +55,55 @@
     -moz-border-radius: 12px;
     border-radius: 12px;
 }
+
 .new_voc_div {
     height: 100px;
 }
+
 .question_main_div {
     float: left;
     overflow: hidden;
-    width: 300px;
+    width: 30%;
 }
+
 .answer_main_div {
     float: left;
     overflow: hidden;
-    width: 300px;
+    width: 50%;
 }
+
 .voc_menu_div {
     float: left;
     overflow: hidden;
-    width: 300px;
+    width: 5%;
 }
-.answer_div {
-    height: 30px;
+
+#question_input {
+    background-color: FFFFC6;
 }
-.answer_input {
-    float: left;
-    overflow: hidden;
-    width: 280;
-}
-.new_answer_input {
-    float: left;
-    overflow: hidden;
-    width: 280;
-}
+
+.answer_div {}
+
+.answer_input {}
+
+.new_answer_input {}
+
 .new_voc_answer_input_option {
+    background-color: FFFFC6;
     float: left;
     overflow: hidden;
-    width: 280;
-    background-color: #FFFFC6;
+    width: 80%;
 }
-.new_answer_input {
+
+.new_answer_input {}
+
+.list_main_div textarea {
     float: left;
     overflow: hidden;
-    width: 280;
+    width: 80%;
+    resize: none;
 }
+
 .answer_delete_button {
     float: left;
     overflow: hidden;

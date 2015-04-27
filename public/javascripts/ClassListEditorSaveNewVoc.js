@@ -164,12 +164,12 @@ ClassListEditorSaveNewVoc.prototype.displayNewAnswerField = function() {
     var html = "";
     html += "<div id='" + this.new_voc_answer_div_option + "'";
     html += "class='" + this.answer_div_class + "'>";
-    html += " <form class='" + this.voc_form_class + "'>";
-    html += "<input type='text'";
+    html += "<form class='" + this.voc_form_class + "'>";
+    html += "<textarea";
     html += " id='" + this.new_voc_answer_input_option + "'";
-    html += " class='" + this.new_voc_answer_input_class_option + "'";
-    html += " value='" + this.new_answer_value + "'";
-    html += " />";
+    html += " class='" + this.new_voc_answer_input_class_option + "'>";
+    html += this.new_answer_value;
+    html += "</textarea>";
     html += "  </form>";
     html += "</div>";
     $("#" + answer_main_div_id).append(html);
@@ -230,11 +230,11 @@ ClassListEditorSaveNewVoc.prototype.createSavedAnswerInput = function() {
     html += "<div id='" + this.answer_div_id_prefix + answer_nr + "'";
     html += "class='" + this.answer_div_class + "'>";
     html += " <form class='" + this.voc_form_class + "'>";
-    html += "<input type='text'";
+    html += "<textarea";
     html += " id='" + this.new_answer_input_id_prefix + answer_nr + "'";
-    html += " class='" + this.new_answer_input_class + "'";
-    html += " value='" + answer_value + "'";
-    html += " />";
+    html += " class='" + this.new_answer_input_class + "'>";
+    html += answer_value;
+    html += " </textarea>";
     html += "  </form>";
     html += "</div>";
     $("#" + answer_main_div_id).append(html);
@@ -265,17 +265,10 @@ ClassListEditorSaveNewVoc.prototype.addListener = function() {
     this.addSetAnswerIdListener();
     this.addSaveNewAnswerListener();
     this.addSelectListener();
-    this.addSaveNewVocListener();
+    this.addJumpToAnswerListener();
 
 };
 
-ClassListEditorSaveNewVoc.prototype.addSaveNewVocListener = function() {
-    var input_answer_option_id = this.new_voc_answer_input_option;
-    var class_save_new_voc = this;
-    $("#" + input_answer_option_id).keypress(function(event) {
-        if (event.which == 13) {}
-    });
-};
 
 ClassListEditorSaveNewVoc.prototype.addNewAnswerFieldListener = function() {
     var answer_add_button_class = this.new_answer_add_button_class;
@@ -300,6 +293,19 @@ ClassListEditorSaveNewVoc.prototype.addDeleteAnswerListener = function() {
     var class_new_voc = this;
     $("." + answer_delete_button_class).click(function() {
         class_new_voc.deleteAnswer();
+    });
+};
+ClassListEditorSaveNewVoc.prototype.addJumpToAnswerListener = function() {
+
+    var new_question_input_id = this.new_voc_question_input_id;
+    var answer_option = this.new_voc_answer_input_option;
+    var class_save_new_voc = this;
+    $('#' + new_question_input_id).keydown(function(event) {
+        if (event.which == 9) {
+            event.preventDefault();
+            $("#" + answer_option).select();
+            return;
+        }
     });
 };
 

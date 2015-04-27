@@ -1,6 +1,7 @@
 <?php
 
 require_once "classDbTestList.php";
+require_once "ajax_server.php";
 
 class classTrainerFunctionsTest extends classDbTestMain {
 

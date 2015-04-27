@@ -25,6 +25,13 @@
      this.update_answer.addListener();
      this.delete_voc.addListener();
      this.save_new_voc.addListener();
+     this.dynamicInputListener();
+
+ };
+
+ ClassListEditor.prototype.dynamicInputListener = function() {
+
+     $(".answer_input").elastic();
 
  };
 

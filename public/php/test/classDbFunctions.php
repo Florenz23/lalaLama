@@ -9,6 +9,15 @@ class classDbFunctions extends classDbChecker {
 		parent::__construct();
 
 	}
+	public function customQuery($query)
+	{
+		$query_answer = $this->checkQuery($query);
+		if ($query_answer) {
+			return $query_answer;
+		}
+		echo $query_answer;
+		return false;
+	}
 
 	function deleteTable($data) {
 		$query = "DROP TABLE `" . $this->db . "`.`" . $data['table'] . "`;";
@@ -21,7 +30,6 @@ class classDbFunctions extends classDbChecker {
 		$result = $query_answer[1];
 		$result = $result->fetch_row();
 		return $result[0];
-
 	}
 
 	function emptyTable($data) {
@@ -35,6 +43,7 @@ class classDbFunctions extends classDbChecker {
 	}
 
 	function insertValues($data) {
+		//table,values
 		$query = $this->createQueryInsertValues($data);
 	    $query_answer = $this->checkQuery($query);
 		if ($query_answer ) {
@@ -47,7 +56,6 @@ class classDbFunctions extends classDbChecker {
 
 
 	function createQueryInsertValues($data) {
-		//table,values
 		$query = "INSERT INTO `" . $this->db . "`.`" . $data['table'] . "` (";
 		foreach ($data['values'] as $key => $value) {
 			$query .= "`" . $key . "`,";
@@ -108,6 +116,7 @@ class classDbFunctions extends classDbChecker {
 	}
 
 	function deleteRow($data) {
+		//table, key, key_value
 		$query = "DELETE FROM `" . $this->db . "`.`" . $data['table']
 		. "` WHERE `" . $data['table'] . "`. `" . $data['key']
 		. "` = '" . $data['key_value'] . "'";
@@ -125,7 +134,7 @@ class classDbFunctions extends classDbChecker {
 	}
 
 	function updateValue($data) {
-
+		//table,key,key_value
 		$query = "UPDATE `" . $this->db . "`.`" . $data['table'] . "` SET \n"
 		. " `" . $data['key'] . "` = '" . $data['key_value']
 		. "' WHERE \n" . " `" . $data['table'] . "`.`"

@@ -8,7 +8,7 @@ class classTreeTest extends classDbTestMain {
 		parent::__construct();
 		$this->db = new classDbFunctions;
 		$this->db_checker = new classDbChecker;
-		$this->tree = new tree(db::get('mysqli://root@127.0.0.1/test'), array('structure_table' => 'tree_struct', 'data_table' => 'tree_data', 'data' => array('nm', 'type')));
+		$this->tree = new tree();
 	}
 	public function test() {
 		//$returned_value = $this->tree->rn(1139, $data);

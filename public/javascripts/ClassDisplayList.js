@@ -2,6 +2,7 @@ function ClassDisplayList() {
     HtmlIdsAndClasses.call(this);
 
     this.trainer_info = new ClassTrainerInfo();
+    this.class_ajax = new ClassAjax();
     this.class_list_editor = new ClassListEditor();
     this.class_new_voc = new ClassListEditorNewVoc();
     this.class_div_height_setter = new ClassDivHeightSetter();
@@ -18,7 +19,16 @@ function ClassDisplayList() {
 
 ClassDisplayList.prototype.displayList = function(list_id) {
     this.displayLearnButton();
-    this.addListener();
+    this.addLearnButtonListener();
+    this.startList(list_id);
+};
+ClassDisplayList.prototype.displayListPublic = function(list_id, description) {
+    this.displayCopyListButton();
+    this.addCopyButtonListener(list_id, description);
+    this.startList(list_id);
+};
+ClassDisplayList.prototype.startList = function(list_id) {
+
     this.refreshDivs();
     this.list_id = list_id;
     this.class_new_voc.addNewVocField();
@@ -29,12 +39,32 @@ ClassDisplayList.prototype.displayList = function(list_id) {
     this.class_list_editor.answer_edit.list_id = this.list_id;
     this.class_list_editor.save_new_voc.list_id = this.list_id;
     this.class_div_height_setter.setDivHeight();
+
+};
+ClassDisplayList.prototype.displayCopyListButton = function() {
+
+    var display = "";
+    display += "<input";
+    display += " class='pure-form'";
+    display += " id='copy_button_id'";
+    display += " type='button'";
+    display += " title='Kopiert die Liste in den Ordner Downloads in MeineListen'";
+    display += " value='Kopieren'";
+    display += "/>";
+    $("#learn_button_div").html(display);
+
 };
 
 ClassDisplayList.prototype.displayLearnButton = function() {
 
     var display = "";
-    display += "     <input class='pure-form' type='button' id='learn_button_id' value='Lernen' />";
+    display += "<input";
+    display += " class='pure-form'";
+    display += " id='learn_button_id'";
+    display += " type='button'";
+    display += " title='Lerne diese Liste im Trainer'";
+    display += " value='Lernen'";
+    display += "/>";
     $("#learn_button_div").html(display);
 
 };
@@ -47,12 +77,35 @@ ClassDisplayList.prototype.refreshDivs = function() {
 
 ClassDisplayList.prototype.addListener = function() {
 
+    this.addLearnButtonListener();
+
+};
+ClassDisplayList.prototype.addLearnButtonListener = function() {
     var class_display_list = this;
+    $("#learn_button_id").unbind('click');
     $("#learn_button_id").click(function() {
         class_display_list.learnList();
     });
-
 };
+ClassDisplayList.prototype.addCopyButtonListener = function(list_id, description) {
+    var class_display_list = this;
+    $("#copy_button_id").unbind('click');
+    $("#copy_button_id").click(function() {
+        class_display_list.copyList(list_id, description);
+    });
+};
+ClassDisplayList.prototype.copyList = function(list_id, description) {
+    var operation = "classCopyPublicList";
+    var data = {
+        list_id: list_id,
+        description: description
+    };
+    var node_id = this.class_ajax.masterAjaxFunction(operation, data);
+    console.log(node_id);
+    $("#finder_user").jstree("refresh_node", $('#' + node_id));
+    $("#finder_user").jstree("open_node", $('#' + node_id));
+};
+
 
 ClassDisplayList.prototype.learnList = function() {
     window.location.href = "trainer.html?list_arr=" + this.list_id;
@@ -142,11 +195,11 @@ ClassDisplayList.prototype.createQuestionDiv = function(voc_obj) {
 ClassDisplayList.prototype.createQuestionInput = function(voc_obj) {
     var html = "";
     html += " <form class='" + this.voc_form_class + "'>";
-    html += "<input type='text'";
+    html += "<textarea";
     html += " id='" + this.question_input_id_prefix + voc_obj.voc_id + "'";
-    html += " class='" + this.question_input_class + "'";
-    html += " value='" + voc_obj.question + "'";
-    html += " />";
+    html += " class='" + this.question_input_class + "'>";
+    html += voc_obj.question;
+    html += " </textarea>";
     html += "  </form>";
     $("#" + this.question_div_id_prefix + voc_obj.voc_id).append(html);
 };
@@ -189,11 +242,11 @@ ClassDisplayList.prototype.createAnswerDiv = function(voc_obj) {
 ClassDisplayList.prototype.createAnswerInput = function(voc_obj) {
     var html = "";
     html += " <form class='" + this.voc_form_class + "'>";
-    html += "<input type='text'";
+    html += "<textarea ";
     html += " id='" + this.answer_input_id_prefix + voc_obj.answer_id + "'";
-    html += " class='" + this.answer_input_class + "'";
-    html += " value='" + voc_obj.answer + "'";
-    html += " />";
+    html += " class='" + this.answer_input_class + "'>";
+    html += voc_obj.answer;
+    html += " </textarea>";
     html += " </form>";
     $("#" + this.answer_div_id_prefix + voc_obj.answer_id).append(html);
 };

@@ -1,4 +1,5 @@
 <?php
+require_once dirname( __FILE__ ) . '/class.db.php';
 require_once 'classSessionHandler.php';
 // TO DO: better exceptions, use params
 class tree {
@@ -6,8 +7,8 @@ class tree {
 	protected $db = null;
 	protected $options = null;
 	protected $default = array(
-		'structure_table' => 'structure', // the structure table (containing the id, left, right, level, parent_id and position fields)
-		'data_table' => 'structure', // table for additional fields (apart from structure ones, can be the same as structure_table)
+		'structure_table' => 'tree_struct', // the structure table (containing the id, left, right, level, parent_id and position fields)
+		'data_table' => 'tree_data', // table for additional fields (apart from structure ones, can be the same as structure_table)
 		'data2structure' => 'id', // which field from the data table maps to the structure table
 		'structure' => array(// which field (value) maps to what in the structure (key)
 			'id' => 'id',
@@ -24,17 +25,34 @@ class tree {
 		),
 	);
 
-	public function __construct(\vakata\database\IDB $db, array $options = array()) {
-		$this->db = $db;
-		$this->options = array_merge($this->default, $options);
+	// public function __construct(\vakata\database\IDB $db, array $options = array()) {
+	// 	$this->db = $db;
+	// 	$this->options = array_merge($this->default, $options);
 
+	// }
+
+	public function __construct() {
+		$this->db = db::get( 'mysqli://root@127.0.0.1/test' );
+		$this->options = $this->default;
+	}
+	public function setRoot($root)
+	{
 		$session_handler = new classSessionHandler();
-		$this->user_root = $session_handler->getUserRoot();
-		// fast and dirty
-		$this->user_id = $this->user_root;
+		switch ($root) {
+				case 'user':
+					$this->tree_root = $session_handler->getUserRoot();
+					break;
+				case 'public':
+					$this->tree_root = 111;
+					break;
+				case 'group':
+					break;
+		}
+		// quick and dirty
+		$this->user_id = $this->tree_root;
+
 	}
 	public function mk($parent, $position = 0, $data = array()) {
-
 		$parent = (int) $parent;
 		if ($parent == 0) {throw new Exception('Parent is 0');}
 		$parent = $this->get_node($parent, array('with_children' => true));
@@ -199,7 +217,7 @@ class tree {
 
 	public function get_children($id, $recursive = false) {
 		if ($id == "#") {
-			$id = $this->user_root;
+			$id = $this->tree_root;
 		}
 		$sql = false;
 		if ($recursive) {
@@ -378,6 +396,7 @@ class tree {
 			UPDATE " . $this->options['structure_table'] . "
 				SET " . $this->options['structure']["left"] . " = " . $this->options['structure']["left"] . " - " . $width . "
 			WHERE
+				" . $this->options['structure']["user_id"] . " = " . $this->user_id . " AND
 				" . $this->options['structure']["left"] . " > " . (int) $id[$this->options['structure']["right"]] . " AND
 				" . $this->options['structure']["id"] . " NOT IN(" . implode(',', $tmp) . ")
 		";
@@ -386,6 +405,7 @@ class tree {
 			UPDATE " . $this->options['structure_table'] . "
 				SET " . $this->options['structure']["right"] . " = " . $this->options['structure']["right"] . " - " . $width . "
 			WHERE
+				" . $this->options['structure']["user_id"] . " = " . $this->user_id . " AND
 				" . $this->options['structure']["right"] . " > " . (int) $id[$this->options['structure']["right"]] . " AND
 				" . $this->options['structure']["id"] . " NOT IN(" . implode(',', $tmp) . ")
 		";

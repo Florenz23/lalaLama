@@ -1,0 +1,3 @@
+describe('classCopyPublicList', function() {
+
+});

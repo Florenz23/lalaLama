@@ -32,11 +32,11 @@ ClassListEditorNewVocCreateFieldAnswer.prototype.createAnswerInput = function() 
     var value = this.new_answer_value;
     var html = "";
     html += " <form class='" + this.voc_form_class + "'>";
-    html += "<input type='text'";
+    html += "<textarea";
     html += " id='" + this.new_voc_answer_input_option + "'";
-    html += " class='" + this.new_voc_answer_input_class_option + "'";
-    html += " value='" + value + "'";
-    html += " />";
+    html += " class='" + this.new_voc_answer_input_class_option + "'>";
+    html += value;
+    html += " </textarea>";
     html += "  </form>";
     $("#" + this.new_voc_answer_div_option).append(html);
 };

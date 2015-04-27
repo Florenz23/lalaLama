@@ -1,13 +1,5 @@
 <?php
 
-class registrationTable {
-	function __construct() {
-		$this->name = "accounts";
-		$this->id = "user_id";
-		$this->root_row = "user_root";
-		$this->user_name_row = "user_name";
-	}
-}
 class vocTable {
 	function __construct() {
 		$this->name = "vocs";
@@ -57,6 +49,15 @@ class treeDataTable {
 		$this->type_row = "type";
 	}
 }
+class registrationTable {
+	function __construct() {
+		$this->name = "accounts";
+		$this->id = "user_id";
+		$this->user_name_row = "user_name";
+		$this->user_email_row = "user_email";
+		$this->user_root_row = "user_root";
+	}
+}
 
 class classTrainerInfo {
 
@@ -67,11 +68,12 @@ class classTrainerInfo {
 		$this->pass = "";
 		$this->db = "test";
 		$this->test_table["name"] = "test_table";
-		$this->registratio_table = new registrationTable;
+		$this->registration_table = new registrationTable;
 		$this->voc_table = new vocTable;
 		$this->answer_table = new answerTable;
 		$this->voc_user_data_table = new vocUserDataTable;
 		$this->tree_struct_table = new treeStructTable;
+		$this->tree_data_table = new treeDataTable;
 		$this->tree_data_table = new treeDataTable;
 
 	}

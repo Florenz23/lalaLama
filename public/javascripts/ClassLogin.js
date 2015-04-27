@@ -163,7 +163,8 @@ ClassLogin.prototype.checkIfUserIsStillLoggedIn = function() {
 
 ClassLogin.prototype.iniTree = function() {
 
-    var tree_starter = new ClassTree();
+    var tree_public = new ClassTreePublic();
+    var tree_user = new ClassTreeUser();
     var menu_buttons = new TreeMenuButtons();
     var login = new ClassLogin();
     $(function() {
@@ -171,7 +172,8 @@ ClassLogin.prototype.iniTree = function() {
             var h = Math.max($(window).height() - 0, 420);
             $('#container, #data, #finder, #data .content').height(h).filter('.default').css('lineHeight', h + 'px');
         }).resize();
-        tree_starter.iniTree();
+        tree_public.iniTree();
+        tree_user.iniTree();
         menu_buttons.start();
     });
 

@@ -1,5 +1,5 @@
 //checkt ClassListEditorAnswerEdit
-describe("ClassListEditorNewAnswer***", function() {
+ddescribe("ClassListEditorNewAnswer***", function() {
     var class_trainer_info = new ClassTrainerInfo();
     var class_ajax = new ClassAjax();
     var class_list_editor = new ClassListEditor();

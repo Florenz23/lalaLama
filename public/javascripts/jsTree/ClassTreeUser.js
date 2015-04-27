@@ -1,4 +1,4 @@
-function ClassTree() {
+function ClassTreeUser() {
 
     // this.ajax_file_path = "php/tree_server.php";
     this.ajax_file_path = "../../../public/php/test/tree_server.php";
@@ -9,14 +9,12 @@ function ClassTree() {
 
 }
 
-ClassTree.prototype.iniTree = function() {
+ClassTreeUser.prototype.iniTree = function() {
     this.displaySearchField();
-    this.setTreeOptions();
-    this.finder_div = "finder_group";
     this.setTreeOptions();
 };
 
-ClassTree.prototype.displaySearchField = function() {
+ClassTreeUser.prototype.displaySearchField = function() {
 
     var display = "";
     display += "<form class='pure-form pure-g'>";
@@ -26,8 +24,14 @@ ClassTree.prototype.displaySearchField = function() {
 
 };
 
+ClassTreeUser.prototype.getRoot = function() {
 
-ClassTree.prototype.setTreeOptions = function() {
+    return "user";
+
+};
+
+
+ClassTreeUser.prototype.setTreeOptions = function() {
     var class_tree = this;
     var ajax_file_path = this.ajax_file_path;
     var user_id = this.user_id;
@@ -52,17 +56,13 @@ ClassTree.prototype.setTreeOptions = function() {
                     "icon": "../../../public/img/root.png",
                     "valid_children": []
                 },
-                "public": {
-                    "icon": "../../../public/img/lama1.jpg",
-                    "valid_children": []
-                },
-                "groups": {
-                    "icon": "../../../public/img/lama1.jpg",
-                    "valid_children": []
-                },
                 "mylama": {
                     "icon": "../../../public/img/haus.png",
                     "valid_children": ["folder"]
+                },
+                "downloads": {
+                    "icon": "../../../public/img/plus.jpg",
+                    "valid_children": ["folder", "list", "default"]
                 },
                 "folder": {
                     "icon": "../../../public/img/folder.png",
@@ -82,8 +82,13 @@ ClassTree.prototype.setTreeOptions = function() {
             }
         })
         .on('delete_node.jstree', function(e, data) {
+            if (data.node.type == "downloads") {
+                return;
+            }
+            console.log(data);
             $.get(ajax_file_path + '?operation=delete_node', {
-                    'id': data.node.id
+                    'id': data.node.id,
+                    "root": class_tree.getRoot(),
                 })
                 .fail(function() {
                     data.instance.refresh();
@@ -94,6 +99,7 @@ ClassTree.prototype.setTreeOptions = function() {
                     'id': data.node.parent,
                     'position': data.position,
                     'text': data.node.text,
+                    "root": class_tree.getRoot(),
                 })
                 .done(function(d) {
                     data.instance.set_id(data.node, d.id);
@@ -107,6 +113,7 @@ ClassTree.prototype.setTreeOptions = function() {
                     'id': data.node.id,
                     'text': data.text,
                     'type': data.node.type,
+                    "root": class_tree.getRoot(),
                 })
                 .fail(function() {
                     data.instance.refresh();
@@ -116,7 +123,8 @@ ClassTree.prototype.setTreeOptions = function() {
             $.get(ajax_file_path + '?operation=move_node', {
                     'id': data.node.id,
                     'parent': data.parent,
-                    'position': data.position
+                    'position': data.position,
+                    "root": class_tree.getRoot(),
                 })
                 .fail(function() {
                     data.instance.refresh();
@@ -126,7 +134,8 @@ ClassTree.prototype.setTreeOptions = function() {
             $.get(ajax_file_path + '?operation=copy_node', {
                     'id': data.original.id,
                     'parent': data.parent,
-                    'position': data.position
+                    'position': data.position,
+                    "root": class_tree.getRoot(),
                 })
                 .always(function() {
                     data.instance.refresh();
@@ -143,13 +152,15 @@ ClassTree.prototype.setTreeOptions = function() {
             }
         });
 };
-ClassTree.prototype.getData = function() {
+ClassTreeUser.prototype.getData = function() {
     var ajax_file_path = this.ajax_file_path;
+    var class_tree_user = this;
     var data = {
         'url': ajax_file_path + '?operation=get_node',
         'data': function(node) {
             return {
                 'id': node.id,
+                'root': class_tree_user.getRoot(),
             };
         },
         'success': function(node) {}
@@ -157,16 +168,10 @@ ClassTree.prototype.getData = function() {
     return data;
 
 };
-ClassTree.prototype.typeAction = function(data) {
+ClassTreeUser.prototype.typeAction = function(data) {
     this.clearDiv();
     switch (data.node.original.type) {
         case "mylama":
-            this.publicOnClickAction(data);
-            break;
-        case "public":
-            //this.publicOnClickAction(data);
-            break;
-        case "groups":
             break;
         case "folder":
             break;
@@ -179,36 +184,12 @@ ClassTree.prototype.typeAction = function(data) {
 
 };
 
-ClassTree.prototype.listOnClickAction = function(data) {
+ClassTreeUser.prototype.listOnClickAction = function(data) {
     var id = data.node.id;
     this.class_display_list.displayList(id);
 };
-ClassTree.prototype.publicOnClickAction = function(data) {
-    console.log(data.node);
-    var json_data;
-    //data.node.children = ['5201'];
-    //$('#' + this.finder_div).jstree(true).refresh_node(5093);
-    var ajax_file_path = this.ajax_file_path;
-    var ajax = $.get(ajax_file_path + '?operation=get_node', {
-            'id': 5200,
-        })
-        .done(function(d) {
-            //d ist js_object
-            console.log(d);
-            json_data = d;
-        })
-        .fail(function() {
-            data.instance.refresh();
-        });
-    console.log(ajax);
-    var v = $('#' + this.finder_div).jstree(true).get_json(5093, {
-        flat: true,
-        not_state: true
-    });
-    console.log(v);
-    var mytext = JSON.stringify(v);
-};
-ClassTree.prototype.clearDiv = function() {
+
+ClassTreeUser.prototype.clearDiv = function() {
     var list_div_id = this.class_display_list.div_to_display_list_in_id;
     var new_voc_div_id = this.class_display_list.class_new_voc.div_to_display_list_in_id;
     $("#" + list_div_id).html("");
@@ -216,7 +197,7 @@ ClassTree.prototype.clearDiv = function() {
     $("#learn_button_div").html("");
 
 };
-ClassTree.prototype.createCustomContextMenu = function(data) {
+ClassTreeUser.prototype.createCustomContextMenu = function(data) {
     var items = {
 
         "create": {
@@ -289,6 +270,9 @@ ClassTree.prototype.createCustomContextMenu = function(data) {
             "action": function(data) {
                 var inst = $.jstree.reference(data.reference),
                     obj = inst.get_node(data.reference);
+                if (obj.type == "downloads" || obj.type == "mylama") {
+                    return;
+                }
                 if (inst.is_selected(obj)) {
                     inst.delete_node(inst.get_selected());
                 } else {

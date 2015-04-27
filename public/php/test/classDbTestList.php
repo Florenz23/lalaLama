@@ -33,6 +33,17 @@ class userDataObject {
 		$this->rating = $rating;
 	}
 }
+class vocAnswerObject {
+	function __construct($voc_id, $list_id, $question, $answer_id, $answer, $multi_choice, $img_id ) {
+		$this->voc_id = $voc_id;
+		$this->list_id = $list_id;
+		$this->question = $question;
+		$this->answer_id = $answer_id;
+		$this->answer = $answer;
+		$this->multi_choice = $multi_choice;
+		$this->img_id = $img_id;
+	}
+}
 
 class completeVocObject {
 	function __construct($voc_id, $list_id, $question, $answer_id, $answer, $multi_choice, $img_id, $user_id, $right, $wrong, $rating, $last_access) {
@@ -77,10 +88,12 @@ class classDbTestList {
 		public $user_data_array ;
 		public $complete_array ;
 		public $multi_array ;
+		public $list_id ;
 
 	function __construct() {
 		$this->trainer_functions = new classTrainerFunctions;
 		$this->trainer_info = new classTrainerInfo();
+		$this->list_id = "7";
 		$this->createObjects();
 		$this->createSingleArrays();
 		$this->createCompleteArray();
@@ -90,14 +103,14 @@ class classDbTestList {
 	}
 	public function createObjects() {
 		$this->value_array = [];
-		$this->value_array[] = new completeObject("10", "7", "Pron", "7", "ich", "0", "0", "111", "0", "0", "-1", 0);
-		$this->value_array[] = new completeObject("10", "7", "Pron", "8", "du", "0", "0", "111", "0", "0", "-1", 0);
-		$this->value_array[] = new completeObject("10", "7", "Pron", "9", "er", "0", "0", "111", "0", "0", "-1", 0);
-		$this->value_array[] = new completeObject("11", "7", "eins", "10", "one", "0", "0", "111", "0", "0", "-1", 0);
-		$this->value_array[] = new completeObject("12", "7", "zwei", "11", "two", "0", "0", "111", "0", "0", "-1", 0);
-		$this->value_array[] = new completeObject("13", "7", "drei", "12", "three", "0", "0", "111", "0", "0", "-1", 0);
-		$this->value_array[] = new completeObject("14", "7", "vier", "13", "four", "0", "0", "111", "0", "0", "-1", 0);
-		$this->value_array[] = new completeObject("15", "7", "fünf", "14", "five", "0", "0", "111", "0", "0", "3", 0);
+		$this->value_array[] = new completeObject("10", $this->list_id, "Pron", "7", "ich", "0", "0", "111", "0", "0", "-1", 0);
+		$this->value_array[] = new completeObject("10", $this->list_id, "Pron", "8", "du", "0", "0", "111", "0", "0", "-1", 0);
+		$this->value_array[] = new completeObject("10", $this->list_id, "Pron", "9", "er", "0", "0", "111", "0", "0", "-1", 0);
+		$this->value_array[] = new completeObject("11", $this->list_id, "eins", "10", "one", "0", "0", "111", "0", "0", "-1", 0);
+		$this->value_array[] = new completeObject("12", $this->list_id, "zwei", "11", "two", "0", "0", "111", "0", "0", "-1", 0);
+		$this->value_array[] = new completeObject("13", $this->list_id, "drei", "12", "three", "0", "0", "111", "0", "0", "-1", 0);
+		$this->value_array[] = new completeObject("14", $this->list_id, "vier", "13", "four", "0", "0", "111", "0", "0", "-1", 0);
+		$this->value_array[] = new completeObject("15", $this->list_id, "fünf", "14", "five", "0", "0", "111", "0", "0", "3", 0);
 	}
 
 	public function createSingleArrays() {
@@ -119,6 +132,7 @@ class classDbTestList {
 		$vocs = $this->voc_array;
 		$answer = $this->answer_array;
 		$user_data = $this->user_data_array;
+		$voc_answer = $this->user_data_array;
 		$complete_array = $this->complete_array;
 		$this->single_arrays = new completeObjectArrays($vocs, $answer, $user_data, $complete_array);
 
@@ -146,41 +160,46 @@ class classDbTestList {
 		$data['table'] = $this->trainer_info->voc_table->name;
 		$data['key'] = $this->trainer_info->voc_table->id;
 		$array = $this->value_array;
+		for ($i=2; $i < count($this->value_array); $i++) {
+			$data = $this->setDataVocTable($i, $array);
+			$this->dbActionDelete($data);
+			$this->dbActionInsert($data);
+		}
 		$i = 0;
 		foreach ($array as $key) {
-			$data = $this->resetVocTable($i, $array);
-			$this->dbAction($data);
-			$data = $this->resetAnswerTable($i, $array);
-			$this->dbAction($data);
-			$data = $this->resetVocUserDataTable($i, $array);
-			$this->dbAction($data);
+			$data = $this->setDataAnswerTable($i, $array);
+			$this->dbActionInsert($data);
+			$data = $this->setDataVocUserDataTable($i, $array);
+			$this->dbActionInsert($data);
 			$i++;
 		}
 	}
-	public function resetVocTable($i, $array) {
+	public function setDataVocTable($i, $array) {
 		$data['table'] = $this->trainer_info->voc_table->name;
 		$data['key'] = $this->trainer_info->voc_table->id;
 		$data['key_value'] = $array[$i]->complete->voc_id;
 		$data['values'] = (array) $array[$i]->voc;
 		return $data;
 	}
-	public function resetAnswerTable($i, $array) {
+	public function setDataAnswerTable($i, $array) {
 		$data['table'] = $this->trainer_info->answer_table->name;
 		$data['key'] = $this->trainer_info->answer_table->id;
 		$data['key_value'] = $array[$i]->complete->answer_id;
 		$data['values'] = (array) $array[$i]->answer;
 		return $data;
 	}
-	public function resetVocUserDataTable($i, $array) {
+	public function setDataVocUserDataTable($i, $array) {
 		$data['table'] = $this->trainer_info->voc_user_data_table->name;
 		$data['key'] = $this->trainer_info->voc_user_data_table->id;
 		$data['key_value'] = $array[$i]->complete->answer_id;
 		$data['values'] = (array) $array[$i]->user_data;
 		return $data;
 	}
-	public function dbAction($data) {
-		$this->trainer_functions->deleteRow($data);
-		$this->trainer_functions->insertValues($data);
+	public function dbActionDelete($data) {
+		return $this->trainer_functions->deleteRow($data);
+	}
+	public function dbActionInsert($data) {
+		return $this->trainer_functions->insertValues($data);
 	}
 
 }

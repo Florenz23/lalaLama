@@ -39,9 +39,9 @@ class classStartTree extends classTrainerInfo {
 
 		$this->obj_array_data = [];
 		$this->obj_array_data[] = new treeDataObject("root", "root");
-		$this->obj_array_data[] = new treeDataObject("ÖffentlicheListen", "link");
-		$this->obj_array_data[] = new treeDataObject("MeineGruppen", "link");
-		$this->obj_array_data[] = new treeDataObject("MeineListen", "drive");
+		$this->obj_array_data[] = new treeDataObject("ÖffentlicheListen", "public");
+		$this->obj_array_data[] = new treeDataObject("MeineGruppen", "groups");
+		$this->obj_array_data[] = new treeDataObject("MeineListen", "mylama");
 		$this->obj_array_data[] = new treeDataObject("Startordner", "folder");
 		$this->obj_array_data[] = new treeDataObject("Startliste", "list");
 

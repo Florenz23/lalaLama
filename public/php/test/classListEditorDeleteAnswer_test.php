@@ -29,9 +29,10 @@ class classListEditorDeleteAnswer_test extends classDbTestMain {
 
 
 	public function setAnswerTableData() {
-		$this->data_answer['table'] = $this->trainer_info->answer_table->name;
-		$this->data_answer['primary'] = $this->trainer_info->answer_table->id;
-		$this->data_answer['primary_value'] = $this->to_be_deleted_answer_id;
+		$data['table'] = $this->trainer_info->answer_table->name;
+		$data['primary'] = $this->trainer_info->answer_table->id;
+		$data['primary_value'] = $this->to_be_deleted_answer_id;
+		$this->data_answer = $data;
 	}
 
 	public function setVocUserDataTableData() {

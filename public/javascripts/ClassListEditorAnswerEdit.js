@@ -27,6 +27,7 @@ ClassListEditorAnswerEdit.prototype.addListener = function() {
 ClassListEditorAnswerEdit.prototype.addNewAnswerFieldListener = function() {
     var answer_add_button_class = this.answer_add_button_class;
     var class_new_voc = this;
+    $('.' + answer_add_button_class).unbind('click');
     $("." + answer_add_button_class).click(function() {
         class_new_voc.addNewAnswerField();
     });
@@ -39,6 +40,7 @@ ClassListEditorAnswerEdit.prototype.addSaveNewAnswerListener = function() {
     var class_answer_edit = this;
     var typingTimer;
     var doneTypingInterval = 1000;
+    $('#' + new_answer_id).unbind('keydown');
     $('#' + new_answer_id).keydown(function(event) {
         if (event.which == 9) {
             event.preventDefault();
@@ -49,7 +51,10 @@ ClassListEditorAnswerEdit.prototype.addSaveNewAnswerListener = function() {
 
 };
 
-ClassListEditorAnswerEdit.prototype.saveNewAnswer = function() {
+ClassListEditorAnswerEdit.prototype.saveNewAnswer = function(last_insert_answer) {
+    if (last_insert_answer == this.new_answer_value || last_insert_answer === "") {
+        return this.deleteAnswerDiv();
+    }
     var voc_obj = this.createValueObj();
     var answer = voc_obj.answer;
     var answer_id = this.saveNewAnswerInDb();
@@ -110,12 +115,12 @@ ClassListEditorAnswerEdit.prototype.createNewAnswerHtml = function() {
     html += "<div id='" + this.answer_div_id_prefix + answer_nr + "'";
     html += "class='" + this.answer_div_class + "'>";
     html += " <form class='" + this.voc_form_class + "'>";
-    html += "<input type='text'";
+    html += "<textarea";
     html += " id='" + new_answer_prefix + this.answer_input_id_prefix + answer_nr + "'";
-    html += " class='" + this.new_answer_prefix + this.answer_input_class + "'";
-    html += " value='" + this.new_answer_value + "'";
-    html += " />";
-    html += "  </form>";
+    html += " class='" + this.new_answer_prefix + this.answer_input_class + "'>";
+    html += this.new_answer_value;
+    html += "</textarea>";
+    html += "</form>";
     html += "</div>";
     return html;
 };
@@ -125,12 +130,12 @@ ClassListEditorAnswerEdit.prototype.createSavedAnswerInput = function(answer_id,
     html += "<div id='" + this.answer_div_id_prefix + answer_id + "'";
     html += "class='" + this.answer_div_class + "'>";
     html += " <form class='" + this.voc_form_class + "'>";
-    html += "<input type='text'";
+    html += "<textarea";
     html += " id='" + this.answer_input_id_prefix + answer_id + "'";
-    html += " class='" + this.answer_input_class + "'";
-    html += " value='" + answer_value + "'";
-    html += " />";
-    html += "  </form>";
+    html += " class='" + this.answer_input_class + "'>";
+    html += answer_value;
+    html += "</textarea>";
+    html += "</form>";
     html += "</div>";
     $("#" + answer_main_div_id).append(html);
 };
@@ -148,6 +153,7 @@ ClassListEditorAnswerEdit.prototype.createSavedAnswerDeleteButton = function(ans
 ClassListEditorAnswerEdit.prototype.addDeleteAnswerListener = function() {
     var answer_delete_button_class = this.answer_delete_button_class;
     var class_new_voc = this;
+    $('.' + answer_delete_button_class).unbind('click');
     $("." + answer_delete_button_class).click(function() {
         class_new_voc.deleteAnswer();
     });
@@ -156,6 +162,7 @@ ClassListEditorAnswerEdit.prototype.addDeleteAnswerListener = function() {
 ClassListEditorAnswerEdit.prototype.addDeleteAnswerListener = function() {
     var answer_delete_button_class = this.answer_delete_button_class;
     var class_new_voc = this;
+    $('.' + answer_delete_button_class).unbind('click');
     $("." + answer_delete_button_class).click(function() {
         class_new_voc.deleteAnswer();
     });
@@ -164,8 +171,10 @@ ClassListEditorAnswerEdit.prototype.addDeleteAnswerListener = function() {
 ClassListEditorAnswerEdit.prototype.addDeleteNewAnswerDivListener = function() {
     var answer_delete_button_class = this.answer_delete_button_class;
     var class_new_voc = this;
+    $('.' + answer_delete_button_class).unbind('click');
     $("." + answer_delete_button_class).click(function() {
         class_new_voc.deleteAnswerDiv();
+        class_new_voc.deleteAnswerOfDb();
     });
 };
 
@@ -175,8 +184,9 @@ ClassListEditorAnswerEdit.prototype.addDeleteNewAnswerDivOnBlurListener = functi
     var answer_input_class = new_answer_prefix + this.answer_input_class;
     var class_new_voc = this;
     $("." + answer_input_class).blur(function() {
+        var input_value = this.value;
         class_new_voc.answer_id = 1;
-        class_new_voc.deleteAnswerDiv();
+        class_new_voc.saveNewAnswer(input_value);
     });
 };
 

@@ -65,7 +65,8 @@ class classAccountManager {
 		$this->password = $password;
 
 		if ($this->validateInput()) {
-			return $this->registerAccount();
+			$root_id = $this->registerAccount();
+			return $root_id;
 		} else {
 			return false;
 		}
@@ -162,7 +163,7 @@ class classAccountManager {
 			if ($db_answer) {
 				$root_id = $this->createStartTree();
 				$this->insertRoot($db_answer, $root_id);
-				return true;
+				return $root_id;
 			}
 		}
 		return false;
@@ -174,12 +175,12 @@ class classAccountManager {
 		return $root_id;
 	}
 	public function insertRoot($user_id, $root_id) {
-		$trainer_info = new TrainerInfo();
+		$trainer_info = new classTrainerInfo();
 		$db = new classDbFunctions();
-		$data['table'] = $trainer_info->registration_table['name'];
-		$data['primary'] = $trainer_info->registration_table['id'];
+		$data['table'] = $trainer_info->registration_table->name;
+		$data['primary'] = $trainer_info->registration_table->id;
 		$data['primary_value'] = $user_id;
-		$data['key'] = $trainer_info->registration_table['root_row'];
+		$data['key'] = $trainer_info->registration_table->user_root_row;
 		$data['key_value'] = $root_id;
 		$db->updateValue($data);
 	}
