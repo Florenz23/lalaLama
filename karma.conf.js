@@ -41,7 +41,7 @@ module.exports = function(config) {
             'public/javascripts/*.js',
             'spec/javascripts/helpers/jasmine-jquery.js',
             'spec/javascripts/helpers/*.js',
-            'spec/javascripts/*.js',
+            'spec/javascripts/files/*.js',
             'spec/javascripts/fixtures/**/*.html'
         ],
 
