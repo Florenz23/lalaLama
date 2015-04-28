@@ -80,7 +80,7 @@ ClassLogin.prototype.displayLogInHeader = function() {
 
 ClassLogin.prototype.logIn = function() {
     var class_login = this;
-    $.post("../../../public/php/test/classAccountManager.php", {
+    $.get("../../../public/php/test/classAccountManager.php", {
             action: 'login',
             username: this.getUsername(),
             password: this.getPassword()
