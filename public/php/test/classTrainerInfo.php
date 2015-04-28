@@ -62,7 +62,6 @@ class registrationTable {
 class classTrainerInfo {
 
 	function __construct() {
-//jo
 		$this->host = "localhost";
 		$this->user = "root";
 		$this->pass = "";
@@ -75,7 +74,6 @@ class classTrainerInfo {
 		$this->tree_struct_table = new treeStructTable;
 		$this->tree_data_table = new treeDataTable;
 		$this->tree_data_table = new treeDataTable;
-
 	}
 
 }

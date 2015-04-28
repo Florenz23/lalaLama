@@ -2,3 +2,6 @@ AuthName "Common User"
 AuthType Basic
 AuthUserFile /pw/.htpasswd
 require valid-user
+
+#Deny from All
+#Options -Indexes

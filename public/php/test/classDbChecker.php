@@ -7,6 +7,7 @@ class classDbChecker extends classDbConnector {
 	function __construct() {
 
 		parent::__construct();
+		//echo $_SERVER['REMOTE_ADDR'];
 
 	}
 
