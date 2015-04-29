@@ -22,10 +22,6 @@ class classAccountManagerTest extends PHPUnit_Framework_TestCase {
 		$this->trainer_info = new classTrainerInfo();
 	}
 
-	function __destruct() {
-		//$this->cleanup();
-	}
-
 	function test() {
 		$this->check();
 		$this->cleanup();

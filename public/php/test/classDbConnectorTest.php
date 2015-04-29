@@ -14,7 +14,6 @@ class classDbConnectorTest extends classDbTestMain {
 	{
 		$this->isDefined();
 		$this->query();
-		$this->printServer();
 	}
 
 	public function isDefined() {
@@ -25,10 +24,6 @@ class classDbConnectorTest extends classDbTestMain {
 	public function query() {
 		$this->assertFalse($this->db->query("asdfasf")[0], 'sql_fehelr');
 		$this->assertTrue($this->db->query("select * from`test`. `test_table`;")[0], 'ok');
-	}
-	public function printServer()
-	{
-		print_r($_SERVER);
 	}
 
 }
