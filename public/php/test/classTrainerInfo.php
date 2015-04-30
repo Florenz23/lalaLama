@@ -63,7 +63,6 @@ class classTrainerInfo {
 
 	function __construct() {
 		$this->setDatabase();
-		$this->db = "test";
 		$this->test_table["name"] = "test_table";
 		$this->registration_table = new registrationTable;
 		$this->voc_table = new vocTable;
@@ -80,16 +79,19 @@ class classTrainerInfo {
 				$this->host = "localhost";
 				$this->user = "root";
 				$this->pass = "";
+				$this->db = "test";
 				return;
 			}
 			$this->host = "db.planet-school.de";
 			$this->user = "m8282-2";
 			$this->pass = "aexohjee";
+			$this->db = "m8282-2";
 			return;
 		}
-	$this->host = "localhost";
-	$this->user = "root";
-	$this->pass = "";
-}
+		$this->host = "localhost";
+		$this->user = "root";
+		$this->pass = "";
+		$this->db = "test";
+	}
 
 }
