@@ -20,7 +20,8 @@ ClassAjax.prototype.masterAjaxFunction = function(operation, data) {
     var ajax = $.ajax({
         async: false,
         type: 'POST',
-        url: "/trainer/units/myUnit00/public/php/test/ajax_server.php",
+        //url: "/trainer/units/myUnit00/public/php/test/ajax_server.php",
+        url: "../../../public/php/test/ajax_server.php",
         dataType: 'json',
         data: {
             "operation": operation,
