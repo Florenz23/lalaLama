@@ -32,8 +32,31 @@ class tree {
 	// }
 
 	public function __construct() {
-		$this->db = db::get( 'mysqli://root@127.0.0.1/test' );
+		$server_address = $_SERVER['REMOTE_ADDR'];
+		$this->setDbPath();
 		$this->options = $this->default;
+	}
+	public function setDbPath()
+	{
+		$server_address = $_SERVER['REMOTE_ADDR'];
+		if ( isset( $server_address ) ) {
+			if ( $server_address == "::1" ) {
+				$host = "localhost";
+				$user = "root";
+				$db = "test";
+				$this->db = db::get( 'mysqli://'.$user.'@'.$host.'/'.$db );
+				return;
+			}
+			$host = "db.planet-school.de";
+			$user = "m8282-2";
+			$db = "m8282-2";
+			$this->db = db::get( 'mysqli://'.$user.'@'.$host.'/'.$db );
+			return;
+		}
+		$host = "localhost";
+		$user = "root";
+		$db = "test";
+		$this->db = db::get( 'mysqli://'.$user.'@'.$host.'/'.$db );
 	}
 	public function setRoot($root)
 	{
