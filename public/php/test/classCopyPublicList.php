@@ -25,7 +25,7 @@ class classCopyPublicList {
 	}
 	public function checkReturn() {
 		if ( $this->copied_list_id > 100 ) {
-			$return_array = [];
+			$return_array = array();
 			$return_array['list_id'] = $this->copied_list_id;
 			$return_array['download_id'] = $this->tree->tree_root+2;
 			return $return_array;

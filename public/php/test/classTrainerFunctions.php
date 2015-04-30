@@ -52,7 +52,7 @@ class classTrainerFunctions extends classDbFunctions {
 		$i_3d = 0;
 		$i_while = 0;
 		$value_save = "";
-		$multi_arr = [];
+		$multi_arr = array();
 		foreach ($db_array as $value) {
 			$multi_arr[$i_3d]['voc_id'] = $db_array[$i_db]['voc_id'];
 			$multi_arr[$i_3d]['list_id'] = $db_array[$i_db]['list_id'];
@@ -191,7 +191,7 @@ class classTrainerFunctions extends classDbFunctions {
 	public function updateVocRating($data,$counter)
 	{
 		$answer_id_array = $data['answer_id'];
-		$rating_arr = [];
+		$rating_arr = array();
 		for ($i = $counter; $i<count($answer_id_array);$i++) {
 			if (!$this->checkIfAnswerExistsInVocUserDataTable($answer_id_array[$i])){
 				$this->insertStandardValuesUserDataValues($answer_id_array[$i]);

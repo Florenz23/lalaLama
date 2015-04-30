@@ -102,7 +102,7 @@ class classDbTestList {
 		$this->createSingleArrays();
 	}
 	public function createObjects() {
-		$this->value_array = [];
+		$this->value_array = array();
 		$this->value_array[] = new completeObject("10", $this->list_id, "Pron", "7", "ich", "0", "0", "111", "0", "0", "-1", 0);
 		$this->value_array[] = new completeObject("10", $this->list_id, "Pron", "8", "du", "0", "0", "111", "0", "0", "-1", 0);
 		$this->value_array[] = new completeObject("10", $this->list_id, "Pron", "9", "er", "0", "0", "111", "0", "0", "-1", 0);
@@ -114,10 +114,10 @@ class classDbTestList {
 	}
 
 	public function createSingleArrays() {
-		$this->voc_array = [];
-		$this->answer_array = [];
-		$this->user_data_array = [];
-		$this->complete_array = [];
+		$this->voc_array = array();
+		$this->answer_array = array();
+		$this->user_data_array = array();
+		$this->complete_array = array();
 		$i = 0;
 		$array = $this->value_array;
 		foreach ($array as $key) {

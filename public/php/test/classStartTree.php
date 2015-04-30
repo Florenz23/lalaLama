@@ -28,28 +28,28 @@ class classStartTree {
 
 	function __construct() {
 
-	$this->class_trainer_info = new classTrainerInfo();
-	$this->class_db_functions = new classDbFunctions();
+	 $this->class_trainer_info = new classTrainerInfo();
+	 $this->class_db_functions = new classDbFunctions();
 
-		$this->obj_array_struct = [];
-		$this->obj_array_struct[] = new treeStructObject("1", "12", "0", "0");
-		$this->obj_array_struct[] = new treeStructObject("2", "3", "1", "0");
-		$this->obj_array_struct[] = new treeStructObject("4", "5", "1", "1");
-		$this->obj_array_struct[] = new treeStructObject("6", "11", "1", "2");
-		$this->obj_array_struct[] = new treeStructObject("7", "10", "2", "0");
-		$this->obj_array_struct[] = new treeStructObject("8", "9", "3", "0");
+		 $this->obj_array_struct = array();
+		 $this->obj_array_struct[] = new treeStructObject("1", "12", "0", "0");
+		 $this->obj_array_struct[] = new treeStructObject("2", "3", "1", "0");
+		 $this->obj_array_struct[] = new treeStructObject("4", "5", "1", "1");
+		 $this->obj_array_struct[] = new treeStructObject("6", "11", "1", "2");
+		 $this->obj_array_struct[] = new treeStructObject("7", "10", "2", "0");
+		 $this->obj_array_struct[] = new treeStructObject("8", "9", "3", "0");
 
-		$this->obj_array_data = [];
-		$this->obj_array_data[] = new treeDataObject("root", "root");
-		$this->obj_array_data[] = new treeDataObject("ÖffentlicheListen", "public");
-		$this->obj_array_data[] = new treeDataObject("MeineGruppen", "groups");
-		$this->obj_array_data[] = new treeDataObject("MeineListen", "mylama");
-		$this->obj_array_data[] = new treeDataObject("Startordner", "folder");
-		$this->obj_array_data[] = new treeDataObject("Startliste", "list");
+		 $this->obj_array_data = array();
+		 $this->obj_array_data[] = new treeDataObject("root", "root");
+		 $this->obj_array_data[] = new treeDataObject("ÖffentlicheListen", "public");
+		 $this->obj_array_data[] = new treeDataObject("MeineGruppen", "groups");
+		 $this->obj_array_data[] = new treeDataObject("MeineListen", "mylama");
+		 $this->obj_array_data[] = new treeDataObject("Startordner", "folder");
+		 $this->obj_array_data[] = new treeDataObject("Startliste", "list");
 
 	}
 	public function createStartTree()  {
-		$returned_array = [];
+		$returned_array = array();
 		$data['table'] = $this->class_trainer_info->tree_struct_table->name;
 		$data['values'] = $this->obj_array_struct[0];
 		$returned_array[] = $this->class_db_functions->insertValues($data);
@@ -97,6 +97,7 @@ class classStartTree {
 		}
 	}
 	public function insertData() {
+		$returned_array = array();
 		$data['table'] = $this->class_trainer_info->tree_data_table->name;
 		$i = 0;
 		foreach ($this->obj_array_data as $key) {
@@ -107,3 +108,5 @@ class classStartTree {
 	}
 
 }
+
+?>

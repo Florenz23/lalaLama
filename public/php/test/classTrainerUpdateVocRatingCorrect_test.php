@@ -78,7 +78,7 @@ class classTrainerUpdateVocRatingCorrect_test extends classDbTestMain {
 
 	}
 	public function checkReturnedRatingArray() {
-		$expected_array = [];
+		$expected_array = array();
 		$expected_array[] = $this->class_db_test_list->user_data_array[$this->array_id_0]->rating+1;
 		$expected_array[] = $this->class_db_test_list->user_data_array[$this->array_id_1]->rating+1;
 		$given_array = $this->db_answer_rating_array;

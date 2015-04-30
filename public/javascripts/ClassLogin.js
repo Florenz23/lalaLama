@@ -84,8 +84,7 @@ ClassLogin.prototype.logIn = function() {
     var ajax = $.ajax({
         async: false,
         type: 'POST',
-        //url: "../../../public/php/test/classAccountManager.php",
-        url: "../../../public/php/test/test.php",
+        url: "../../../public/php/test/classAccountManager.php",
         dataType: 'text',
         data: {
             //'ci_csrf_token': ci_csrf_token(),
@@ -104,21 +103,20 @@ ClassLogin.prototype.logIn = function() {
         }
     });
 
-    // $.get("../../../public/php/test/classAccountManager.php", {
-    //         action: 'login',
-    //         //'ci_csrf_token': ci_csrf_token(),
-    //         username: this.getUsername(),
-    //         password: this.getPassword()
-    //     },
-    //     function(data, status) {
-    //         if (status == "success") {
-    //             if (data == 'login.ok') {
-    //                 class_login.loginSucessAction();
-    //             } else {
-    //                 class_login.displayWrongPasswordMessage();
-    //             }
-    //         }
-    //     });
+    $.get("../../../public/php/test/classAccountManager.php", {
+            action: 'login',
+            username: this.getUsername(),
+            password: this.getPassword()
+        },
+        function(data, status) {
+            if (status == "success") {
+                if (data == 'login.ok') {
+                    class_login.loginSucessAction();
+                } else {
+                    class_login.displayWrongPasswordMessage();
+                }
+            }
+        });
 };
 ClassLogin.prototype.loginSucessAction = function() {
     this.goToFinder();
