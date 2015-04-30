@@ -19,7 +19,7 @@ class classStartTreeTest extends classDbTestMain {
 	}
 	public function checkArrayLength() {
 		$this->setStartTree();
-		$expected_array_length = 6;
+		$expected_array_length = 5;
 		$given_array = $this->start_tree_result;
 		$this->assertSame($expected_array_length, count($given_array), 'array_length');
 	}
