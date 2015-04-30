@@ -87,6 +87,7 @@ ClassLogin.prototype.logIn = function() {
         url: "../../../public/php/test/classAccountManager.php",
         dataType: 'text',
         data: {
+            //'ci_csrf_token': ci_csrf_token(),
             action: 'login',
             username: this.getUsername(),
             password: this.getPassword()
@@ -104,6 +105,7 @@ ClassLogin.prototype.logIn = function() {
 
     $.get("../../../public/php/test/classAccountManager.php", {
             action: 'login',
+            //'ci_csrf_token': ci_csrf_token(),
             username: this.getUsername(),
             password: this.getPassword()
         },
