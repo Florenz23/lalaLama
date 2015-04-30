@@ -1,5 +1,5 @@
 <?php
-if ( $_REQUEST['action'] == 'register' ) {
+if ( $_REQUEST['action'] == 'login' ) {
 	echo "jojo";
 }
 ?>
