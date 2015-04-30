@@ -80,6 +80,28 @@ ClassLogin.prototype.displayLogInHeader = function() {
 
 ClassLogin.prototype.logIn = function() {
     var class_login = this;
+    var json_output = false;
+    var ajax = $.ajax({
+        async: false,
+        type: 'POST',
+        url: "../../../public/php/test/classAccountManager.php",
+        dataType: 'text',
+        data: {
+            action: 'login',
+            username: this.getUsername(),
+            password: this.getPassword()
+        },
+        success: function(data) {
+            json_output = data;
+            class_login.loginSucessAction();
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            var output = jqXHR.responseText;
+            console.log(output);
+            class_login.displayWrongPasswordMessage();
+        }
+    });
+
     $.get("../../../public/php/test/classAccountManager.php", {
             action: 'login',
             username: this.getUsername(),
