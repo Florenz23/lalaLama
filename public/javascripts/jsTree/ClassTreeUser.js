@@ -2,7 +2,6 @@ function ClassTreeUser() {
 
     // this.ajax_file_path = "php/tree_server.php";
     this.ajax_file_path = "../../../public/php/test/tree_server.php";
-    this.ajax_file_path = "../../../public/php/test/test.php";
     this.finder_div = "finder_user";
     this.class_login = new ClassLogin();
     this.class_display_list = new ClassDisplayList();

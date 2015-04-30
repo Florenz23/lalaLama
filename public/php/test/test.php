@@ -11,6 +11,7 @@ if ( isset( $_GET['operation'] ) ) {
 		switch ( $_GET['operation'] ) {
 		case 'get_node':
 			$node = isset( $_GET['id'] ) && $_GET['id'] !== '#' ? (int) $_GET['id'] : 0;
+			print_r($fs);
 			$temp = $fs->get_children( $node );
 			$rslt = array();
 			foreach ( $temp as $v ) {
@@ -23,15 +24,11 @@ if ( isset( $_GET['operation'] ) ) {
 		}
 		header( 'Content-Type: application/json; charset=utf-8' );
 		echo json_encode( $rslt );
-		echo "jojo";
 	} catch ( Exception $e ) {
 		// header( $_SERVER["SERVER_PROTOCOL"] . ' 500 Server Error' );
 		// header( 'Status:  500 Server Error' );
 		// echo $e->getMessage();
 	}
 	die();
-}
-if ( $_REQUEST['operation'] == 'get_node' ) {
-	echo "jojo";
 }
 ?>

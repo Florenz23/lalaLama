@@ -50,7 +50,8 @@ class tree {
 			$host = "db.planet-school.de";
 			$user = "m8282-2";
 			$db = "m8282-2";
-			$this->db = db::get( 'mysqli://'.$user.'@'.$host.'/'.$db );
+			$pass= "aexohjee";
+			$this->db = db::get( 'mysqli://'.$user.':'.$pass.'@'.$host.'/'.$db );
 			return;
 		}
 		$host = "localhost";
