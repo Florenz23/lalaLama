@@ -5,7 +5,6 @@
  * Date: 17.03.2015
  * Time: 15:23
  */
-
 require_once 'classDbFunctions.php';
 require_once 'classSessionHandler.php';
 require_once 'classStartTree.php';
