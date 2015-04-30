@@ -12,7 +12,6 @@ require_once 'classTrainerInfo.php';
 
 if ( isset( $_REQUEST['action'] ) ) {
 	account_manager_execute();
-    Assets::add_js('codeigniter-csrf.js');
 }
 
 function account_manager_execute() {
