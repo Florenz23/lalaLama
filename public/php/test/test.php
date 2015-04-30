@@ -1,3 +1,5 @@
 <?php
-echo "jojo";
+if ( $_REQUEST['action'] == 'register' ) {
+	echo "jojo";
+}
 ?>
