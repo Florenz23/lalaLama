@@ -82,10 +82,15 @@ class classTrainerInfo {
 				$this->db = "test";
 				return;
 			}
-			$this->host = "db.planet-school.de";
-			$this->user = "m8282-2";
-			$this->pass = "aexohjee";
-			$this->db = "m8282-2";
+			// $this->host = "db.planet-school.de";
+			// $this->user = "m8282-2";
+			// $this->pass = "aexohjee";
+			// $this->db = "m8282-2";
+
+			$this->host = "lalalama.de.mysql";
+			$this->user = "lalalama_de";
+			$this->pass = "bThUGSPG";
+			$this->db = "lalalama_de";
 			return;
 		}
 		$this->host = "localhost";

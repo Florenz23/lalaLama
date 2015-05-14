@@ -51,6 +51,12 @@ class tree {
 			$user = "m8282-2";
 			$db = "m8282-2";
 			$pass= "aexohjee";
+
+			$host = "lalalama.de.mysql";
+			$user = "lalalama_de";
+			$pass = "bThUGSPG";
+			$db = "lalalama_de";
+			return;
 			$this->db = db::get( 'mysqli://'.$user.':'.$pass.'@'.$host.'/'.$db );
 			return;
 		}
