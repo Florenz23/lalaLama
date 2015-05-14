@@ -36,7 +36,6 @@ class classAccountManagerTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse( $this->account_manager->register( $user, $pass ), 'Registration(2) SUCCEEDED' );
 		$this->assertTrue( $this->account_manager->login( $user, $pass ), 'Login FAILED' );
 		$this->assertTrue( $this->session_handler->isValid(), 'Session INVALID' );
-		$this->assertTrue( true, 'message' );
 		$this->root_id = $root_id;
 
 	}

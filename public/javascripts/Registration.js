@@ -1,13 +1,13 @@
 function Registration() {
     this.trainer_info = new ClassTrainerInfo();
     this.tree_start = new TreeStartObject();
-    this.username_textfield_id = "username_login";
-    this.email_textfield_id = "email";
-    this.password_textfield_id = "password_login";
-    this.repeat_password_textfield_id = "password_repeat";
-    this.register_button_id = "submit";
+    this.username_textfield_id = "username_registration";
+    this.email_textfield_id = "email_registration";
+    this.password_textfield_id = "password_registration";
+    this.repeat_password_textfield_id = "password_registration_repeat";
+    this.register_button_id = "submit_registration";
     this.register_input_class = "registration_input";
-    this.info_div = "info";
+    this.info_div = "info_registration";
     this.class_ajax = new ClassAjax();
 }
 
@@ -32,37 +32,37 @@ Registration.prototype.addFocusListener = function() {
 };
 Registration.prototype.addUsernameListener = function() {
 
-    $('#username').click(function() {
+    $('#' + this.username_textfield_id).click(function() {
         this.select();
     });
-    $('#username').focus(function() {
+    $('#' + this.username_textfield_id).focus(function() {
         this.select();
     });
-    $('#username').keydown(function() {
+    $('#' + this.username_textfield_id).keydown(function() {
         $(this).css('color', 'black');
     });
 };
 Registration.prototype.addEmailListener = function() {
 
-    $('#email').click(function() {
+    $('#' + this.email_textfield_id).click(function() {
         this.select();
     });
-    $('#email').focus(function() {
+    $('#' + this.email_textfield_id).focus(function() {
         this.select();
     });
-    $('#email').keydown(function() {
+    $('#' + this.email_textfield_id).keydown(function() {
         $(this).css('color', 'black');
     });
 };
 Registration.prototype.addPasswordListener = function() {
 
-    $('#password').click(function() {
+    $('#' + this.password_textfield_id).click(function() {
         $(this).css('color', 'black');
         $(this).prop("type", "password");
         $(this).val("");
         this.select();
     });
-    $('#password').focus(function() {
+    $('#' + this.password_textfield_id).focus(function() {
         $(this).css('color', 'black');
         $(this).prop("type", "password");
         $(this).val("");
@@ -71,13 +71,13 @@ Registration.prototype.addPasswordListener = function() {
 };
 Registration.prototype.addRepeatPasswordListener = function() {
 
-    $('#password_repeat').click(function() {
+    $('#' + this.repeat_password_textfield_id).click(function() {
         $(this).css('color', 'black');
         $(this).prop("type", "password");
         $(this).val("");
         this.select();
     });
-    $('#password_repeat').focus(function() {
+    $('#' + this.repeat_password_textfield_id).focus(function() {
         $(this).css('color', 'black');
         $(this).prop("type", "password");
         $(this).val("");
@@ -160,6 +160,7 @@ Registration.prototype.getRepeatPassword = function() {
 
 Registration.prototype.checkPasswords = function() {
     var password = this.getPassword();
+    console.log(password);
     var repeat_password = this.getRepeatPassword();
     if (password.length < 6) {
         $("#" + this.info_div).html("Dein Passwort ist zu kurz, es muss mindestens 6 Zeichen lang sein.");

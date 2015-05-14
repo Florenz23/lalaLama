@@ -3,10 +3,9 @@
 <html>
 
 <head>
-    <link rel="stylesheet" type="text/css" href="../../../public/css/layout_start/struktur.css">
-    <link rel="stylesheet" type="text/css" href="../../../public/css/layout_start/layout.css">
-    <link rel="stylesheet" type="text/css" href="../../../public/css/layout_start/formular.css">
-    <link rel="stylesheet" type="text/css" href="../../../public/css/layout_start/introlayout.css">
+    <link rel="stylesheet" type="text/css" href="../../../public/css/layout_start/header.css">
+    <link rel="stylesheet" type="text/css" href="../../../public/css/layout_start/navigation.css">
+    <link rel="stylesheet" type="text/css" href="../../../public/css/layout_start/intro.css">
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
@@ -16,6 +15,9 @@
         <div id="header">
             <ul>
                 <li>
+                    <h1>
+        Was kann lalaLama:
+        </h1>
                 </li>
             </ul>
         </div>
@@ -28,46 +30,64 @@
             </ul>
         </div>
         <div id="menu">
+            <br>
             <h1>
-        Introduction and overview over the features
+        Die Vokabelverwaltung
         </h1>
             <br>
-            <br>
-            <h5>After the first login the page should look like this: </h5>
-            <p><img src='../../../public/img/introduction/first_login.png' alt="First login" class="intropic"> </p>
-            <h5> By clicking on the [Plus] button you can create a new vocabulary list: </h5>
-            <p><img src='../../../public/img/introduction/create_list1.png' alt="Create list1" class="intropic"> </p>
-            <h5> Here you can enter various types of vocabulary, simple 1:1 words like "house" and "party",
-        questions with multiple answers like the conjugation of "to go", or multiple choice questions. <br>
+            <h5>Deine Ordner und Listen werden, wie man es von seinem Betriebssystem kennt, in einer Art Explorer angelegt. <br>Dies ermöglicht eine übersichtliche Verwaltung </h5>
+            <p><img src='../../../public/img/introduction/finder_overview.png' alt="First login" class="intropic"> </p>
+            <h5> Wie du es gewohnt bist, öffnet sich mit einem Rechtsklick auf einen Ordner ein Kontextmenü, mit dem du z.B eine neue Liste erstellen kannst. </h5>
+            <p><img src='../../../public/img/introduction/create_list_folder.png' alt="Create list1" class="intropic"> </p>
+            <h5> Hier kannst du verschiedene Vokabeltypen speichern, ganz normale 1:1 Abfragen wie "house" und "party",
+        oder Fragen mit mehreren Antworten wie z.B die spanische Deklination von  "to go"(gehen) , oder Multi Choice um z.B die Anwendung von ser und estar zu üben. <br>
         </h5>
             <ol>
-                <li>Plus button to expand the answer field to enter multiple answers. </li>
-                <li>Check Box to choose which answer is correct for multiple choice questions.</li>
+                <li>Bei einem Klick auf den Plus Button kannste du neue Antworten hinzufügen </li>
+                <li>Möchtest du die Multiple Choice variante wählen, wähle einfach die Antworten aus, die als richtig akzeptiert werden sollen, indem du einen Haken setzt</li>
             </ol>
             <p><img src='../../../public/img/introduction/create_list2.png' alt="Create list2" class="intropic"> </p>
             <h5>
-          By clicking on the save button now, the list is saved into the database and you can start studying it by clicking on the pool's name in the pool list <explanation>(1)</explanation>. <br>
-          Also you can edit the list at any time <explanation>(2)</explanation> or delete it.
+          Wenn du auf den grünen "Lernen" Button klickst, startet der Trainingsmodus mit den Vokabeln der betreffenden Liste.
         </h5>
-            <p><img src='../../../public/img/introduction/saved_list.png' alt="Saved list" class="intropic"> </p>
+            <p><img src='../../../public/img/introduction/learn.png' alt="Trainer1" class="intropic"> </p>
+            <br>
+            <br>
+            <br>
+            <hr>
+            <br>
+            <br>
+            <h1>
+                Der Trainingsmodus
+                </h1>
+            <br>
             <h5>
-          Then the trainer starts where you type in the answer into the textarea and then click on check to evaluate it (or hit Enter key instead).
+          Hast du eine Antwort eingegeben, drücke den Check Button, oder die Enter-Taste um deine Antwort zu überprüfen.<br> Du kannst das Feld auch leer lassen,
+          falls du die Antwort nur im Kopf durchgehen, und dir die Tipparbeit sparen willlst.
         </h5>
             <p><img src='../../../public/img/introduction/trainer1.png' alt="Trainer1" class="intropic"> </p>
             <h5>
-          If you type in a wrong answer but want to accept it as a right answer anyway, you can click on [Accept]. <br>
-          By clicking [Check] the trainer assumes you didn't know the answer and will ask you the question more often.
+          In diesem Beispiel hast du "fiesta" eingegeben, die richtige Antwort wäre aber "la fiesta" gewesen,
+          nun hast du zwei Möglichkeiten.
+          <ol>
+                <li>Du drückst noch einmal den "Check" Button(oder Enter Taste).
+          Dann Wird deine Antwot als falsch gewertet. Oder </li>
+                <li>Du drückst "Accept" dann wird die Antwort als richtig gewertet. <br>
+                    Das macht Sinn, wenn du eigentlich weißt,
+          dass der Artikel "la" ist, aber du nur zu faul warst ihn zu schreiben. Oder du fragst dich komplexe Lerninhalte ab, da gehst du die Antwort dann im Kopf durch, lässt das Antwort feld aber leer,
+          sobald dir die Antwort angezeigt wird, entscheidest du selbst, ob du sie als richtig akzeptieren kannst oder oben nicht. Sei ehrlich zu dir selbst ;) </li>
+            </ol>
+            <br>
         </h5>
             <p><img src='../../../public/img/introduction/trainer2.png' alt="Trainer2" class="intropic"> </p>
             <h5>
-          If you have a question with multiple answers, the correct answers that you already typed in will appear on the right hand side of the window. <br>
-          Also, if some of the answers are typed in incorrectly, the correct ones will appear here when the question is repeated.
+          Hast du Fragen mit mehreren Antowrtmöglichkeiten, wie hier z.B die Deklination von dem spanischen Verb "ir", dann werden dir die Antworten, die du bereits eingegeben hast, in der Liste rechts angezeigt,  <br>
+          Genauso, wenn du dich die Vokabeln noch einmal abfragst, dann werden die Antworten, die du bereits kannst angezeigt.
         </h5>
             <p><img src='../../../public/img/introduction/trainer3.png' alt="Trainer3" class="intropic"> </p>
             <h5>
-          Multiple choice answers are displayed as follows. <br>
-          By clicking on one of the choices, you select it as a correct answer and the background color switches from grey to blue. <br>
-          A click on the [Check] button evaluates your choices with the ones you entered when you created the list.
+          Multiple Choice Antworten werden wie Folgt angezeigt <br>
+          Wähle eine oder mehrer der Antwortmöglichkeiten aus und drücke dann den "Check" Button <br>
         </h5>
             <p><img src='../../../public/img/introduction/trainer4.png' alt="Trainer4" class="intropic"> </p>
             <div id="check_pw"></div>

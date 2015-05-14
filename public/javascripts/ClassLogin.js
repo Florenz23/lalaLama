@@ -2,8 +2,8 @@ function ClassLogin() {
     this.div_name = "login_div";
     this.trainer_info = new ClassTrainerInfo();
     this.registration_table = this.trainer_info.registration_table.name;
-    this.username_textfield_id = "username";
-    this.password_textfield_id = "password";
+    this.username_textfield_id = "username_login";
+    this.password_textfield_id = "password_login";
     this.login_button_id = "login_button";
     this.login_button_value = "Anmelden";
     this.logout_button_value = "Abmelden";
@@ -14,6 +14,11 @@ function ClassLogin() {
     this.cookie_name = "lamapacos_user";
     this.cookie_time = 1;
 
+}
+
+function addListenersLogin() {
+    var login = new ClassLogin();
+    login.addLoginButtonListener();
 }
 
 ClassLogin.prototype.start = function() {
@@ -203,8 +208,3 @@ ClassLogin.prototype.logOut = function() {
 ClassLogin.prototype.reloadPage = function() {
     location.reload();
 };
-
-$(function() {
-    var class_login = new ClassLogin();
-    class_login.addLoginButtonListener();
-});

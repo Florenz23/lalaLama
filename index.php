@@ -1,4 +1,11 @@
-<?php // ob_start(); // include($_SERVER[ "DOCUMENT_ROOT"]. "/Xoon/Trainer/IncGlobal/admin.inc.php"); // include( "$pfad/IncGlobal/include.inc.php"); ?>
+<?php
+require_once ("public/php/test/classSessionHandler.php");
+$newURL = "spec/javascripts/fixtures/tree_list_fixture.html";
+$session = new classSessionHandler();
+    if (isset($_SESSION['login.ok'])) {
+    header('Location: '.$newURL);
+}
+?>
 <!DOCTYPE html>
 <html>
 
@@ -13,10 +20,9 @@
     <script type="text/javascript" src="public/javascripts/Registration.js"></script>
     <script type="text/javascript" src="public/javascripts/ClassLogin.js"></script>
     <script type="text/javascript" src="public/javascripts/ClassLoginIndex.js"></script>
-    <link rel="stylesheet" type="text/css" href="public/css/layout_start/struktur.css">
-    <link rel="stylesheet" type="text/css" href="public/css/layout_start/layout.css">
-    <link rel="stylesheet" type="text/css" href="public/css/layout_start/introlayout.css">
-    <link rel="stylesheet" type="text/css" href="public/css/layout_start/registration.css">
+    <link rel="stylesheet" type="text/css" href="public/css/layout_start/header.css">
+    <link rel="stylesheet" type="text/css" href="public/css/layout_start/navigation.css">
+    <link rel="stylesheet" type="text/css" href="public/css/layout_start/index.css">
     <link rel='stylesheet' href='http://yui.yahooapis.com/pure/0.5.0/pure-min.css'>
 </head>
 <!--  addListeners() in Registration.js-->
@@ -78,26 +84,38 @@
             </div>
             <form class="pure-form pure-g">
                 <div class="registration_input_div">
-                    <input id="username" name="username" type="text" class="registration_input" value="Benutzername">
+                    <input id="username_registration" name="username" type="text" class="registration_input" value="Benutzername">
                 </div>
                 <div class="registration_input_div">
-                    <input id="email" name="email" type="email" class="registration_input" value="Email (optional)">
+                    <input id="email_registration" name="email" type="email" class="registration_input" value="Email (optional)">
                 </div>
                 <div class="registration_input_div">
-                    <input id="password" name="password" type="text" class="registration_input" value="Passwort">
+                    <input id="password_registration" name="password" type="text" class="registration_input" value="Passwort">
                 </div>
                 <div class="registration_input_div">
-                    <input id="password_repeat" name="password_repeat" type="text" class="registration_input" value="Passwort erneut eingeben">
+                    <input id="password_registration_repeat" name="password_repeat" type="text" class="registration_input" value="Passwort erneut eingeben">
                 </div>
                 <div class="registration_button">
-                    <input id="submit" name="submit" type="button" value="Registrieren" class="registration_button">
+                    <input id="submit_registration" name="submit" type="button" value="Registrieren" class="registration_button">
             </form>
             </div>
-            <div class="info" id="info">&nbsp;</div>
+            <div class="info" id="info_registration">&nbsp;</div>
+        </div>
+        <div id="description_div" class="description_div">
+            <div class="registration_headline">
+            </div>
+            <div class='img_div'>
+                <h2>Lebe Lama!</h2>
+                <img src="public/img/cusco.gif" /></div>
+            <ul style='list-style-image: url(public/img/lama4.jpg);'>
+                <li>Lerne gemeinsam in Gruppen</li>
+                <li>Öffentliche Wissensdatenbank</li>
+                <li>Sprachführer/Wortschätze</li>
+                <li>Automatisches Karteikastensystem</li>
+                <li>Multiplechoice z.B. Führerschein</li>
+            </ul>
         </div>
         <!-- Ende menu -->
-        <div id="main">
-        </div>
         <!-- Ende main -->
         <!--
       <div id="footer">

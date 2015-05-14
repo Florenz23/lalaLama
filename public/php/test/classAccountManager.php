@@ -57,13 +57,45 @@ class classAccountManager {
 		}
 
 	}
+	private function checkLogin() {
+		$trainer_info = new classTrainerInfo();
+		$db = new classDbFunctions();
+		$data = array(
+			'db' => $trainer_info->db,
+			'table' => $trainer_info->registration_table->name,
+			'key' =>$trainer_info->registration_table->user_name_row,
+			'value' => $this->user,
+		);
+
+		if ( $result = $db->selectFrom( $data ) ) {
+			$result = json_decode( $result );
+			$this->salt = $result[0]->password_salt;
+			$this->createHash();
+
+			if ( $this->hash == $result[0]->password_hash ) {
+				$session = new classSessionHandler();
+				$session->validate();
+				$session->setUserId( $result[0]->user_id );
+				$session->setUserRoot( $result[0]->user_root );
+
+				return true;
+			}
+		}
+		return false;
+	}
+	private function validateInput() {
+		if ( !filter_var( $this->email, FILTER_VALIDATE_EMAIL ) ) {
+			$this->email = '';
+		}
+		return true;
+	}
 
 	public function register( $user, $password, $email = '' ) {
 		$this->user = $user;
 		$this->email = $email;
 		$this->password = $password;
 
-		if ( $this->validateInput() && $this->checkAvailability()) {
+		if ( $this->validateInput() && $this->checkAvailability() === true) {
 			$root_id = $this->registerAccount();
 			return $root_id;
 		} else {
@@ -72,12 +104,6 @@ class classAccountManager {
 
 	}
 
-	private function validateInput() {
-		if ( !filter_var( $this->email, FILTER_VALIDATE_EMAIL ) ) {
-			$this->email = '';
-		}
-		return true;
-	}
 
 	private function createSalt() {
 		$this->salt = hash( 'sha1', mt_rand() );
@@ -106,36 +132,9 @@ class classAccountManager {
 		if ( $db->selectFrom( $data ) == false ) {
 			return true;
 		}
-		echo "user_valid:false";
-		return false;
+		return  "user_valid:false";
 	}
 
-	private function checkLogin() {
-		$trainer_info = new classTrainerInfo();
-		$db = new classDbFunctions();
-		$data = array(
-			'db' => $trainer_info->db,
-			'table' => $trainer_info->registration_table->name,
-			'key' =>$trainer_info->registration_table->user_name_row,
-			'value' => $this->user,
-		);
-
-		if ( $result = $db->selectFrom( $data ) ) {
-			$result = json_decode( $result );
-			$this->salt = $result[0]->password_salt;
-			$this->createHash();
-
-			if ( $this->hash == $result[0]->password_hash ) {
-				$session = new classSessionHandler();
-				$session->validate();
-				$session->setUserId( $result[0]->user_id );
-				$session->setUserRoot( $result[0]->user_root );
-
-				return true;
-			}
-		}
-		return false;
-	}
 
 	private function registerAccount() {
 		$trainer_info = new classTrainerInfo();

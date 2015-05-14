@@ -1,3 +1,29 @@
+#registration {
+    float: right;
+    width: 35%;
+    height: 500px;
+    background-color: #FFFFFF;
+    background-color: #EFFBF2;
+    /*
+    float: left;
+    padding: 40px 0 30px 10px;
+    width: 500px;
+  */
+}
+
+#description_div {
+    float: right;
+    width: 50%;
+    height: 500px;
+    background-color: #FFFFFF;
+    background-color: #EFFBF2;
+    /*
+    float: left;
+    padding: 40px 0 30px 10px;
+    width: 500px;
+  */
+}
+
 .registration h1 {
     font-size: 36px;
     font-weight: bold;
