@@ -1,0 +1,116 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: white;
+    background-color: #EFFBF2;
+    font: 100% Arial, Helvetica, sans-serif;
+    margin-top: 10px;
+    text-align: center;
+}
+/*
+#BFE3EE
+*/
+
+#mother {
+    border: 5px solid #EFFBF2;
+    margin: 0 auto;
+    text-align: left;
+    width: 80%;
+}
+/* 008200 */
+
+#header {
+    /* Kopfbereich  */
+
+    margin: 0 auto;
+    height: 100px;
+    width: 100%;
+    height: 82px;
+    background-color: #00A000;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+}
+
+.header_logo {
+    padding-left: 20%;
+    padding-top: 20px;
+    float: left;
+    height: 100%;
+    width: 15%;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.login_div {
+    padding-right: 200px;
+    height: 100%;
+    float: right;
+    width: 30%;
+    color: white;
+}
+/*
+#BFE3EE;
+*/
+
+#registration {
+    float: right;
+    width: 35%;
+    height: 500px;
+    background-color: #FFFFFF;
+    background-color: #EFFBF2;
+    /*
+    float: left;
+    padding: 40px 0 30px 10px;
+    width: 500px;
+  */
+}
+/*
+#E1F2F7;
+*/
+
+#main {
+    position: absolute;
+    top: 130px;
+    left: 930px;
+    width: 200px;
+    background-color: #FFFFFF;
+    /*height: 500px;
+    overflow: auto;
+
+    padding: 20px 10px;
+    */
+}
+
+#footer {
+    position: absolute;
+    top: 700px;
+    left: 10px;
+    background-color: white;
+    clear: both;
+    height: 30px;
+    /*padding: 5px;*/
+}
+
+#nav2 {
+    position: absolute;
+    top: 140px;
+    left: 20px;
+    height: 200px;
+    width: 170px;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    font-size: 10pt;
+}
+
+#register {
+    position: absolute;
+    top: 400px;
+    left: 250px;
+    width: 170px;
+    background-color: #FFFF00;
+}

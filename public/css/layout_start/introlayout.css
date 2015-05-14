@@ -1,0 +1,50 @@
+/* 
+    Document   : introlayout
+    Created on : 19.07.2012, 13:50:21
+    Author     : maurice
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+  display: block;
+}
+
+.intropic{
+  border-width: 2px;
+  border-color: #ccc;
+  border-style: outset;
+}
+
+#menu h1 {
+  font-size: 16pt;
+  font-weight: bold;
+  color: #333399;
+  padding-bottom: 14px
+}
+
+#menu p {
+  margin: 25px 0;
+  line-height: 1.3;
+
+}
+
+#menu h5{
+  font-size: 12pt;
+  font-weight: bold;
+  padding-left: 30px;
+}
+
+#menu explanation{
+  color: #555555;
+  font-size: 12pt;
+  font-weight: bold;
+}
+
+#menu ol{
+  padding-left: 80px;
+  padding-top: 10px;
+  color: #555555;
+  font-size: 12pt;
+  font-weight: bold;
+}

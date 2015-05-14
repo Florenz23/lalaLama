@@ -32,6 +32,9 @@ ClassLogin.prototype.addLoginButtonListener = function() {
     $("#" + this.login_button_id).click(function() {
         class_login.logIn();
     });
+    this.addSelectListener();
+};
+ClassLogin.prototype.addSelectListener = function() {
     $("#" + this.username_textfield_id).click(function() {
         this.select();
     });

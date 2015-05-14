@@ -63,7 +63,7 @@ class classAccountManager {
 		$this->email = $email;
 		$this->password = $password;
 
-		if ( $this->validateInput() ) {
+		if ( $this->validateInput() && $this->checkAvailability()) {
 			$root_id = $this->registerAccount();
 			return $root_id;
 		} else {
@@ -75,15 +75,6 @@ class classAccountManager {
 	private function validateInput() {
 		if ( !filter_var( $this->email, FILTER_VALIDATE_EMAIL ) ) {
 			$this->email = '';
-		}
-
-		if ( strlen( $this->password ) < 6 ) {
-			$this->warning = 'invalid password length';
-			return false;
-		}
-		if ( strlen( $this->user ) < 4 ) {
-			$this->warning = 'invalid user length';
-			return false;
 		}
 		return true;
 	}
@@ -115,7 +106,7 @@ class classAccountManager {
 		if ( $db->selectFrom( $data ) == false ) {
 			return true;
 		}
-
+		echo "user_valid:false";
 		return false;
 	}
 

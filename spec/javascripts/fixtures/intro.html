@@ -1,0 +1,95 @@
+<?php // ob_start(); // include($_SERVER[ "DOCUMENT_ROOT"]. "/Xoon/Trainer/IncGlobal/admin.inc.php"); // include( "$pfad/IncGlobal/include.inc.php"); ?>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/layout_start/struktur.css">
+    <link rel="stylesheet" type="text/css" href="../../../public/css/layout_start/layout.css">
+    <link rel="stylesheet" type="text/css" href="../../../public/css/layout_start/formular.css">
+    <link rel="stylesheet" type="text/css" href="../../../public/css/layout_start/introlayout.css">
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+
+<body>
+    <div id="mother">
+        <div id="header">
+            <ul>
+                <li>
+                </li>
+            </ul>
+        </div>
+        <!-- Ende header -->
+        <div id="nav2">
+            <ul>
+                <li> <a href='../../../index.html'>Home</a> </li>
+                <li> <span id="high"><a href='intro.html'>Einführung</a> </span></li>
+                <!--<li> <a href='vocablist.php'>Vocabulary lists </a> </li>-->
+            </ul>
+        </div>
+        <div id="menu">
+            <h1>
+        Introduction and overview over the features
+        </h1>
+            <br>
+            <br>
+            <h5>After the first login the page should look like this: </h5>
+            <p><img src='../../../public/img/introduction/first_login.png' alt="First login" class="intropic"> </p>
+            <h5> By clicking on the [Plus] button you can create a new vocabulary list: </h5>
+            <p><img src='../../../public/img/introduction/create_list1.png' alt="Create list1" class="intropic"> </p>
+            <h5> Here you can enter various types of vocabulary, simple 1:1 words like "house" and "party",
+        questions with multiple answers like the conjugation of "to go", or multiple choice questions. <br>
+        </h5>
+            <ol>
+                <li>Plus button to expand the answer field to enter multiple answers. </li>
+                <li>Check Box to choose which answer is correct for multiple choice questions.</li>
+            </ol>
+            <p><img src='../../../public/img/introduction/create_list2.png' alt="Create list2" class="intropic"> </p>
+            <h5>
+          By clicking on the save button now, the list is saved into the database and you can start studying it by clicking on the pool's name in the pool list <explanation>(1)</explanation>. <br>
+          Also you can edit the list at any time <explanation>(2)</explanation> or delete it.
+        </h5>
+            <p><img src='../../../public/img/introduction/saved_list.png' alt="Saved list" class="intropic"> </p>
+            <h5>
+          Then the trainer starts where you type in the answer into the textarea and then click on check to evaluate it (or hit Enter key instead).
+        </h5>
+            <p><img src='../../../public/img/introduction/trainer1.png' alt="Trainer1" class="intropic"> </p>
+            <h5>
+          If you type in a wrong answer but want to accept it as a right answer anyway, you can click on [Accept]. <br>
+          By clicking [Check] the trainer assumes you didn't know the answer and will ask you the question more often.
+        </h5>
+            <p><img src='../../../public/img/introduction/trainer2.png' alt="Trainer2" class="intropic"> </p>
+            <h5>
+          If you have a question with multiple answers, the correct answers that you already typed in will appear on the right hand side of the window. <br>
+          Also, if some of the answers are typed in incorrectly, the correct ones will appear here when the question is repeated.
+        </h5>
+            <p><img src='../../../public/img/introduction/trainer3.png' alt="Trainer3" class="intropic"> </p>
+            <h5>
+          Multiple choice answers are displayed as follows. <br>
+          By clicking on one of the choices, you select it as a correct answer and the background color switches from grey to blue. <br>
+          A click on the [Check] button evaluates your choices with the ones you entered when you created the list.
+        </h5>
+            <p><img src='../../../public/img/introduction/trainer4.png' alt="Trainer4" class="intropic"> </p>
+            <div id="check_pw"></div>
+        </div>
+        <!-- Ende menu -->
+        <div id="main">
+        </div>
+        <!-- Ende main -->
+        <!--
+      <div id="footer">
+        <h1>Impressum | Über uns | Meine Werbung
+        </h1>
+      </div>
+       -->
+    </div>
+    <!-- Ende mother -->
+    <!-- <script type="text/javascript" src="IncGlobal/jquery.js"></script>
+<script src="IncGlobal/class_linkedlist.js" language="JavaScript" type="text/javascript"></script>
+<script src="Main/functions.inc.js" language="JavaScript" type="text/javascript"></script>
+<script src="IncGlobal/classes_inc.js" language="JavaScript" type="text/javascript"></script>
+ -->
+    <div id="echo_ajax"></div>
+</body>
+
+</html>
