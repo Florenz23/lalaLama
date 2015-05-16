@@ -59,12 +59,12 @@ class classStartTree {
 
 		$data['values'] = $this->obj_array_struct[2];
 		$data['values']->root_id = $returned_array[0];
-		$data['values']->pid = $returned_array[0];
+		$data['values']->pid = $returned_array[1];
 		$returned_array[] = $this->class_db_functions->insertValues($data);
 
 		$data['values'] = $this->obj_array_struct[3];
 		$data['values']->root_id = $returned_array[0];
-		$data['values']->pid = $returned_array[0];
+		$data['values']->pid = $returned_array[1];
 		$returned_array[] = $this->class_db_functions->insertValues($data);
 
 		$data['values'] = $this->obj_array_struct[4];

@@ -78,6 +78,13 @@ ClassTrainer.prototype.addAnwerTextareaListener = function() {
             trainer.check();
         }
     });
+    $("#" + this.answer_textarea_id).keydown(function(event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '9') {
+            event.preventDefault();
+            trainer.correct_answer();
+        }
+    });
 
 };
 
@@ -732,7 +739,7 @@ ClassTrainer.prototype.correct_answer = function() {
     if (nanswers == 1) // Falls nach falscher Eingabe accept gedrückt wurde (eine Antwort)
     {
         this.poolnode.data.correct(0);
-        display += "'" + uanswer + "' was accepted as an answer for the question '" + this.poolnode.data.question + "'.";
+        display += "'" + uanswer + "' als richtig gewertet! ";
         $('#communication').html(display);
         if (this.poolnode.data.rating[0] <= -1) {
             smallerzero = 1;
