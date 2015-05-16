@@ -140,7 +140,7 @@ ClassListEditorSaveNewVoc.prototype.saveNewAnswer = function() {
     this.addDeleteNewAnswerDivListener();
     this.cleanInputField();
     this.addNewAnswerField();
-    this.addSaveNewVocListener();
+    //this.addSaveNewVocListener();
 };
 
 

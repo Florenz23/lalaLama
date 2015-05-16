@@ -350,8 +350,7 @@ ClassTrainer.prototype.check_importance = function() {
     for (i = 0; i < nanswers; i++) {
         if (this.poolnode.data.importance[i] < 0) {
             this.correctanswers.push(i);
-            display += this.poolnode.data.answer[i];
-            display += "<br>";
+            display += this.trainer_display.displayAnswersThatDontHaveToBeAnsweredAgain(this.poolnode.data.answer[i]);
         }
         // Checking if the voc is a new one (-2), a still-in-the-pool one (0), or a back-from-the-list one (1)
         if (this.poolnode.data.ok[i] === 0) {
@@ -369,6 +368,7 @@ ClassTrainer.prototype.check_importance = function() {
     {
         for (i = 0; i < nanswers; i++) {
             if (this.poolnode.data.ok[i] >= 1) {
+                console.log("jo");
                 this.correctanswers.push(i);
                 display += this.poolnode.data.answer[i];
                 display += "<br>";
@@ -379,6 +379,7 @@ ClassTrainer.prototype.check_importance = function() {
     if (type == 1) {
         for (i = 0; i < nanswers; i++) {
             if (this.poolnode.data.rating[i] > 0) {
+                console.log("jo");
                 this.correctanswers.push(i);
                 display += this.poolnode.data.answer[i];
                 display += "<br>";

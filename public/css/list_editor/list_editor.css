@@ -108,22 +108,26 @@
     width: 95%;
 }
 
+.new_answer_input {
+    width: 95%;
+}
+
 .new_voc_question_input {
+    width: 99%;
     background-color: FFFFC6;
 }
 
 .new_voc_answer_input {
     background-color: FFFFC6;
+    width: 95%;
 }
 
 .new_voc_answer_input_option {
     background-color: FFFFC6;
     float: left;
     overflow: hidden;
-    width: 80%;
+    width: 95%;
 }
-
-.new_answer_input {}
 
 .list_main_div textarea {
     float: left;

@@ -179,7 +179,6 @@ ClassTreeUser.prototype.typeAction = function(data) {
             this.listOnClickAction(data);
             break;
         default:
-            console.log("nö");
     }
 
 };
