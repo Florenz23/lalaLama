@@ -1,0 +1,12 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: white;
+    background-color: #EFFBF2;
+    font: 100% Arial, Helvetica, sans-serif;
+    margin-top: 10px;
+    text-align: center;
+}

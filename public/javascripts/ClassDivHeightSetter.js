@@ -17,6 +17,8 @@
      this.refreshMainDivHeight(voc_nr);
      var question = this.getQuestionDivHeight(voc_nr);
      var height = this.getHighestDivValue(voc_nr);
+     var voc_div_height = height + 10;
+     this.setVocDivHeight(voc_nr, voc_div_height);
      this.setQuestionMainDivHeight(voc_nr, height);
      this.setAnswerMainDivHeight(voc_nr, height);
      this.setVocMenuDivHeight(voc_nr, height);
@@ -43,7 +45,7 @@
      if (voc_menu_div_height > max_height) {
          max_height = voc_menu_div_height;
      }
-     max_height = max_height + 40;
+     max_height = max_height + 10;
 
      return max_height;
  };
@@ -67,6 +69,13 @@
 
  };
 
+ ClassDivHeightSetter.prototype.getVocDiv = function(voc_nr) {
+
+     var div_id = this.voc_div_id_prefix + voc_nr;
+     var voc_div = $("#" + div_id);
+     return voc_div;
+
+ };
  ClassDivHeightSetter.prototype.getQuestionDiv = function(voc_nr) {
 
      var div_id = this.voc_div_id_prefix + voc_nr;
@@ -92,6 +101,15 @@
      return voc_menu_div;
 
  };
+
+
+ ClassDivHeightSetter.prototype.setVocDivHeight = function(voc_nr, height) {
+
+     var voc_div = this.getVocDiv(voc_nr);
+     voc_div.height(height);
+
+ };
+
 
  ClassDivHeightSetter.prototype.setAnswerMainDivHeight = function(voc_nr, height) {
 

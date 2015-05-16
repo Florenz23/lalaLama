@@ -85,6 +85,13 @@ ClassLogin.prototype.displayLogInHeader = function() {
     $("#" + this.div_name).html(html_code);
     this.addLoginButtonListener();
 };
+ClassLogin.prototype.displayRegistrationLink = function() {
+    var div_name = "link_div";
+    var html_code = "";
+    html_code += "<a href='../../../index.php'>Registrieren </a>";
+    $("#" + div_name).html(html_code);
+
+};
 
 ClassLogin.prototype.logIn = function() {
     var class_login = this;
@@ -110,6 +117,9 @@ ClassLogin.prototype.loginSucessAction = function() {
 
 ClassLogin.prototype.goToFinder = function() {
     window.location.href = "tree_list_fixture.html";
+};
+ClassLogin.prototype.goToIndex = function() {
+    window.location.href = "../../../";
 };
 ClassLogin.prototype.displayWrongPasswordMessage = function() {
     var display = "";
@@ -165,7 +175,9 @@ ClassLogin.prototype.checkIfUserIsStillLoggedIn = function() {
                 if (data == 'logged.in') {
                     class_login.displayLogOut();
                     class_login.iniTree();
-                } else class_login.displayLogInHeader();
+                } else {
+                    class_login.goToIndex();
+                }
             }
         });
 };
@@ -197,8 +209,7 @@ ClassLogin.prototype.logOut = function() {
             if (status == "success") {
                 var class_login = new ClassLogin();
                 if (data == 'logged.out') {
-                    class_login.displayLogInHeader();
-                    class_login.reloadPage();
+                    class_login.goToIndex();
                 }
             }
         });

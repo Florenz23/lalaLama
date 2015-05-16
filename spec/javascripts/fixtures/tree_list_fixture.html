@@ -1,19 +1,20 @@
 <html>
 
 <head>
-    <title>tree_list</title>
+    <title>lalaLama</title>
     <meta charset='utf-8'>
-    <link rel=stylesheet href='../../../public/javascripts/jsTree/dist/themes/default/style.min.css'>
-    <link rel=stylesheet href='../css/list_editor.css'>
-    <link rel=stylesheet href='../../../public/css/struktur.css'>
     <link rel='stylesheet' href='http://yui.yahooapis.com/pure/0.5.0/pure-min.css'>
+    <link rel=stylesheet href='../../../public/javascripts/jsTree/dist/themes/default/style.min.css'>
+    <link rel=stylesheet href='../../../public/css/list_editor/list_editor.css'>
+    <link rel=stylesheet href='../../../public/css/list_editor/header.css'>
+    <link rel=stylesheet href='../../../public/css/list_editor/body.css'>
 </head>
 
 <body onload="addListenersLogin();">
     <div id="header">
         <div id="header_logo">
             <div id='login_div' class="login_div">login</div>
-            <div id='link_div' class="link_div"><a href='../../../index.php'>Registrieren </a></div>
+            <div id='link_div' class="link_div"></div>
         </div>
     </div>
     <div class='main'>
@@ -22,6 +23,7 @@
             </div>
             <div id='finder_public' class='finder_public'></div>
             <div id='finder_user' class='finder_user'></div>
+            <div class='platzhalter'></div>
         </div>
         <div class='list_main_div'>
             <div class="learn_button_div" id="learn_button_div">
@@ -30,6 +32,7 @@
             </div>
             <div id='list_div' class='list_div'>
             </div>
+            <div class='platzhalter'></div>
         </div>
     </div>
     <script type='text/javascript' src='../../../public/javascripts/libs/jquery.js'></script>

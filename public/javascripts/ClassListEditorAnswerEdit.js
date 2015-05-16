@@ -8,8 +8,7 @@ function ClassListEditorAnswerEdit() {
     ClassTrainerInfo.call(this);
     this.class_ajax = new ClassAjax();
     this.answer_counter = 0;
-    this.div_height_setter = new ClassDivHeightSetter();
-    this.list_id = "not_set";
+    this.div_height_setter = new ClassDivHeightSetter();    this.list_id = "not_set";
     this.voc_id = "not_set";
     this.answer_id = "not_set";
     this.img_path = "../../../public/img/";
@@ -65,7 +64,7 @@ ClassListEditorAnswerEdit.prototype.saveNewAnswer = function(last_insert_answer)
         this.createSavedAnswerInput(answer_id, answer);
         this.createSavedAnswerDeleteButton(answer_id);
         this.addDeleteNewAnswerDivListener();
-        this.addNewAnswerField();
+        //this.addNewAnswerField();
     }
     return answer_id;
 

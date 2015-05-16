@@ -20,6 +20,7 @@ $session = new classSessionHandler();
     <script type="text/javascript" src="public/javascripts/Registration.js"></script>
     <script type="text/javascript" src="public/javascripts/ClassLogin.js"></script>
     <script type="text/javascript" src="public/javascripts/ClassLoginIndex.js"></script>
+    <link rel="stylesheet" type="text/css" href="public/css/body.css">
     <link rel="stylesheet" type="text/css" href="public/css/layout_start/header.css">
     <link rel="stylesheet" type="text/css" href="public/css/layout_start/navigation.css">
     <link rel="stylesheet" type="text/css" href="public/css/layout_start/index.css">

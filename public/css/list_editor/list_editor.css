@@ -1,11 +1,30 @@
 .main {
-    padding: 50px 0 0 50px;
+    padding: 1% 2% 0 2%;
+    font: 14px Verdana, sans-serif;
 }
 
 .finder_main_div {
-    height: 800px;
-    width: 30%;
+    width: 38%;
     float: left;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #ccc;
+    max-width: 100%;
+    overflow: auto;
+    padding: 10px;
+}
+
+.platzhalter {
+    height: 5000px;
+}
+
+.list_main_div {
+    width: 58.9%;
+    float: right;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #ccc;
+    max-width: 100%;
+    overflow: auto;
+    padding: 10px;
 }
 
 .finder_menu_div {
@@ -18,7 +37,6 @@
     padding: 10px;
     width: 100%;
     float: left;
-    font-size: 20px;
     text-align: left;
 }
 
@@ -26,7 +44,6 @@
     padding: 10px;
     width: 100%;
     float: left;
-    font-size: 20px;
     text-align: left;
 }
 
@@ -34,16 +51,21 @@
     margin: 3px;
 }
 
-.list_main_div {
-    width: 70%;
-    float: left;
-}
-
 .learn_button_div {
     width: 300px;
     text-align: center;
     margin: 0 auto;
     height: 100px;
+}
+
+.voc_div {
+    background-color: #EFFBF2;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px #ddd inset;
+    box-sizing: border-box;
+    padding: 0.5em 0.6em;
 }
 
 .learn_button_div input {
@@ -63,13 +85,13 @@
 .question_main_div {
     float: left;
     overflow: hidden;
-    width: 30%;
+    width: 47.5%;
 }
 
 .answer_main_div {
     float: left;
     overflow: hidden;
-    width: 50%;
+    width: 47.5%;
 }
 
 .voc_menu_div {
@@ -78,15 +100,21 @@
     width: 5%;
 }
 
-#question_input {
+.question_input {
+    width: 99%;
+}
+
+.answer_input {
+    width: 95%;
+}
+
+.new_voc_question_input {
     background-color: FFFFC6;
 }
 
-.answer_div {}
-
-.answer_input {}
-
-.new_answer_input {}
+.new_voc_answer_input {
+    background-color: FFFFC6;
+}
 
 .new_voc_answer_input_option {
     background-color: FFFFC6;
@@ -100,8 +128,11 @@
 .list_main_div textarea {
     float: left;
     overflow: hidden;
-    width: 80%;
     resize: none;
+    border: 0px solid #ccc;
+    display: inline-block;
+    padding: 0.5em 0.6em;
+    margin-bottom: 5px;
 }
 
 .answer_delete_button {

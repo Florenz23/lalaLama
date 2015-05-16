@@ -15,8 +15,6 @@ if ( isset( $_GET['operation'] ) ) {
 			die();
 			break;
 		case 'get_node':
-			echo "jo";
-			break;
 			$node = isset( $_GET['id'] ) && $_GET['id'] !== '#' ? (int) $_GET['id'] : 0;
 			$temp = $fs->get_children( $node );
 			$rslt = array();

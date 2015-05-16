@@ -77,6 +77,6 @@
         this.new_voc_delete_button_id_prefix = "new_voc_delete_button_";
         this.new_voc_delete_button_class = "new_voc_delete_button";
 
-        this.voc_form_class = "pure-form pure-g";
+        this.voc_form_class = "";
 
     }

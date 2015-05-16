@@ -8,7 +8,7 @@ function ClassListEditorUpdateAnswer() {
     this.trainer_info = new ClassTrainerInfo();
     this.class_ajax = new ClassAjax();
     this.input_background_color_changed = "#FF9999";
-    this.background_color_answer_updated = "azure";
+    this.background_color_answer_updated = "white";
 
 }
 

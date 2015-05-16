@@ -5,7 +5,7 @@ function ClassListEditorUpdateQuestion() {
     this.class_ajax = new ClassAjax();
     this.voc_id = "not_set";
     this.input_background_color_changed = "#FF9999";
-    this.background_color_question_updated = "azure";
+    this.background_color_question_updated = "white";
 
 }
 
