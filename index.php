@@ -75,7 +75,7 @@ $session = new classSessionHandler();
         <div id="nav2">
             <ul>
                 <li> <span id="high"><a href='index.php'>Home</a> </span></li>
-                <li> <a href='spec/javascripts/fixtures/intro.html'>Einführung</a> </li>
+                <li> <a href='info'>Einführung</a> </li>
                 <!--<li> <a href='vocablist.php'>Vocabulary lists </a> </li>-->
             </ul>
         </div>
