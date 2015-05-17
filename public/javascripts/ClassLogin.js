@@ -96,7 +96,7 @@ ClassLogin.prototype.displayRegistrationLink = function() {
 ClassLogin.prototype.logIn = function() {
     var class_login = this;
     var json_output = false;
-    $.get("../../../public/php/test/classAccountManager.php", {
+    $.get("public/php/test/classAccountManager.php", {
             action: 'login',
             username: this.getUsername(),
             password: this.getPassword()
@@ -115,11 +115,12 @@ ClassLogin.prototype.loginSucessAction = function() {
     this.goToFinder();
 };
 
+// in den child klassen
 ClassLogin.prototype.goToFinder = function() {
-    window.location.href = "tree_list_fixture.html";
+    window.location.href = "moin";
 };
 ClassLogin.prototype.goToIndex = function() {
-    window.location.href = "../../../";
+    window.location.href = "../../../welcome";
 };
 ClassLogin.prototype.displayWrongPasswordMessage = function() {
     var display = "";
@@ -167,7 +168,7 @@ ClassLogin.prototype.checkUserIdentity = function() {
 
 ClassLogin.prototype.checkIfUserIsStillLoggedIn = function() {
     var class_login = this;
-    $.post("../../../public/php/test/classSessionHandler.php", {
+    $.post("public/php/test/classSessionHandler.php", {
             action: 'status'
         },
         function(data, status) {
@@ -202,7 +203,7 @@ ClassLogin.prototype.iniTree = function() {
 
 
 ClassLogin.prototype.logOut = function() {
-    $.post("../../../public/php/test/classSessionHandler.php", {
+    $.post("public/php/test/classSessionHandler.php", {
             action: 'logout'
         },
         function(data, status) {

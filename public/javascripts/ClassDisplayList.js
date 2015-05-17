@@ -13,7 +13,7 @@ function ClassDisplayList() {
     this.voc_div_class = "voc_div";
 
     this.json_data = "";
-    this.img_path = "../../../public/img/";
+    this.img_path = "public/img/";
 
 }
 
@@ -108,7 +108,7 @@ ClassDisplayList.prototype.copyList = function(list_id, description) {
 
 
 ClassDisplayList.prototype.learnList = function() {
-    window.location.href = "trainer.html?list_arr=" + this.list_id;
+    window.location.href = "trainer?list_arr=" + this.list_id;
 };
 
 ClassDisplayList.prototype.getJsonData = function(list_id) {

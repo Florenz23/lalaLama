@@ -1,7 +1,7 @@
 function ClassListEditorNewVocCreateFieldVocMenu() {
 
     HtmlIdsAndClasses.call(this);
-    this.img_path = "../../../public/img/";
+    this.img_path = "public/img/";
 
 }
 ClassListEditorNewVocCreateFieldVocMenu.prototype.createVocMenuField = function() {

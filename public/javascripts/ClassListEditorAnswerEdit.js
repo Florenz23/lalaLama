@@ -8,10 +8,11 @@ function ClassListEditorAnswerEdit() {
     ClassTrainerInfo.call(this);
     this.class_ajax = new ClassAjax();
     this.answer_counter = 0;
-    this.div_height_setter = new ClassDivHeightSetter();    this.list_id = "not_set";
+    this.div_height_setter = new ClassDivHeightSetter();
+    this.list_id = "not_set";
     this.voc_id = "not_set";
     this.answer_id = "not_set";
-    this.img_path = "../../../public/img/";
+    this.img_path = "public/img/";
 
 }
 

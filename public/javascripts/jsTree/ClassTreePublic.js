@@ -1,6 +1,6 @@
 function ClassTreePublic() {
     // this.ajax_file_path = "php/tree_server.php";
-    this.ajax_file_path = "../../../public/php/test/tree_server.php";
+    this.ajax_file_path = "public/php/test/tree_server.php";
     this.finder_div = "finder_public";
     this.class_login = new ClassLogin();
     this.class_display_list = new ClassDisplayList();
@@ -46,31 +46,31 @@ ClassTreePublic.prototype.setTreeOptions = function() {
             },
             "types": {
                 "root": {
-                    "icon": "../../../public/img/root.png",
+                    "icon": "public/img/root.png",
                     "valid_children": []
                 },
                 "public": {
-                    "icon": "../../../public/img/lama1.jpg",
+                    "icon": "public/img/lama1.jpg",
                     "valid_children": ["folder"]
                 },
                 "groups": {
-                    "icon": "../../../public/img/lama1.jpg",
+                    "icon": "public/img/lama1.jpg",
                     "valid_children": []
                 },
                 "mylama": {
-                    "icon": "../../../public/img/haus.png",
+                    "icon": "public/img/haus.png",
                     "valid_children": ["folder"]
                 },
                 "folder": {
-                    "icon": "../../../public/img/folder.png",
+                    "icon": "public/img/folder.png",
                     "valid_children": ["folder", "list", "default"]
                 },
                 "list": {
-                    "icon": "../../../public/img/list.png",
+                    "icon": "public/img/list.png",
                     "valid_children": []
                 },
                 "default": {
-                    "icon": "../../../public/img/plus.jpg"
+                    "icon": "public/img/plus.jpg"
                 }
             },
             'plugins': ['state', 'dnd', 'contextmenu', 'wholerow', 'types', 'search'],

@@ -1,4 +1,5 @@
 RewriteEngine On    # Turn on the rewriting engine
-RewriteRule    ^finder/?$    spec/javascripts/fixtures/tree_list_fixture.html    [NC,L]    # Handle requests for "pet-care"
-RewriteRule    ^info/?$    spec/javascripts/fixtures/intro.html    [NC,L]    # Handle requests for "pet-care"
 RewriteRule    ^welcome/?$    index.php    [NC,L]    # Handle requests for "pet-care"
+RewriteRule    ^info/?$    spec/javascripts/fixtures/intro.html    [NC,L]    # Handle requests for "pet-care"
+RewriteRule    ^finder/?$    spec/javascripts/fixtures/tree_list_fixture.html    [NC,L]    # Handle requests for "pet-care"
+RewriteRule    ^trainer/?$    spec/javascripts/fixtures/trainer.html    [NC,L]    # Handle requests for "pet-care"

@@ -16,7 +16,7 @@
 
      this.answer_counter = 0;
 
-     this.img_path = "../../../public/img/";
+     this.img_path = "public/img/";
  }
 
 

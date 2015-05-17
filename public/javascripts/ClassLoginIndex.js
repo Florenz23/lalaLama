@@ -35,5 +35,5 @@ ClassLoginIndex.prototype.logIn = function() {
 };
 
 ClassLoginIndex.prototype.goToFinder = function() {
-    window.location.href = "spec/javascripts/fixtures/tree_list_fixture.html";
+    window.location.href = "finder";
 };

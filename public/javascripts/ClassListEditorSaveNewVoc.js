@@ -13,7 +13,7 @@ function ClassListEditorSaveNewVoc() {
     this.answer_id = "not_set";
     this.list_id = "not_set";
     this.voc_id = "not_set";
-    this.img_path = "../../../public/img/";
+    this.img_path = "public/img/";
 
 }
 ClassListEditorSaveNewVoc.prototype.saveNewVoc = function() {

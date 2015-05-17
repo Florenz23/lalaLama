@@ -1,7 +1,7 @@
 function ClassListEditorNewVocCreateFieldAnswer() {
 
     HtmlIdsAndClasses.call(this);
-    this.img_path = "../../../public/img/";
+    this.img_path = "public/img/";
 
 }
 
