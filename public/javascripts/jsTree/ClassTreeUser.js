@@ -18,7 +18,7 @@ ClassTreeUser.prototype.displaySearchField = function() {
 
     var display = "";
     display += "<form class='pure-form pure-g'>";
-    display += "    <input class='pure-form' type='text' id='search_text' value='Suchen' />";
+    display += "    <input class='pure-form' type='text' id='search_text' value='Public lists durchsuchen' />";
     display += "        </form>";
     $("#finder_menu_div").html(display);
 

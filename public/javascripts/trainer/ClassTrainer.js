@@ -241,7 +241,6 @@ ClassTrainer.prototype.calculateRating = function() {
     var operation = "classTrainerUpdateVocRating";
     var class_ajax = new ClassAjax();
     var voc_data = this.poolnode.data;
-    console.log(voc_data);
     var data = {
         answer_id: voc_data.answer_id,
         ok: voc_data.ok,

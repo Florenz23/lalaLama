@@ -12,15 +12,17 @@ TreeMenuButtons.prototype.start = function() {
         });
     });
     $("#add_folder").click(function() {
-        console.log("jo");
         $("#finder").jstree("create_node", null, "last", {
             "attr": {
                 "rel": "folder"
             }
         });
     });
-    $("#search_text").keypress(function() {
-        $("#finder").jstree("search", this.value);
+    $("#search_text").keydown(function() {
+        $("#finder_public").jstree("search", this.value);
+    });
+    $("#search_text").click(function() {
+        this.select();
     });
 
 };
