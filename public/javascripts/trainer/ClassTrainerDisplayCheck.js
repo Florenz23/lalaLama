@@ -33,6 +33,8 @@ ClassTrainerDisplayCheck.prototype.displayVocpool = function(vocpool) {
         vocpool_value += current.data.rating;
         vocpool_value += ":";
         vocpool_value += current.data.ok;
+        vocpool_value += ":_";
+        vocpool_value += current.data.importance;
         vocpool_value += "\n";
         help = 1;
     }

@@ -31,7 +31,7 @@ Voc.prototype.arrangeImportance = function() {
 
 Voc.prototype.adjustArrayLength = function() {
 
-    if (!this.checkDataArrays()){
+    if (!this.checkDataArrays()) {
 
         right_arr = [];
         wrong_arr = [];
@@ -49,17 +49,17 @@ Voc.prototype.adjustArrayLength = function() {
 
 Voc.prototype.checkDataArrays = function(array) {
 
-  if (!this.check_value(this.right)){
-    return false;
-  }
-  if (!this.check_value(this.wrong)){
-    return false;
-  }
-  if (!this.check_value(this.rating)){
-    return false;
-  }
+    if (!this.check_value(this.right)) {
+        return false;
+    }
+    if (!this.check_value(this.wrong)) {
+        return false;
+    }
+    if (!this.check_value(this.rating)) {
+        return false;
+    }
 
-  return true;
+    return true;
 
 };
 
@@ -74,9 +74,9 @@ Voc.prototype.correctRatings = function() {
 Voc.prototype.correctArrayValue = function(array) {
 
     for (var i = array.length - 1; i >= 0; i--) {
-        array[i] = parseFloat(array[i],10);
-        if(!this.check_value(array[i])){
-             array[i] = 0;
+        array[i] = parseFloat(array[i], 10);
+        if (!this.check_value(array[i])) {
+            array[i] = 0;
         }
     }
     return array;
@@ -84,22 +84,22 @@ Voc.prototype.correctArrayValue = function(array) {
 
 Voc.prototype.check_value = function(value) {
 
-    if (value === null){
+    if (value === null) {
         return false;
     }
-    if (value === 0){
+    if (value === 0) {
         return false;
     }
-    if (value === ""){
+    if (value === "") {
         return false;
     }
-    if (value === "null"){
+    if (value === "null") {
         return false;
     }
-    if (value === "NULL"){
+    if (value === "NULL") {
         return false;
     }
-    if (value === undefined){
+    if (value === undefined) {
         return false;
     }
     return true;

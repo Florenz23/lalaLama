@@ -1,9 +1,10 @@
 #nav2 {
+    float: left;
     position: absolute;
     top: 140px;
     left: 20px;
     height: 200px;
-    width: 170px;
+    width: 20%;
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
     font-size: 10pt;
@@ -18,7 +19,6 @@
 #nav2 ul li {
     margin: 0.4em;
     /*padding: 5px;*/
-    
     height: 30px;
     display: block;
 }

@@ -205,18 +205,51 @@ ClassTrainer.prototype.setfocus = function() {
 };
 
 ClassTrainer.prototype.jumpToNextVoc = function() {
+    this.displayOk();
     if (this.vocpool.length > 0) {
         this.poolnode = this.poolnode.next;
         this.updatequestion();
+        this.setRemainingVocsToLearn();
     } else {
         this.step = 4; // so that nothing happens after pushing the Check/Accept button
         this.list_is_finished = true;
         $("#" + this.answer_textarea_id).val("Geeeeeil, diese Liste ist beendet!");
         $("#" + this.answer_textarea_id).css({
-            color: "red"
+            color: "green"
         });
         $("#" + this.answer_textarea_id).prop("readonly", true);
     }
+};
+ClassTrainer.prototype.displayOk = function() {
+
+    var vocpool_value = "";
+    var vocllist = this.vocllist;
+    var counter = 0;
+    var help = 0;
+    for (var current = vocllist.first;
+        (help === 0 || current != vocllist.first); current = current.next) {
+        var ok_array = current.data.ok;
+        if (this.checkOkArray(ok_array)) {
+            counter++;
+        }
+        help = 1;
+    }
+    console.log(counter);
+
+};
+ClassTrainer.prototype.checkOkArray = function(ok_array) {
+    for (var i = ok_array.length - 1; i >= 0; i--) {
+        if (ok_array[i] !== 1) {
+            return true;
+        }
+    }
+    return false;
+};
+ClassTrainer.prototype.setRemainingVocsToLearn = function() {
+
+    this.poolsize_max--;
+    this.trainer_display.updateLeftVocsDisplay(this.vocllist.length);
+
 };
 
 ClassTrainer.prototype.updatepool = function() {
@@ -233,7 +266,7 @@ ClassTrainer.prototype.updatepool = function() {
 ClassTrainer.prototype.updateLeftVocsDisplay = function() {
 
     this.mastered_vocs++;
-    this.trainer_display.updateLeftVocsDisplay(this.mastered_vocs);
+    //   this.trainer_display.updateLeftVocsDisplay(this.mastered_vocs);
 
 };
 

@@ -10,7 +10,6 @@
 
 #header a:link {
     color: black;
-    font-weight: bold;
     text-decoration: none;
 }
 
@@ -43,6 +42,8 @@
     margin: 0.4em;
     padding: 5px;
 }
+
+
 /*
 #BFE3EE
 */
@@ -53,11 +54,12 @@
     text-align: left;
     width: 80%;
 }
+
+
 /* 008200 */
 
 #header {
     /* Kopfbereich  */
-    
     margin: 0 auto;
     height: 100px;
     width: 100%;
@@ -86,6 +88,8 @@
     width: 30%;
     color: white;
 }
+
+
 /*
 #BFE3EE;
 */
