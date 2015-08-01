@@ -321,13 +321,13 @@ ClassListEditorSaveNewVoc.prototype.addSaveNewAnswerListener = function() {
             event.preventDefault();
             clearTimeout(typingTimer);
             class_answer_edit.saveNewAnswer();
-            return;
+            return false;
         }
         if (event.which == 13) {
             event.preventDefault();
             clearTimeout(typingTimer);
             class_save_new_voc.saveNewVoc();
-            return;
+            return false;
         }
 
         // clearTimeout(typingTimer);

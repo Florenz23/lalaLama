@@ -1,6 +1,6 @@
 <?php
 require_once ("public/php/test/classSessionHandler.php");
-$newURL = "spec/javascripts/fixtures/tree_list_fixture.html";
+$newURL = "finder";
 $session = new classSessionHandler();
     if (isset($_SESSION['login.ok'])) {
     header('Location: '.$newURL);

@@ -22,6 +22,7 @@ function addListenersLogin() {
 }
 
 ClassLogin.prototype.start = function() {
+    console.log("jo");
     this.checkIfUserIsStillLoggedIn();
 };
 
@@ -120,7 +121,7 @@ ClassLogin.prototype.goToFinder = function() {
     window.location.href = "moin";
 };
 ClassLogin.prototype.goToIndex = function() {
-    window.location.href = "../../../welcome";
+    window.location.href = "welcome";
 };
 ClassLogin.prototype.displayWrongPasswordMessage = function() {
     var display = "";
