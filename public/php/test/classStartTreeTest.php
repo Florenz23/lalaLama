@@ -70,10 +70,10 @@ class classStartTreeTest extends classDbTestMain {
 		$expected_value = (string) $this->start_tree_result[0];
 		$this->assertSame($expected_value, $given_value, 'pid');
 		$given_value = $this->select_struct_result[2]->pid;
-		$expected_value = (string) $this->start_tree_result[0];
+		$expected_value = (string) $this->start_tree_result[1];
 		$this->assertSame($expected_value, $given_value, 'pid');
 		$given_value = $this->select_struct_result[3]->pid;
-		$expected_value = (string) $this->start_tree_result[0];
+		$expected_value = (string) $this->start_tree_result[1];
 		$this->assertSame($expected_value, $given_value, 'pid');
 	}
 

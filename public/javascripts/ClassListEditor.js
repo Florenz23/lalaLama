@@ -8,6 +8,7 @@
      this.update_answer = new ClassListEditorUpdateAnswer();
      this.delete_voc = new ClassListEditorDeleteVoc();
      this.save_new_voc = new ClassListEditorSaveNewVoc();
+     this.class_elastic = new ClassElastic();
      this.voc_div_id_prefix = "voc_div_";
      this.voc_div_class = "voc_div";
 
@@ -31,7 +32,7 @@
 
  ClassListEditor.prototype.dynamicInputListener = function() {
 
-     $(".answer_input").elastic();
+     this.class_elastic.iniElastic();
 
  };
 

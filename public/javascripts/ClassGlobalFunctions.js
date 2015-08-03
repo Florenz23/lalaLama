@@ -21,7 +21,7 @@ ClassGlobalFunctions.prototype.readTextFile = function(file) {
 };
 
 ClassGlobalFunctions.prototype.getListObject = function() {
-    var path = "/trainer/units/myUnit00/spec/json_files/listObject.txt";
+    var path = "spec/json_files/listObject.txt";
     var data = this.readTextFile(path);
     return data;
 };

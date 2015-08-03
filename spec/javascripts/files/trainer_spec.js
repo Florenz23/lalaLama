@@ -1,4 +1,4 @@
-xdescribe("ClassTrainer***", function() {
+ddescribe("ClassTrainer***", function() {
     var class_ajax = new ClassAjax();
     var class_trainer_info = new ClassTrainerInfo();
     var class_db_test_list = new ClassDbTestList();

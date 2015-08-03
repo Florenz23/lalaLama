@@ -326,7 +326,7 @@ describe("ClassDisplayList***", function() {
                 var answer_main_div_id = voc_div_id + " ." + class_display_list.answer_main_div_class;
                 var voc_menu_div_id = voc_div_id + " ." + class_display_list.voc_menu_div_class;
                 it("should behave...", function() {
-                    var max_div_height = class_div_height_setter.getHighestDivValue(voc_nr) - 40;
+                    var max_div_height = class_div_height_setter.getHighestDivValue(voc_nr) - 10;
                     var question_main_div_height = $(question_main_div_id).height();
                     var answer_main_div_height = $(answer_main_div_id).height();
                     var voc_menu_div_height = $(voc_menu_div_id).height();

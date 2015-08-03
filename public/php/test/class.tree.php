@@ -47,6 +47,13 @@ class tree {
 				$this->db = db::get( 'mysqli://'.$user.'@'.$host.'/'.$db );
 				return;
 			}
+			if ( $server_address == "127.0.0.1" ) {
+				$host = "localhost";
+				$user = "root";
+				$db = "test";
+				$this->db = db::get( 'mysqli://'.$user.'@'.$host.'/'.$db );
+				return;
+			}
 			$host = "db.planet-school.de";
 			$user = "m8282-2";
 			$db = "m8282-2";

@@ -1,4 +1,4 @@
-ddescribe("ClassListEditorDeleteVoc***", function() {
+describe("ClassListEditorDeleteVoc***", function() {
     var trainer_info = new ClassTrainerInfo();
     var class_ajax = new ClassAjax();
     var class_display_list = new ClassDisplayList();

@@ -82,6 +82,13 @@ class classTrainerInfo {
 				$this->db = "test";
 				return;
 			}
+			if ( $server_address == "127.0.0.1" ) {
+				$this->host = "localhost";
+				$this->user = "root";
+				$this->pass = "";
+				$this->db = "test";
+				return;
+			}
 			// $this->host = "db.planet-school.de";
 			// $this->user = "m8282-2";
 			// $this->pass = "aexohjee";

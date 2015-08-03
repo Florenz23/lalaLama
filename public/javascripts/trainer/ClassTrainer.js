@@ -234,7 +234,6 @@ ClassTrainer.prototype.displayOk = function() {
         }
         help = 1;
     }
-    console.log(counter);
 
 };
 ClassTrainer.prototype.checkOkArray = function(ok_array) {

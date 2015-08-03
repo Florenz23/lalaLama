@@ -74,6 +74,8 @@
         this.new_voc_answer_div_option = "new_voc_answer_div_option";
         this.new_voc_answer_input_option = "new_voc_answer_input_option";
         this.new_voc_answer_input_class_option = "new_voc_answer_input_option";
+        this.new_voc_answer_delete_button_class = "new_voc_answer_delete_button";
+        this.new_voc_answer_delete_button_id_prefix = "new_voc_answer_delete_button_";
         this.new_voc_delete_button_id_prefix = "new_voc_delete_button_";
         this.new_voc_delete_button_class = "new_voc_delete_button";
 

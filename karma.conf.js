@@ -67,7 +67,7 @@ module.exports = function(config) {
         port: 9876,
 
         proxies: {
-            '/': 'http://localhost/'
+            '/': 'http://localhost/trainer/units/myUnit00/'
         },
 
 
@@ -86,7 +86,7 @@ module.exports = function(config) {
 
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: ['Firefox'],
+        browsers: ['Chrome'],
 
 
         // Continuous Integration mode

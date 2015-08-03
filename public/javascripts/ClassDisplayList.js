@@ -135,6 +135,12 @@ ClassDisplayList.prototype.displayListJson = function() {
     this.createListHtml(json_data);
 
 };
+ClassDisplayList.prototype.displayNewAddedVoc = function() {
+
+    var json_data = this.json_data;
+    this.createListHtml(json_data);
+
+};
 
 ClassDisplayList.prototype.createListHtml = function(json_data) {
     var html = "";
@@ -183,7 +189,6 @@ ClassDisplayList.prototype.createQuestionMainDiv = function(voc_obj) {
     html += " </div>";
     $("#" + this.voc_div_id_prefix + voc_obj.voc_id).append(html);
 };
-
 ClassDisplayList.prototype.createQuestionDiv = function(voc_obj) {
     var html = "";
     html += "<div id='" + this.question_div_id_prefix + voc_obj.voc_id + "'";
@@ -194,13 +199,13 @@ ClassDisplayList.prototype.createQuestionDiv = function(voc_obj) {
 
 ClassDisplayList.prototype.createQuestionInput = function(voc_obj) {
     var html = "";
-    html += " <form class='" + this.voc_form_class + "'>";
-    html += "<textarea";
-    html += " id='" + this.question_input_id_prefix + voc_obj.voc_id + "'";
-    html += " class='" + this.question_input_class + "'>";
+    html += "<form class='" + this.voc_form_class + "'>";
+    html += "<textarea ";
+    html += "id='" + this.question_input_id_prefix + voc_obj.voc_id + "'";
+    html += "class='" + this.question_input_class + "'>";
     html += voc_obj.question;
-    html += " </textarea>";
-    html += "  </form>";
+    html += "</textarea>";
+    html += "</form>";
     $("#" + this.question_div_id_prefix + voc_obj.voc_id).append(html);
 };
 
@@ -221,9 +226,7 @@ ClassDisplayList.prototype.createAnswerMain = function(i, json_data) {
     while (json_data[i] && json_data[i].voc_id == recent_json_data_voc_id) {
         this.createAnswerDiv(json_data[i]);
         this.createAnswerInput(json_data[i]);
-        if (check_first) {
-            this.createAnswerDeleteButton(json_data[i]);
-        }
+        this.createAnswerDeleteButton(json_data[i]);
         i++;
         check_first = true;
     }
@@ -246,8 +249,8 @@ ClassDisplayList.prototype.createAnswerInput = function(voc_obj) {
     html += " id='" + this.answer_input_id_prefix + voc_obj.answer_id + "'";
     html += " class='" + this.answer_input_class + "'>";
     html += voc_obj.answer;
-    html += " </textarea>";
-    html += " </form>";
+    html += "</textarea>";
+    html += "</form>";
     $("#" + this.answer_div_id_prefix + voc_obj.answer_id).append(html);
 };
 

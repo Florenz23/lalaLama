@@ -113,7 +113,7 @@ ClassListEditorAnswerEdit.prototype.createNewAnswerHtml = function() {
     var new_answer_prefix = this.new_answer_prefix;
     var html = "";
     html += "<div id='" + this.answer_div_id_prefix + answer_nr + "'";
-    html += "class='" + this.answer_div_class + "'>";
+    html += " class='" + this.answer_div_class + "'>";
     html += " <form class='" + this.voc_form_class + "'>";
     html += "<textarea";
     html += " id='" + new_answer_prefix + this.answer_input_id_prefix + answer_nr + "'";
@@ -128,7 +128,7 @@ ClassListEditorAnswerEdit.prototype.createSavedAnswerInput = function(answer_id,
     var answer_main_div_id = this.answer_main_div_id_prefix + this.voc_id;
     var html = "";
     html += "<div id='" + this.answer_div_id_prefix + answer_id + "'";
-    html += "class='" + this.answer_div_class + "'>";
+    html += " class='" + this.answer_div_class + "'>";
     html += " <form class='" + this.voc_form_class + "'>";
     html += "<textarea";
     html += " id='" + this.answer_input_id_prefix + answer_id + "'";
@@ -159,22 +159,12 @@ ClassListEditorAnswerEdit.prototype.addDeleteAnswerListener = function() {
     });
 };
 
-ClassListEditorAnswerEdit.prototype.addDeleteAnswerListener = function() {
-    var answer_delete_button_class = this.answer_delete_button_class;
-    var class_new_voc = this;
-    $('.' + answer_delete_button_class).unbind('click');
-    $("." + answer_delete_button_class).click(function() {
-        class_new_voc.deleteAnswer();
-    });
-};
-
 ClassListEditorAnswerEdit.prototype.addDeleteNewAnswerDivListener = function() {
     var answer_delete_button_class = this.answer_delete_button_class;
     var class_new_voc = this;
     $('.' + answer_delete_button_class).unbind('click');
     $("." + answer_delete_button_class).click(function() {
-        class_new_voc.deleteAnswerDiv();
-        class_new_voc.deleteAnswerOfDb();
+        class_new_voc.deleteAnswer();
     });
 };
 
@@ -203,13 +193,6 @@ ClassListEditorAnswerEdit.prototype.createNewAnswerDeleteButton = function() {
 };
 
 
-ClassListEditorAnswerEdit.prototype.deleteAnswerDiv = function() {
-    var voc_id = this.voc_id;
-    var answer_div_id = this.answer_div_id_prefix + this.answer_id;
-    $("#" + answer_div_id).remove();
-    this.div_height_setter.setMainDivHeightByVocId(voc_id);
-    this.answer_counter = 0;
-};
 
 
 ClassListEditorAnswerEdit.prototype.cleanInputField = function() {
@@ -226,8 +209,31 @@ ClassListEditorAnswerEdit.prototype.getAnswerValue = function() {
 
 };
 ClassListEditorAnswerEdit.prototype.deleteAnswer = function() {
-    this.deleteAnswerDiv();
-    this.deleteAnswerOfDb();
+    if (this.checkIfAnswerCanBeDeleted() === true) {
+        this.deleteAnswerDiv();
+        this.deleteAnswerOfDb();
+        return true;
+    }
+    return false;
+};
+ClassListEditorAnswerEdit.prototype.checkIfAnswerCanBeDeleted = function() {
+
+    if (this.checkAmountOfRemainingAnswers() <= 1) {
+        return false;
+    }
+    return true;
+};
+ClassListEditorAnswerEdit.prototype.checkAmountOfRemainingAnswers = function() {
+    var answer_main_div_id = this.answer_main_div_id_prefix + this.voc_id;
+    var number_of_remaining_answers = $("#" + answer_main_div_id + " .answer_input").length;
+    return number_of_remaining_answers;
+};
+ClassListEditorAnswerEdit.prototype.deleteAnswerDiv = function() {
+    var voc_id = this.voc_id;
+    var answer_div_id = this.answer_div_id_prefix + this.answer_id;
+    $("#" + answer_div_id).remove();
+    this.div_height_setter.setMainDivHeightByVocId(voc_id);
+    this.answer_counter = 0;
 };
 ClassListEditorAnswerEdit.prototype.selectNewAnswer = function() {
     var new_input_id = this.new_answer_prefix + this.answer_input_id_prefix + 1;
