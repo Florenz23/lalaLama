@@ -53,8 +53,6 @@ class classDbFunctions extends classDbChecker {
 		return false;
 	}
 
-
-
 	function createQueryInsertValues($data) {
 		$query = "INSERT INTO `" . $this->db . "`.`" . $data['table'] . "` (";
 		foreach ($data['values'] as $key => $value) {
@@ -101,7 +99,8 @@ class classDbFunctions extends classDbChecker {
 		}
 		return $query_answer;
 	}
-	function getValue($data) {
+	function getSingleValue($data) {
+
 		$query = "SELECT `" . $data['table'] . "`.`" . $data['key'] . "` FROM `" . $this->db . "`.`" . $data['table'] . "` WHERE `" . $data['table'] . "`. `" . $data['primary'] . "` = '" . $data['primary_value'] . "';";
 		$query_answer = $this->checkQuery($query);
 		if ($query_answer) {

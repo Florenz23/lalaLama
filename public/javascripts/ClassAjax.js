@@ -1,7 +1,7 @@
 function ClassAjax() {
     ClassTrainerInfo.call(this);
-    this.ajax_php_file = "/trainer/units/myUnit00/public/php/test/classDbFunctions.php";
-    this.trainer_php_file = "/trainer/units/myUnit00/public/php/test/classTrainerFunctions.php";
+    this.ajax_php_file = "public/php/test/classDbFunctions.php";
+    this.trainer_php_file = "public/php/test/classTrainerFunctions.php";
 }
 
 ClassAjax.prototype.setDatabase = function(new_database) {

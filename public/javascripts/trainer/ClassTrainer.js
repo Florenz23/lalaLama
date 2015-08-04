@@ -34,59 +34,7 @@ ClassTrainer.prototype.display = function() {
 
 };
 
-ClassTrainer.prototype.addListener = function() {
 
-    this.addCheckAnswerListener();
-    this.addCorrectAnswerListener();
-    this.addDecreasePoolsizeListener();
-    this.addIncreasePoolsizeListener();
-
-};
-
-ClassTrainer.prototype.addDecreasePoolsizeListener = function() {
-    var trainer = this;
-    $("#" + this.decrease_poolsize).click(function(event) {
-        trainer.decreasePoolsize();
-    });
-};
-ClassTrainer.prototype.addIncreasePoolsizeListener = function() {
-    var trainer = this;
-    $("#" + this.increase_poolsize).click(function(event) {
-        trainer.increasePoolsize();
-    });
-};
-
-ClassTrainer.prototype.addCorrectAnswerListener = function() {
-    var trainer = this;
-    $("#" + this.answer_check_button_id).click(function(event) {
-        trainer.check();
-    });
-};
-ClassTrainer.prototype.addCheckAnswerListener = function() {
-    var trainer = this;
-    $("#" + this.answer_accept_button_id).click(function(event) {
-        trainer.correct_answer();
-    });
-};
-
-ClassTrainer.prototype.addAnwerTextareaListener = function() {
-    var trainer = this;
-    $("#" + this.answer_textarea_id).keypress(function(event) {
-        var keycode = (event.keyCode ? event.keyCode : event.which);
-        if (keycode == '13') {
-            event.preventDefault();
-            trainer.check();
-        }
-    });
-    $("#" + this.answer_textarea_id).keydown(function(event) {
-        var keycode = (event.keyCode ? event.keyCode : event.which);
-        if (keycode == '9') {
-            event.preventDefault();
-            trainer.correct_answer();
-        }
-    });
-
-};
 
 $.urlParam = function(name) {
     var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -103,29 +51,208 @@ $('textarea').bind('keypress', function(e) {
     }
 });
 
-ClassTrainer.prototype.stripSpaces = function(string) {
 
-    var nstring = string.replace(/^\s+/g, "");
-    nstring = nstring.replace(/\s+$/g, "");
+ClassTrainer.prototype.check = function() {
 
-    return nstring;
+    this.display();
+    this.addListener();
+
+    //alert(step);
+    if (this.vocs_loaded === true) {
+        if (this.ismulti) {
+            var display = "";
+            $('#communication').html(display);
+
+            switch (this.step) {
+                case 1:
+                    this.check_multi();
+                    break;
+
+                case 2:
+                    this.step = 1;
+                    this.jumpToNextVoc();
+                    break;
+            }
+        } else {
+            switch (this.step) {
+                case 1:
+                    this.check_old();
+                    break;
+
+                case 2:
+                    this.incorrect_answer();
+                    break;
+
+                case 3:
+                    this.still = 1;
+                    this.incorrect_answer();
+                    this.setfocus();
+                    break;
+            }
+        }
+
+    }
+
+    if (this.vocs_loaded === false) {
+        if (!this.loadData()) {
+            $("#" + this.answer_textarea_id).val("Du kannst doch schon alle Voks dieser Liste...");
+        }
+    }
+
+    if (this.step === 0) {
+        this.step = 1;
+    }
+};
+
+ClassTrainer.prototype.check_multi = function() {
+
+    var multi_choice = new ClassTrainerMultiChoice(this.poolnode, this.vocllist);
+    multi_choice.ClassTrainerMultiChoice();
 
 };
 
-
-ClassTrainer.prototype.sortfunction = function(a, b) {
-    //Compare "a" and "b" in some fashion, and return -1, 0, or 1
-    return (b.maximportance - a.maximportance);
+ClassTrainer.prototype.jumpToNextVoc = function() {
+    this.displayOk();
+    if (this.vocpool.length > 0) {
+        this.poolnode = this.poolnode.next;
+        this.updatequestion();
+        this.setRemainingVocsToLearn();
+    } else {
+        this.step = 4; // so that nothing happens after pushing the Check/Accept button
+        this.list_is_finished = true;
+        $("#" + this.answer_textarea_id).val("Geeeeeil, diese Liste ist beendet!");
+        $("#" + this.answer_textarea_id).css({
+            color: "green"
+        });
+        $("#" + this.answer_textarea_id).prop("readonly", true);
+    }
 };
 
-ClassTrainer.prototype.sort_importance = function() {
-    var temp = this.vocllist.toArray();
-    temp.sort(this.sortfunction);
-    this.vocllist = LinkedList.Circular.fromArray(temp);
+ClassTrainer.prototype.check_old = function() {
+    var nanswers = 0;
+    var correct = 0;
+    var i = 0;
+    var answers = [];
+    var display = "";
+    var display_answers = "";
+    var uanswer_temp = $("#answer").val();
+    var uanswer = uanswer_temp.replace(/\n/g, "");
+    // doppelte Leerzeichen entfernen
+    uanswer = uanswer.replace(/\s+/g, " ");
+    // Leerzeichen am Anfang und Ende entfernen
+    uanswer = this.stripSpaces(uanswer);
+    nanswers = this.poolnode.data.answer.length;
+    answers = this.poolnode.data.answer;
+
+    for (i = 0; i < nanswers; i++) // Check if the answer is correct
+    {
+        if ((uanswer == this.stripSpaces(answers[i])) && (!this.already_answered(i))) {
+            this.poolnode.data.correct(i);
+            this.correctanswers.push(i);
+            var answer = this.poolnode.data.answer[i];
+            if (nanswers != 1) {
+                this.trainer_display.displayCorrectAnswerInAnswerBox(answer);
+            }
+            if (this.correctanswers.length == nanswers) // If the number of answers left is 0
+            {
+                this.question_finished();
+                var smallerzero = this.checkAnswersForRatingSmallerMinusOne();
+                if (smallerzero && (this.vocpool.length > 1)) // If one of the current ratings is <0 the voc comes back to the list
+                {
+                    this.vocllist.insertAfter(this.vocllist.skip(this.node, this.skipn), new LinkedList.Node(this.poolnode.data));
+                }
+                this.calculateRating();
+                var allcorrect = this.checkIfEveryAnswerIsCorrectlyAnswered(nanswers);
+
+                if (allcorrect) {
+                    this.updatepool();
+                }
+                this.jumpToNextVoc();
+                correct = 1;
+
+                break;
+            } else {
+                // if the number of answers left is >0
+                this.tellUserNumberOfRemainingAnswers(nanswers);
+                this.still = 1;
+                correct = 1;
+                this.setfocus();
+                break;
+            }
+
+        }
+        if ((uanswer == answers[i]) && (this.already_answered(i))) {
+            correct = this.handleAlreadyGivenAnswer();
+            break;
+        }
+
+    }
+    if (correct === 0) {
+        this.handleIncorrectAnswer(nanswers);
+    }
 };
-ClassTrainer.prototype.displayCheckValues = function() {
-    this.trainer_display_check.displayCheckValues(this.vocpool, this.vocllist);
+
+ClassTrainer.prototype.checkAnswersForRatingSmallerMinusOne = function() {
+    var smallerzero;
+    for (i = 0; i < this.poolnode.data.answer.length; i++) {
+        if (this.poolnode.data.rating[i] <= -1) {
+            smallerzero = 1;
+        }
+    }
+    return smallerzero;
+
 };
+
+ClassTrainer.prototype.checkIfEveryAnswerIsCorrectlyAnswered = function(nanswers) {
+
+    var allcorrect = 1;
+    for (i = 0; i < nanswers; i++) {
+        if (this.poolnode.data.ok[i] === 0) {
+            allcorrect = 0;
+        }
+    }
+    return allcorrect;
+
+};
+
+ClassTrainer.prototype.tellUserNumberOfRemainingAnswers = function(nanswers) {
+    var display;
+    if ((nanswers - this.correctanswers.length) == 1) {
+        display = ("Correct, 1 answer remaining.");
+    } else {
+        display = ("Correct, " + (nanswers - this.correctanswers.length) + " answers remaining.");
+    }
+    $('#communication').html(display);
+
+};
+ClassTrainer.prototype.handleAlreadyGivenAnswer = function() {
+
+    var display = ("This answer was already given");
+    $('#communication').html(display);
+    this.setfocus();
+    var correct = 1;
+    return correct;
+
+};
+
+ClassTrainer.prototype.handleIncorrectAnswer = function(nanswers) {
+    // if the user's answer was incorrect
+    this.step = 2;
+    if (nanswers == 1) // if there is only one answer
+    {
+        this.poolnode.data.ok[0] = 0;
+        this.question_finished();
+    } else // if there are multiple answers
+    {
+        this.correct_answer();
+    }
+};
+
+
+
+
+
+
 
 
 
@@ -187,6 +314,32 @@ ClassTrainer.prototype.updatequestion = function() {
     this.displayCheckValues();
 };
 
+ClassTrainer.prototype.stripSpaces = function(string) {
+
+    var nstring = string.replace(/^\s+/g, "");
+    nstring = nstring.replace(/\s+$/g, "");
+
+    return nstring;
+
+};
+
+
+ClassTrainer.prototype.sortfunction = function(a, b) {
+    //Compare "a" and "b" in some fashion, and return -1, 0, or 1
+    return (b.maximportance - a.maximportance);
+};
+
+ClassTrainer.prototype.sort_importance = function() {
+    var temp = this.vocllist.toArray();
+    temp.sort(this.sortfunction);
+    this.vocllist = LinkedList.Circular.fromArray(temp);
+};
+ClassTrainer.prototype.displayCheckValues = function() {
+    this.trainer_display_check.displayCheckValues(this.vocpool, this.vocllist);
+};
+
+
+
 ClassTrainer.prototype.set_multi_choice = function(i) {
     var textfield = "choice" + i;
     if ($("#" + textfield).val() === 0) {
@@ -204,22 +357,7 @@ ClassTrainer.prototype.setfocus = function() {
     $("#answer").val("");
 };
 
-ClassTrainer.prototype.jumpToNextVoc = function() {
-    this.displayOk();
-    if (this.vocpool.length > 0) {
-        this.poolnode = this.poolnode.next;
-        this.updatequestion();
-        this.setRemainingVocsToLearn();
-    } else {
-        this.step = 4; // so that nothing happens after pushing the Check/Accept button
-        this.list_is_finished = true;
-        $("#" + this.answer_textarea_id).val("Geeeeeil, diese Liste ist beendet!");
-        $("#" + this.answer_textarea_id).css({
-            color: "green"
-        });
-        $("#" + this.answer_textarea_id).prop("readonly", true);
-    }
-};
+
 ClassTrainer.prototype.displayOk = function() {
 
     var vocpool_value = "";
@@ -426,147 +564,9 @@ ClassTrainer.prototype.check_importance = function() {
 
 };
 
-ClassTrainer.prototype.check_old = function() {
-    var nanswers = 0;
-    var correct = 0;
-    var i = 0;
-    var answers = [];
-    var display = "";
-    var display_answers = "";
-    var uanswer_temp = $("#answer").val();
-    var uanswer = uanswer_temp.replace(/\n/g, "");
-    // doppelte Leerzeichen entfernen
-    uanswer = uanswer.replace(/\s+/g, " ");
-    // Leerzeichen am Anfang und Ende entfernen
-    uanswer = this.stripSpaces(uanswer);
-    nanswers = this.poolnode.data.answer.length;
-    answers = this.poolnode.data.answer;
 
-    for (i = 0; i < nanswers; i++) // Check if the answer is correct
-    {
-        if ((uanswer == this.stripSpaces(answers[i])) && (!this.already_answered(i))) {
-            this.poolnode.data.correct(i);
-            this.correctanswers.push(i);
-            var answer = this.poolnode.data.answer[i];
-            if (nanswers != 1) {
-                this.trainer_display.displayCorrectAnswerInAnswerBox(answer);
-            }
-            if (this.correctanswers.length == nanswers) // If the number of answers left is 0
-            {
-                this.question_finished();
-                var smallerzero = 0;
-                for (i = 0; i < this.poolnode.data.answer.length; i++) {
-                    if (this.poolnode.data.rating[i] <= -1) {
-                        smallerzero = 1;
-                    }
-                }
-                if (smallerzero && (this.vocpool.length > 1)) // If one of the current ratings is <0 the voc comes back to the list
-                {
-                    this.vocllist.insertAfter(this.vocllist.skip(this.node, this.skipn), new LinkedList.Node(this.poolnode.data));
-                }
-                this.calculateRating();
-                var allcorrect = 1;
-                for (i = 0; i < nanswers; i++) {
-                    if (this.poolnode.data.ok[i] === 0) {
-                        allcorrect = 0;
-                    }
-                }
 
-                if (allcorrect) {
-                    this.updatepool();
-                }
-                this.jumpToNextVoc();
-                correct = 1;
 
-                break;
-            } else // if the number of answers left is >0
-            {
-                if ((nanswers - this.correctanswers.length) == 1) {
-                    display = ("Correct, 1 answer remaining.");
-                } else {
-                    display = ("Correct, " + (nanswers - this.correctanswers.length) + " answers remaining.");
-                }
-                $('#communication').html(display);
-                this.still = 1;
-                correct = 1;
-                this.setfocus();
-                break;
-            }
-
-        }
-        if ((uanswer == answers[i]) && (this.already_answered(i))) {
-            display = ("This answer was already given");
-            $('#communication').html(display);
-            this.setfocus();
-            correct = 1;
-            break;
-        }
-
-    }
-    if (correct === 0) // if the user's answer was incorrect
-    {
-        this.step = 2;
-        if (nanswers == 1) // if there is only one answer
-        {
-            this.poolnode.data.ok[0] = 0;
-            this.question_finished();
-        } else // if there are multiple answers
-        {
-            this.correct_answer();
-        }
-    }
-};
-
-ClassTrainer.prototype.check_multi = function() {
-    var nanswers = this.poolnode.data.answer.length;
-    var user_choice = [];
-    var choice, textfield;
-    // Get the users choices out of the hidden textareas
-    for (var i = 0; i < nanswers; i++) {
-        textfield = "choice" + i;
-        choice = $("#" + textfield).val();
-        user_choice.push(choice);
-    }
-
-    // compare the users choices with the correct answer:
-    var correct_choice = this.poolnode.data.multi_choice;
-    var iscorrect = 1;
-    for (i = 0; i < nanswers; i++) {
-        if (user_choice[i] != correct_choice[i]) {
-            iscorrect = 0;
-        }
-        if (correct_choice[i] == 1) {
-            $("#" + i).css("background-color", '#00A000');
-            if (user_choice[i] === 0) {
-
-                $("#" + i).style.border = '2px solid #F00000';
-            }
-        } else {
-            if (user_choice[i] === 0) {
-                $("#" + i).css("background-color", '#eee');
-            } else {
-                $("#" + i).css("background-color", '#F00000');
-            }
-        }
-    }
-    if (iscorrect) {
-        for (i = 0; i < nanswers; i++) {
-            this.poolnode.data.correct(i);
-        }
-        if ((this.poolnode.data.rating[0] <= -1) && (this.vocpool.length > 1)) // If one of the current ratings is <0 the voc comes back to the list
-        {
-            this.vocllist.insertAfter(this.vocllist.skip(this.node, this.skipn), new LinkedList.Node(this.poolnode.data));
-        }
-        this.calculateRating();
-        this.updatepool();
-    } else {
-        for (i = 0; i < nanswers; i++) {
-            this.poolnode.data.incorrect(i);
-        }
-        this.calculateRating();
-    }
-    this.step = 2;
-};
 ClassTrainer.prototype.incorrect_answer = function() {
     var display = "";
     var display_answers = "";
@@ -635,76 +635,7 @@ ClassTrainer.prototype.question_finished = function() {
     $('#communication').html(display);
 };
 
-ClassTrainer.prototype.levenshtein = function(s1, s2) {
-    // http://kevin.vanzonneveld.net
-    // +            original by: Carlos R. L. Rodrigues (http://www.jsfromhell.com)
-    // +            bugfixed by: Onno Marsman
-    // +             revised by: Andrea Giammarchi (http://webreflection.blogspot.com)
-    // + reimplemented by: Brett Zamir (http://brett-zamir.me)
-    // + reimplemented by: Alexander M Beedie
-    // *                example 1: levenshtein('Kevin van Zonneveld', 'Kevin van Sommeveld');
-    // *                returns 1: 3
-    if (s1 == s2) {
-        return 0;
-    }
 
-    var s1_len = s1.length;
-    var s2_len = s2.length;
-    if (s1_len === 0) {
-        return s2_len;
-    }
-    if (s2_len === 0) {
-        return s1_len;
-    }
-
-    // BEGIN STATIC
-    var split = false;
-    try {
-        split = !('0')[0];
-    } catch (e) {
-        split = true; // Earlier IE may not support access by string index
-    }
-    // END STATIC
-    if (split) {
-        s1 = s1.split('');
-        s2 = s2.split('');
-    }
-
-    var v0 = new Array(s1_len + 1);
-    var v1 = new Array(s1_len + 1);
-
-    var s1_idx = 0,
-        s2_idx = 0,
-        cost = 0;
-    for (s1_idx = 0; s1_idx < s1_len + 1; s1_idx++) {
-        v0[s1_idx] = s1_idx;
-    }
-    var char_s1 = '',
-        char_s2 = '';
-    for (s2_idx = 1; s2_idx <= s2_len; s2_idx++) {
-        v1[0] = s2_idx;
-        char_s2 = s2[s2_idx - 1];
-
-        for (s1_idx = 0; s1_idx < s1_len; s1_idx++) {
-            char_s1 = s1[s1_idx];
-            cost = (char_s1 == char_s2) ? 0 : 1;
-            var m_min = v0[s1_idx + 1] + 1;
-            var b = v1[s1_idx] + 1;
-            var c = v0[s1_idx] + cost;
-            if (b < m_min) {
-                m_min = b;
-            }
-            if (c < m_min) {
-                m_min = c;
-            }
-            v1[s1_idx + 1] = m_min;
-        }
-        var v_tmp = v0;
-        v0 = v1;
-        v1 = v_tmp;
-    }
-    return v0[s1_len];
-};
 
 ClassTrainer.prototype.stringcompare = function(input, control) {
 
@@ -804,57 +735,6 @@ ClassTrainer.prototype.correct_answer = function() {
 };
 
 
-ClassTrainer.prototype.check = function() {
-
-    this.display();
-    this.addListener();
-
-    //alert(step);
-    if (this.vocs_loaded === true) {
-        if (this.ismulti) {
-            var display = "";
-            $('#communication').html(display);
-
-            switch (this.step) {
-                case 1:
-                    this.check_multi();
-                    break;
-
-                case 2:
-                    this.step = 1;
-                    this.jumpToNextVoc();
-                    break;
-            }
-        } else {
-            switch (this.step) {
-                case 1:
-                    this.check_old();
-                    break;
-
-                case 2:
-                    this.incorrect_answer();
-                    break;
-
-                case 3:
-                    this.still = 1;
-                    this.incorrect_answer();
-                    this.setfocus();
-                    break;
-            }
-        }
-
-    }
-
-    if (this.vocs_loaded === false) {
-        if (!this.loadData()) {
-            $("#" + this.answer_textarea_id).val("Du kannst doch schon alle Voks dieser Liste...");
-        }
-    }
-
-    if (this.step === 0) {
-        this.step = 1;
-    }
-};
 
 ClassTrainer.prototype.decreasePoolsize = function() {
     if (this.poolsize == this.poolsize_min) {
@@ -888,5 +768,64 @@ ClassTrainer.prototype.getUrlParameter = function(sParam) {
             return sParameterName[1];
         }
     }
+
+};
+
+ClassTrainer.prototype.levenshtein = function(s1, s2) {
+    var class_compare_algo = new ClassTrainerCompareAlgo();
+    class_compare_algo.compareAnswers(s1, s2);
+};
+
+ClassTrainer.prototype.addListener = function() {
+
+    this.addCheckAnswerListener();
+    this.addCorrectAnswerListener();
+    this.addDecreasePoolsizeListener();
+    this.addIncreasePoolsizeListener();
+
+};
+
+ClassTrainer.prototype.addDecreasePoolsizeListener = function() {
+    var trainer = this;
+    $("#" + this.decrease_poolsize).click(function(event) {
+        trainer.decreasePoolsize();
+    });
+};
+ClassTrainer.prototype.addIncreasePoolsizeListener = function() {
+    var trainer = this;
+    $("#" + this.increase_poolsize).click(function(event) {
+        trainer.increasePoolsize();
+    });
+};
+
+ClassTrainer.prototype.addCorrectAnswerListener = function() {
+    var trainer = this;
+    $("#" + this.answer_check_button_id).click(function(event) {
+        trainer.check();
+    });
+};
+ClassTrainer.prototype.addCheckAnswerListener = function() {
+    var trainer = this;
+    $("#" + this.answer_accept_button_id).click(function(event) {
+        trainer.correct_answer();
+    });
+};
+
+ClassTrainer.prototype.addAnwerTextareaListener = function() {
+    var trainer = this;
+    $("#" + this.answer_textarea_id).keypress(function(event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            event.preventDefault();
+            trainer.check();
+        }
+    });
+    $("#" + this.answer_textarea_id).keydown(function(event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '9') {
+            event.preventDefault();
+            trainer.correct_answer();
+        }
+    });
 
 };

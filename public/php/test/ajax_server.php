@@ -39,6 +39,10 @@ class ajax_server {
 			}
 		}
 	}
+	public function getValue( $data ) {
+		$check_result = $this->db_functions->getSingleValue( $data['data'] );
+		return $check_result;
+	}
 	public function classListEditorUpdateQuestion( $data ) {
 		$send_data['table'] = $this->trainer_info->voc_table->name;
 		$send_data['key'] = $this->trainer_info->voc_table->question_row;

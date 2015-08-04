@@ -187,6 +187,8 @@ ddescribe("ClassTrainer***", function() {
             trainer.probable_answer = 0;
             trainer.check();
             trainer.vocllist.at(0).data.right = [0];
+            trainer.vocllist.at(0).data.wrong = [0];
+            trainer.vocllist.at(0).data.rating = [0];
             trainer.check();
             trainer.correct_answer();
         });
@@ -232,7 +234,7 @@ ddescribe("ClassTrainer***", function() {
                     primary_value: answer_id,
                     key: class_trainer_info.voc_user_data_table.right_row
                 };
-                given_right = parseFloat(class_ajax.getValue(obj), 10);
+                given_right = class_ajax.masterAjaxFunction("getValue", obj);
                 expected_right = test_voc_object_1.right[0] + 1;
                 expect(given_right).toBe(expected_right);
             });
@@ -243,7 +245,7 @@ ddescribe("ClassTrainer***", function() {
                     primary_value: answer_id,
                     key: class_trainer_info.voc_user_data_table.wrong_row
                 };
-                given_wrong = parseFloat(class_ajax.getValue(obj), 10);
+                given_wrong = class_ajax.masterAjaxFunction("getValue", obj);
                 expected_wrong = test_voc_object_1.wrong[0];
                 expect(given_wrong).toBe(expected_wrong);
             });
@@ -254,10 +256,10 @@ ddescribe("ClassTrainer***", function() {
                     primary_value: answer_id,
                     key: class_trainer_info.voc_user_data_table.rating_row
                 };
-                given_right = parseFloat(class_ajax.getValue(obj), 10);
+                given_rating = class_ajax.masterAjaxFunction("getValue", obj);
                 expected_right = test_voc_object_1.rating[0] + 1;
                 expected_right = Math.round(expected_right * 10) / 10;
-                expect(given_right).toBe(expected_right);
+                expect(given_rating).toBe(expected_right);
             });
         });
     });
