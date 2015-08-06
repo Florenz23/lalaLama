@@ -56,7 +56,7 @@ class classTrainerFunctionsTest extends classDbTestMain {
 		$this->data_check['primary_value'] = $this->data['answer_id'][0];
 		$this->data_check['key'] = $this->trainer_info->voc_user_data_table->right_row;
 		$this->trainer_functions->trainerReSetVoc( $this->data );
-		$given_value = $this->trainer_functions->getValue( $this->data_check );
+		$given_value = $this->trainer_functions->getSingleValue( $this->data_check );
 		$expected_value = "0";
 		$this->assertSame( $given_value, $expected_value, "check first right" );
 	}

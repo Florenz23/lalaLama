@@ -127,7 +127,6 @@ ClassTrainerDisplay.prototype.displayCommendSingleAnswerWrong = function(questio
 
 ClassTrainerDisplay.prototype.displayCorrectAnswerInAnswerBox = function(answer) {
 
-    console.log("ja");
     var display = "";
     display += "<p style = 'color:green'>" + answer + "</p>";
     $('#correct_answers').append(display);
@@ -136,7 +135,6 @@ ClassTrainerDisplay.prototype.displayCorrectAnswerInAnswerBox = function(answer)
 
 
 ClassTrainerDisplay.prototype.displayWrongAnswerInAnswerBox = function(probable_answer) {
-    console.log("nein");
     var display = "";
     display += "<p style = 'color:red'>" + probable_answer + "</p>";
     $('#correct_answers').append(display);

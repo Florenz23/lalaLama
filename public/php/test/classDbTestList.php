@@ -59,6 +59,7 @@ class completeVocObject {
 		$this->wrong = $wrong;
 		$this->rating = $rating;
 		$this->last_access = 0;
+		$this->importance = 1.2345;
 	}
 }
 

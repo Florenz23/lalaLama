@@ -128,68 +128,79 @@ ClassTrainer.prototype.jumpToNextVoc = function() {
     }
 };
 
-ClassTrainer.prototype.check_old = function() {
-    var nanswers = 0;
+ClassTrainer.prototype.check_old = function(i) {
+    var current_poolnode_answer_array = this.poolnode.data.answer;
+    var number_of_answers = this.poolnode.data.answer.length;
     var correct = 0;
-    var i = 0;
-    var answers = [];
-    var display = "";
-    var display_answers = "";
+    var user_answer_input = this.getUserAnswerInput();
+    function_counter = typeof function_counter !== 'undefined' ? function_counter : 0;
+
+    for (i = function_counter; i < number_of_answers; i++) // Check if the answer is correct
+    {
+        if ((user_answer_input == this.stripSpaces(current_poolnode_answer_array[i])) && (!this.already_answered(i))) {
+            this.handleAnswerAsCorrect(i);
+            if (this.correctanswers.length == number_of_answers) {
+                // If the number of answers left is 0
+                this.userFinishedAllAnswersOfAVoc();
+                correct = 1;
+                break;
+            } else {
+                // if the number of answers left is >0
+                this.tellUserNumberOfRemainingAnswers();
+                this.still = 1;
+                correct = 1;
+                this.setfocus();
+                break;
+            }
+        }
+        if ((user_answer_input == current_poolnode_answer_array[i]) && (this.already_answered(i))) {
+            correct = this.handleAlreadyGivenAnswer();
+            break;
+        }
+    }
+    if (correct === 0) {
+        this.handleIncorrectAnswer();
+    }
+};
+
+ClassTrainer.prototype.getUserAnswerInput = function() {
+
+
     var uanswer_temp = $("#answer").val();
     var uanswer = uanswer_temp.replace(/\n/g, "");
     // doppelte Leerzeichen entfernen
     uanswer = uanswer.replace(/\s+/g, " ");
     // Leerzeichen am Anfang und Ende entfernen
     uanswer = this.stripSpaces(uanswer);
-    nanswers = this.poolnode.data.answer.length;
-    answers = this.poolnode.data.answer;
+    return uanswer;
 
-    for (i = 0; i < nanswers; i++) // Check if the answer is correct
+};
+ClassTrainer.prototype.handleAnswerAsCorrect = function(i) {
+    number_of_answers = this.poolnode.data.answer.length;
+    this.poolnode.data.correct(i);
+    this.correctanswers.push(i);
+    if (number_of_answers != 1) {
+        this.displayCorrectAnswerInDiv(i);
+    }
+};
+ClassTrainer.prototype.displayCorrectAnswerInDiv = function(i) {
+    answer = this.poolnode.data.answer[i];
+    this.trainer_display.displayCorrectAnswerInAnswerBox(answer);
+};
+ClassTrainer.prototype.userFinishedAllAnswersOfAVoc = function() {
+    this.question_finished();
+    var smallerzero = this.checkAnswersForRatingSmallerMinusOne();
+    if (smallerzero && (this.vocpool.length > 1)) // If one of the current ratings is <0 the voc comes back to the list
     {
-        if ((uanswer == this.stripSpaces(answers[i])) && (!this.already_answered(i))) {
-            this.poolnode.data.correct(i);
-            this.correctanswers.push(i);
-            var answer = this.poolnode.data.answer[i];
-            if (nanswers != 1) {
-                this.trainer_display.displayCorrectAnswerInAnswerBox(answer);
-            }
-            if (this.correctanswers.length == nanswers) // If the number of answers left is 0
-            {
-                this.question_finished();
-                var smallerzero = this.checkAnswersForRatingSmallerMinusOne();
-                if (smallerzero && (this.vocpool.length > 1)) // If one of the current ratings is <0 the voc comes back to the list
-                {
-                    this.vocllist.insertAfter(this.vocllist.skip(this.node, this.skipn), new LinkedList.Node(this.poolnode.data));
-                }
-                this.calculateRating();
-                var allcorrect = this.checkIfEveryAnswerIsCorrectlyAnswered(nanswers);
-
-                if (allcorrect) {
-                    this.updatepool();
-                }
-                this.jumpToNextVoc();
-                correct = 1;
-
-                break;
-            } else {
-                // if the number of answers left is >0
-                this.tellUserNumberOfRemainingAnswers(nanswers);
-                this.still = 1;
-                correct = 1;
-                this.setfocus();
-                break;
-            }
-
-        }
-        if ((uanswer == answers[i]) && (this.already_answered(i))) {
-            correct = this.handleAlreadyGivenAnswer();
-            break;
-        }
-
+        this.vocllist.insertAfter(this.vocllist.skip(this.node, this.skipn), new LinkedList.Node(this.poolnode.data));
     }
-    if (correct === 0) {
-        this.handleIncorrectAnswer(nanswers);
+    this.calculateRating();
+    var allcorrect = this.checkIfEveryAnswerIsCorrectlyAnswered();
+
+    if (allcorrect) {
+        this.updatepool();
     }
+    this.jumpToNextVoc();
 };
 
 ClassTrainer.prototype.checkAnswersForRatingSmallerMinusOne = function() {
@@ -203,10 +214,10 @@ ClassTrainer.prototype.checkAnswersForRatingSmallerMinusOne = function() {
 
 };
 
-ClassTrainer.prototype.checkIfEveryAnswerIsCorrectlyAnswered = function(nanswers) {
-
+ClassTrainer.prototype.checkIfEveryAnswerIsCorrectlyAnswered = function() {
+    var number_of_answers = this.poolnode.data.answer.length;
     var allcorrect = 1;
-    for (i = 0; i < nanswers; i++) {
+    for (i = 0; i < number_of_answers; i++) {
         if (this.poolnode.data.ok[i] === 0) {
             allcorrect = 0;
         }
@@ -215,12 +226,13 @@ ClassTrainer.prototype.checkIfEveryAnswerIsCorrectlyAnswered = function(nanswers
 
 };
 
-ClassTrainer.prototype.tellUserNumberOfRemainingAnswers = function(nanswers) {
+ClassTrainer.prototype.tellUserNumberOfRemainingAnswers = function() {
+    var number_of_answers = this.poolnode.data.answer.length;
     var display;
-    if ((nanswers - this.correctanswers.length) == 1) {
+    if ((number_of_answers - this.correctanswers.length) == 1) {
         display = ("Correct, 1 answer remaining.");
     } else {
-        display = ("Correct, " + (nanswers - this.correctanswers.length) + " answers remaining.");
+        display = ("Correct, " + (number_of_answers - this.correctanswers.length) + " answers remaining.");
     }
     $('#communication').html(display);
 
@@ -235,10 +247,11 @@ ClassTrainer.prototype.handleAlreadyGivenAnswer = function() {
 
 };
 
-ClassTrainer.prototype.handleIncorrectAnswer = function(nanswers) {
+ClassTrainer.prototype.handleIncorrectAnswer = function() {
+    var number_of_answers = this.poolnode.data.answer.length;
     // if the user's answer was incorrect
     this.step = 2;
-    if (nanswers == 1) // if there is only one answer
+    if (number_of_answers == 1) // if there is only one answer
     {
         this.poolnode.data.ok[0] = 0;
         this.question_finished();
@@ -429,6 +442,7 @@ ClassTrainer.prototype.loadData = function() {
     var list_id = this.getUrlParameter("list_arr");
     var json_data = this.getEncodedArray(list_id);
     voclist = json_data;
+
     if (voclist === false) {
         return false;
     }
@@ -461,6 +475,20 @@ ClassTrainer.prototype.loadData = function() {
     return true;
 };
 
+ClassTrainer.prototype.getEncodedArray = function(list_id) {
+    var operation = "classTrainerGetVocs";
+    var class_ajax = new ClassAjax();
+    var voclist;
+    if (!list_id) {
+        list_id = 7;
+    }
+    var send_obj = {
+        list_id: list_id
+    };
+    var json_data = class_ajax.masterAjaxFunction(operation, send_obj);
+    return json_data;
+};
+
 ClassTrainer.prototype.setVocsToLearn = function() {
 
     this.vocs_to_learn = this.vocllist.length;
@@ -485,19 +513,7 @@ ClassTrainer.prototype.checkkIfAllArrayValuesAreNotNull = function(array) {
     return true;
 };
 
-ClassTrainer.prototype.getEncodedArray = function(list_id) {
-    var operation = "classTrainerGetVocs";
-    var class_ajax = new ClassAjax();
-    var voclist;
-    if (!list_id) {
-        list_id = 7;
-    }
-    var send_obj = {
-        list_id: list_id
-    };
-    var json_data = class_ajax.masterAjaxFunction(operation, send_obj);
-    return json_data;
-};
+
 
 ClassTrainer.prototype.already_answered = function(n) {
     var already = 0;

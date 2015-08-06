@@ -1,4 +1,4 @@
-ddescribe("ClassTrainer***", function() {
+describe("ClassTrainer***", function() {
     var class_ajax = new ClassAjax();
     var class_trainer_info = new ClassTrainerInfo();
     var class_db_test_list = new ClassDbTestList();
@@ -6,6 +6,7 @@ ddescribe("ClassTrainer***", function() {
     var answer_textarea_id = "answer";
     var question_div = "question";
     var test_voc_object = class_db_test_list.complete_array[0];
+    var complete_test_array = class_db_test_list.complete_array;
 
     beforeEach(function() {
         trainer.setUpHTMLFixture();
@@ -512,6 +513,47 @@ ddescribe("ClassTrainer***", function() {
             expect(expected_value).toBe("-1.1");
 
         });
+    });
+    describe('check the functionality of check_old', function() {
+        var trainer = new ClassTrainer();
+        trainer.poolsize = 3;
+        trainer.pool_size_max = 8;
+        trainer.pool_size_min = 2;
+        trainer.step = 0;
+        trainer.poolnode = 0;
+        trainer.vocpool = new LinkedList.Circular();
+        trainer.ismulti = 0;
+        trainer.skipn = 5;
+        trainer.still = 0;
+        trainer.correctanswers = [];
+        trainer.vocllist = new LinkedList.Circular();
+        trainer.node = 0;
+        trainer.vocs_loaded = false;
+        trainer.probable_answer = 0;
+        it('should behave...', function() {
+            spyOn(trainer, "getEncodedArray").and.callFake(function() {
+                var array = complete_test_array;
+                return array;
+            });
+            console.log(complete_test_array);
+            console.log(trainer.poolnode.data);
+            trainer.check();
+            trainer.check();
+            // trainer.correct_answer();
+            // trainer.check();
+            // trainer.correct_answer();
+            // trainer.check();
+            // trainer.correct_answer();
+            // trainer.check();
+            // trainer.correct_answer();
+            // trainer.check();
+            // trainer.correct_answer();
+            // trainer.check();
+            // trainer.correct_answer();
+            // trainer.check();
+            // trainer.correct_answer();
+        });
+
     });
     describe("refresh values", function() {
         it("values should be resetted", function() {

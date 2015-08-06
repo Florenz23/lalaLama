@@ -42,6 +42,7 @@ module.exports = function(config) {
             'spec/javascripts/helpers/jasmine-jquery.js',
             'spec/javascripts/helpers/*.js',
             'spec/javascripts/files/*.js',
+            'spec/javascripts/files/trainer/*.js',
             'spec/javascripts/fixtures/**/*.html'
         ],
 
@@ -49,6 +50,7 @@ module.exports = function(config) {
         // list of files to exclude
         exclude: [
             'public/javascripts/jsTree/tree_start.js',
+            'public/javascripts/trainer/trainer_start.js',
         ],
 
 
