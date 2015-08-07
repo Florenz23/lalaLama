@@ -135,8 +135,8 @@ ClassTrainer.prototype.check_old = function(i) {
     var user_answer_input = this.getUserAnswerInput();
     function_counter = typeof function_counter !== 'undefined' ? function_counter : 0;
 
-    for (i = function_counter; i < number_of_answers; i++) // Check if the answer is correct
-    {
+    for (i = function_counter; i < number_of_answers; i++) {
+        // Check if the answer is correct
         if ((user_answer_input == this.stripSpaces(current_poolnode_answer_array[i])) && (!this.already_answered(i))) {
             this.handleAnswerAsCorrect(i);
             if (this.correctanswers.length == number_of_answers) {
@@ -154,7 +154,8 @@ ClassTrainer.prototype.check_old = function(i) {
             }
         }
         if ((user_answer_input == current_poolnode_answer_array[i]) && (this.already_answered(i))) {
-            correct = this.handleAlreadyGivenAnswer();
+            this.handleAlreadyGivenAnswer();
+            correct = 1;
             break;
         }
     }
@@ -186,6 +187,7 @@ ClassTrainer.prototype.handleAnswerAsCorrect = function(i) {
 ClassTrainer.prototype.displayCorrectAnswerInDiv = function(i) {
     answer = this.poolnode.data.answer[i];
     this.trainer_display.displayCorrectAnswerInAnswerBox(answer);
+    this.disableAcceptButton();
 };
 ClassTrainer.prototype.userFinishedAllAnswersOfAVoc = function() {
     this.question_finished();
@@ -242,8 +244,6 @@ ClassTrainer.prototype.handleAlreadyGivenAnswer = function() {
     var display = ("This answer was already given");
     $('#communication').html(display);
     this.setfocus();
-    var correct = 1;
-    return correct;
 
 };
 
@@ -262,8 +262,78 @@ ClassTrainer.prototype.handleIncorrectAnswer = function() {
 };
 
 
+ClassTrainer.prototype.correct_answer = function() {
+
+    // um dies zu ändern müssen die Listener vom accept button als auch bei der
+    // textarea welche auf Tab reagieren ein uns ausgeschaltet werden was umständlich ist
 
 
+    if (this.step == 4) {
+        return;
+    }
+    if (this.step == 1) {
+        return;
+    }
+    var uanswer, nanswers;
+    var answers = [];
+    var display = "";
+    var smallerzero = 0;
+    uanswer = $("#answer").val();
+    nanswers = this.poolnode.data.answer.length;
+    answers = this.poolnode.data.answer;
+
+    // falls noch nichts eingegeben wurde kann auch nichts accepted werden
+    if (this.step == 3) {
+        // Falls nach falscher Eingabe [accept] gedrückt wurde (multiple answers)
+        this.handleWrongRatedAnswer(answers);
+        return;
+    }
+    this.step = 1;
+
+    if (nanswers == 1) {
+        // Falls nach falscher Eingabe accept gedrückt wurde (eine Antwort)
+
+        this.poolnode.data.correct(0);
+        display += "'" + uanswer + "' als richtig gewertet! ";
+        $('#communication').html(display);
+        if (this.poolnode.data.rating[0] <= -1) {
+            smallerzero = 1;
+        }
+        if (smallerzero && (this.vocpool.length > 1)) // If one of the current ratings is <0 the voc comes back to the list
+        {
+            this.vocllist.insertAfter(this.vocllist.skip(this.node, this.skipn), new LinkedList.Node(this.poolnode.data));
+        }
+        this.calculateRating();
+        this.updatepool();
+        this.jumpToNextVoc();
+        return;
+    }
+
+    // Wird nach falscher Eingabe wird bei mehreren Antwortmöglichkeiten ausgeführt (step = 2)
+    var distances = [];
+    for (var i = 0; i < nanswers; i++) {
+        if (this.already_answered(i)) {
+            distances.push(100000);
+            continue;
+        }
+        distances.push(this.stringcompare(uanswer, answers[i]));
+    }
+
+    this.probable_answer = distances.minat();
+    var user_given_wrong_answer = answers[this.probable_answer];
+    this.trainer_display.userInputWrongAnswerMulti(user_given_wrong_answer);
+    $("#answer").prop("readonly", true);
+    this.step = 3;
+};
+
+
+ClassTrainer.prototype.handleWrongRatedAnswer = function() {
+    var answers = this.poolnode.data.answer;
+    var probable_answer = answers[this.probable_answer];
+    this.displayWrongAnswerInAnswerBox(probable_answer);
+    this.check_old();
+    this.step = 1;
+};
 
 
 
@@ -274,8 +344,9 @@ ClassTrainer.prototype.updatequestion = function() {
     // überprüft ob der user noch eingeloggt ist
     //check_login();
     $('#correct_answers').html("");
-    $("#accept_button").attr("value", "");
+
     $("#check_button").attr("value", "Überprüfen");
+    this.disableAcceptButton();
 
     this.trainer_display.displayQuestion(this.poolnode.data.question);
 
@@ -325,6 +396,12 @@ ClassTrainer.prototype.updatequestion = function() {
         } while (pasted_choices.length < nanswers);
     }
     this.displayCheckValues();
+};
+
+ClassTrainer.prototype.disableAcceptButton = function() {
+
+    this.trainer_display.disableAcceptButton();
+
 };
 
 ClassTrainer.prototype.stripSpaces = function(string) {
@@ -609,7 +686,7 @@ ClassTrainer.prototype.incorrect_answer = function() {
             this.poolnode.data.incorrect(this.probable_answer);
             this.correctanswers.push(this.probable_answer);
             var probable_answer = answers[this.probable_answer];
-            this.trainer_display.displayWrongAnswerInAnswerBox(probable_answer);
+            this.displayWrongAnswerInAnswerBox(probable_answer);
 
             if (this.correctanswers.length == answers.length) {
                 this.question_finished();
@@ -623,6 +700,11 @@ ClassTrainer.prototype.incorrect_answer = function() {
     }
 
     this.step = 1;
+};
+ClassTrainer.prototype.displayWrongAnswerInAnswerBox = function(giben_answer) {
+
+    this.trainer_display.displayWrongAnswerInAnswerBox(giben_answer);
+
 };
 
 ClassTrainer.prototype.question_finished = function() {
@@ -692,63 +774,7 @@ ClassTrainer.prototype.stringcompare = function(input, control) {
 
 };
 
-ClassTrainer.prototype.correct_answer = function() {
 
-    if (this.step == 4) {
-        return;
-    }
-    var uanswer, nanswers;
-    var answers = [];
-    var display = "";
-    var smallerzero = 0;
-    uanswer = $("#answer").val();
-    nanswers = this.poolnode.data.answer.length;
-    answers = this.poolnode.data.answer;
-
-    if (this.step == 1) return; // falls noch nichts eingegeben wurde kann auch nichts accepted werden
-    if (this.step == 3) // Falls nach falscher Eingabe [accept] gedrückt wurde (multiple answers)
-    {
-        this.step = 1;
-        $("#answer").val(answers[this.probable_answer]);
-        this.check_old();
-        return;
-    }
-    this.step = 1;
-
-    if (nanswers == 1) // Falls nach falscher Eingabe accept gedrückt wurde (eine Antwort)
-    {
-        this.poolnode.data.correct(0);
-        display += "'" + uanswer + "' als richtig gewertet! ";
-        $('#communication').html(display);
-        if (this.poolnode.data.rating[0] <= -1) {
-            smallerzero = 1;
-        }
-        if (smallerzero && (this.vocpool.length > 1)) // If one of the current ratings is <0 the voc comes back to the list
-        {
-            this.vocllist.insertAfter(this.vocllist.skip(this.node, this.skipn), new LinkedList.Node(this.poolnode.data));
-        }
-        this.calculateRating();
-        this.updatepool();
-        this.jumpToNextVoc();
-        return;
-    }
-
-    // Wird nach falscher Eingabe wird bei mehreren Antwortmöglichkeiten ausgeführt (step = 2)
-    var distances = [];
-    for (var i = 0; i < nanswers; i++) {
-        if (this.already_answered(i)) {
-            distances.push(100000);
-            continue;
-        }
-        distances.push(this.stringcompare(uanswer, answers[i]));
-    }
-
-    this.probable_answer = distances.minat();
-    var user_given_wrong_answer = answers[this.probable_answer];
-    this.trainer_display.userInputWrongAnswerMulti(user_given_wrong_answer);
-    $("#answer").prop("readonly", true);
-    this.step = 3;
-};
 
 
 
@@ -803,12 +829,14 @@ ClassTrainer.prototype.addListener = function() {
 
 ClassTrainer.prototype.addDecreasePoolsizeListener = function() {
     var trainer = this;
+    $('#' + this.decrease_poolsize).unbind('click');
     $("#" + this.decrease_poolsize).click(function(event) {
         trainer.decreasePoolsize();
     });
 };
 ClassTrainer.prototype.addIncreasePoolsizeListener = function() {
     var trainer = this;
+    $('#' + this.increase_poolsize).unbind('click');
     $("#" + this.increase_poolsize).click(function(event) {
         trainer.increasePoolsize();
     });
@@ -816,12 +844,14 @@ ClassTrainer.prototype.addIncreasePoolsizeListener = function() {
 
 ClassTrainer.prototype.addCorrectAnswerListener = function() {
     var trainer = this;
+    $('#' + this.answer_check_button_id).unbind('click');
     $("#" + this.answer_check_button_id).click(function(event) {
         trainer.check();
     });
 };
 ClassTrainer.prototype.addCheckAnswerListener = function() {
     var trainer = this;
+    $('#' + this.answer_accept_button_id).unbind('click');
     $("#" + this.answer_accept_button_id).click(function(event) {
         trainer.correct_answer();
     });
@@ -829,6 +859,7 @@ ClassTrainer.prototype.addCheckAnswerListener = function() {
 
 ClassTrainer.prototype.addAnwerTextareaListener = function() {
     var trainer = this;
+    $('#' + this.answer_textarea_id).unbind('keydown');
     $("#" + this.answer_textarea_id).keypress(function(event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if (keycode == '13') {
@@ -836,6 +867,7 @@ ClassTrainer.prototype.addAnwerTextareaListener = function() {
             trainer.check();
         }
     });
+    $('#' + this.answer_textarea_id).unbind('keydown');
     $("#" + this.answer_textarea_id).keydown(function(event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if (keycode == '9') {

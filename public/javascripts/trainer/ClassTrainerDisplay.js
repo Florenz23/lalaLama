@@ -18,6 +18,11 @@ ClassTrainerDisplay.prototype.displayQuestion = function(question) {
     $('#question').html(question);
 
 };
+ClassTrainerDisplay.prototype.disableAcceptButton = function() {
+
+    $("#accept_button").attr("value", "");
+    $('#accept_button').unbind('click');
+};
 
 
 ClassTrainerDisplay.prototype.displayAnswerField = function() {

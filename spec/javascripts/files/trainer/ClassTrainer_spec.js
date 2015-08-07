@@ -2,11 +2,11 @@ ddescribe("ClassTrainer_new***", function() {
     var class_ajax = new ClassAjax();
     var class_trainer_info = new ClassTrainerInfo();
     var class_db_test_list = new ClassDbTestList();
-    var trainer = new ClassTrainer();
     var answer_textarea_id = "answer";
     var question_div = "question";
     var test_voc_object = class_db_test_list.complete_array[0];
     var complete_test_array = class_db_test_list.complete_array;
+    var trainer;
     var json_string = [{
         "voc_id": "2023",
         "list_id": "9433",
@@ -36,43 +36,59 @@ ddescribe("ClassTrainer_new***", function() {
     }];
 
     beforeEach(function() {
+        trainer = new ClassTrainer();
         trainer.setUpHTMLFixture();
+        spyOn(trainer, "getEncodedArray").and.callFake(function() {
+            var array = json_string;
+            return array;
+        });
     });
     describe("refresh values", function() {
         it("values should be resetted", function() {
             class_db_test_list.createListObjects();
         });
     });
+    describe('Check html Elements', function() {
+        beforeEach(function() {
+            trainer.check();
+        });
+        it('accept Button should be disabled at start', function() {
+            accept_button_value = $("#accept_button").val();
+            expect(accept_button_value).toBe("");
+        });
+        it('correct_answer should have been called by clicking on button', function() {
+            spyOn(trainer, "correct_answer");
+            $("#accept_button").trigger("click");
+            expect(trainer.correct_answer).not.toHaveBeenCalled();
+
+        });
+    });
 
 
     describe('check the functionality of check_old', function() {
-        var trainer = new ClassTrainer();
         beforeEach(function() {
-            spyOn(trainer, "getEncodedArray").and.callFake(function() {
-                var array = json_string;
-                return array;
-            });
+            trainer.check();
         });
         it('answer every answer correct', function() {
-            trainer.check();
             expect(trainer.poolnode.data.question).toBe(json_string[0].question);
             trainer.check();
             trainer.correct_answer();
             trainer.check();
             trainer.correct_answer();
-            trainer.check();
             expect(trainer.poolnode.data.question).toBe(json_string[0].question);
+            trainer.check();
             trainer.correct_answer();
             expect(trainer.poolnode.data.question).toBe(json_string[1].question);
 
         });
         it('answer every answer false', function() {
+            expect(trainer.poolnode.data.question).toBe(json_string[0].question);
             trainer.check();
             trainer.check();
             trainer.check();
             trainer.check();
             trainer.check();
-            trainer.check();
+            expect(trainer.poolnode.data.question).toBe(json_string[0].question);
             trainer.check();
             expect(trainer.poolnode.data.question).toBe(json_string[1].question);
         });
