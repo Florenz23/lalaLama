@@ -114,6 +114,11 @@ ClassTrainerDisplay.prototype.displayMultiAnswerSummary = function(outputstring,
     $('#communication').html(display);
 
 };
+ClassTrainerDisplay.prototype.displayTheSuggestedAnswer = function(probable_answer) {
+    $("#answer").val(probable_answer);
+
+
+};
 ClassTrainerDisplay.prototype.displayAnswersThatDontHaveToBeAnsweredAgain = function(answer) {
 
     var output = "";

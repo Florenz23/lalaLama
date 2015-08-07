@@ -328,14 +328,19 @@ ClassTrainer.prototype.correct_answer = function() {
 
 
 ClassTrainer.prototype.handleWrongRatedAnswer = function() {
+    this.step = 1;
     var answers = this.poolnode.data.answer;
     var probable_answer = answers[this.probable_answer];
-    this.displayWrongAnswerInAnswerBox(probable_answer);
+    this.displayTheSuggestedAnswer(probable_answer);
     this.check_old();
-    this.step = 1;
 };
 
 
+ClassTrainer.prototype.displayTheSuggestedAnswer = function(probable_answer) {
+
+    this.trainer_display.displayTheSuggestedAnswer(probable_answer);
+
+};
 
 
 
@@ -701,10 +706,8 @@ ClassTrainer.prototype.incorrect_answer = function() {
 
     this.step = 1;
 };
-ClassTrainer.prototype.displayWrongAnswerInAnswerBox = function(giben_answer) {
-
-    this.trainer_display.displayWrongAnswerInAnswerBox(giben_answer);
-
+ClassTrainer.prototype.displayWrongAnswerInAnswerBox = function(given_answer) {
+    this.trainer_display.displayWrongAnswerInAnswerBox(given_answer);
 };
 
 ClassTrainer.prototype.question_finished = function() {
