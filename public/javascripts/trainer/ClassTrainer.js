@@ -285,31 +285,29 @@ ClassTrainer.prototype.correct_answer = function() {
     // falls noch nichts eingegeben wurde kann auch nichts accepted werden
     if (this.step == 3) {
         // Falls nach falscher Eingabe [accept] gedrückt wurde (multiple answers)
-        this.handleWrongRatedAnswer(answers);
+        this.handleWrongRatedAnswer();
         return;
     }
     this.step = 1;
 
     if (nanswers == 1) {
         // Falls nach falscher Eingabe accept gedrückt wurde (eine Antwort)
-
-        this.poolnode.data.correct(0);
-        display += "'" + uanswer + "' als richtig gewertet! ";
-        $('#communication').html(display);
-        if (this.poolnode.data.rating[0] <= -1) {
-            smallerzero = 1;
-        }
-        if (smallerzero && (this.vocpool.length > 1)) // If one of the current ratings is <0 the voc comes back to the list
-        {
-            this.vocllist.insertAfter(this.vocllist.skip(this.node, this.skipn), new LinkedList.Node(this.poolnode.data));
-        }
-        this.calculateRating();
-        this.updatepool();
-        this.jumpToNextVoc();
+        this.rateSingleAnswerAsCorrect();
         return;
     }
-
+    this.setTheAnswerWhichIsClostestToTheUsersInput();
     // Wird nach falscher Eingabe wird bei mehreren Antwortmöglichkeiten ausgeführt (step = 2)
+    var user_given_wrong_answer = answers[this.probable_answer];
+    this.trainer_display.userInputWrongAnswerMulti(user_given_wrong_answer);
+    $("#answer").prop("readonly", true);
+    this.step = 3;
+};
+
+ClassTrainer.prototype.setTheAnswerWhichIsClostestToTheUsersInput = function() {
+
+    var answers = this.poolnode.data.answer;
+    var uanswer = $("#answer").val();
+    var nanswers = this.poolnode.data.answer.length;
     var distances = [];
     for (var i = 0; i < nanswers; i++) {
         if (this.already_answered(i)) {
@@ -320,10 +318,25 @@ ClassTrainer.prototype.correct_answer = function() {
     }
 
     this.probable_answer = distances.minat();
-    var user_given_wrong_answer = answers[this.probable_answer];
-    this.trainer_display.userInputWrongAnswerMulti(user_given_wrong_answer);
-    $("#answer").prop("readonly", true);
-    this.step = 3;
+
+};
+
+
+
+ClassTrainer.prototype.rateSingleAnswerAsCorrect = function() {
+    this.poolnode.data.correct(0);
+    display += "'" + uanswer + "' als richtig gewertet! ";
+    $('#communication').html(display);
+    if (this.poolnode.data.rating[0] <= -1) {
+        smallerzero = 1;
+    }
+    if (smallerzero && (this.vocpool.length > 1)) // If one of the current ratings is <0 the voc comes back to the list
+    {
+        this.vocllist.insertAfter(this.vocllist.skip(this.node, this.skipn), new LinkedList.Node(this.poolnode.data));
+    }
+    this.calculateRating();
+    this.updatepool();
+    this.jumpToNextVoc();
 };
 
 

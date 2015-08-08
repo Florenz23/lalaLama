@@ -52,21 +52,46 @@ ClassTrainerDisplay.prototype.displayCheckAnswerButton = function() {
 
 ClassTrainerDisplay.prototype.userInputWrongAnswerMulti = function(user_given_wrong_answer) {
     this.changeButtonValueWrongAnswer();
-    var display = "";
-    $("#answer").css("background-color", "F00000");
-    $("#answer").prop("readonly", true);
-    display = ("\nMeintest du '" + user_given_wrong_answer + "'?\n ");
-    $('#communication').html(display);
+    this.changeBackgroundColorAnswerFieldWrongAnswer();
+    this.setAnswerFieldToReadOnly();
+    this.displayWrongAnswerInAnswerField();
+    this.displaySuggestedAnswerInAnswerField(user_given_wrong_answer);
 
 };
 
 ClassTrainerDisplay.prototype.userInputWrongAnswerSingle = function(given_answer) {
     this.changeButtonValueWrongAnswer();
     var display = "";
-    $("#answer").css("background-color", "F00000");
-    $("#answer").prop("readonly", true);
+    this.changeBackgroundColorAnswerFieldWrongAnswer();
+    this.setAnswerFieldToReadOnly();
+    this.displayWrongAnswerInAnswerField();
     display += "<p style = 'color:red'>" + given_answer + "</p>";
     return display;
+
+};
+
+ClassTrainerDisplay.prototype.displayWrongAnswerInAnswerField = function() {
+
+
+};
+
+ClassTrainerDisplay.prototype.displaySuggestedAnswerInAnswerField = function(user_given_wrong_answer) {
+
+    var display = "";
+    display = ("\nMeintest du '" + user_given_wrong_answer + "'?\n ");
+    $('#communication').html(display);
+
+};
+
+ClassTrainerDisplay.prototype.changeBackgroundColorAnswerFieldWrongAnswer = function() {
+
+    $("#answer").css("background-color", "F00000");
+
+};
+
+ClassTrainerDisplay.prototype.setAnswerFieldToReadOnly = function(parameter) {
+
+    $("#answer").prop("readonly", true);
 
 };
 
