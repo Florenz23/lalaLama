@@ -20,6 +20,8 @@ function ClassTrainer() {
     this.probable_answer = "not_set";
 
     this.list_is_finished = false;
+
+    this.checker = 0;
 }
 
 ClassTrainer.prototype.setUpHTMLFixture = function() {
@@ -121,9 +123,7 @@ ClassTrainer.prototype.jumpToNextVoc = function() {
         this.step = 4; // so that nothing happens after pushing the Check/Accept button
         this.list_is_finished = true;
         $("#" + this.answer_textarea_id).val("Geeeeeil, diese Liste ist beendet!");
-        $("#" + this.answer_textarea_id).css({
-            color: "green"
-        });
+        $("#" + this.answer_textarea_id).css("background-color", "E6E6FA");
         $("#" + this.answer_textarea_id).prop("readonly", true);
     }
 };
@@ -286,6 +286,7 @@ ClassTrainer.prototype.correct_answer = function() {
     if (this.step == 3) {
         // Falls nach falscher Eingabe [accept] gedrückt wurde (multiple answers)
         this.handleWrongRatedAnswer();
+        this.trainer_display.changeBackgroundColorAnswerFieldToNeutral();
         return;
     }
     this.step = 1;
@@ -298,9 +299,20 @@ ClassTrainer.prototype.correct_answer = function() {
     this.setTheAnswerWhichIsClostestToTheUsersInput();
     // Wird nach falscher Eingabe wird bei mehreren Antwortmöglichkeiten ausgeführt (step = 2)
     var user_given_wrong_answer = answers[this.probable_answer];
-    this.trainer_display.userInputWrongAnswerMulti(user_given_wrong_answer);
+    this.displayUserWrongAnserMulti(user_given_wrong_answer);
     $("#answer").prop("readonly", true);
     this.step = 3;
+};
+
+ClassTrainer.prototype.displayUserWrongAnserMulti = function(probable_user_answer) {
+
+
+    this.trainer_display.changeButtonValueWrongAnswer();
+    this.trainer_display.changeBackgroundColorAnswerFieldWrongAnswer();
+    this.trainer_display.setAnswerFieldToReadOnly();
+    this.trainer_display.displayWrongAnswerInAnswerField();
+    this.trainer_display.displaySuggestedAnswerInAnswerField(probable_user_answer);
+
 };
 
 ClassTrainer.prototype.setTheAnswerWhichIsClostestToTheUsersInput = function() {
@@ -324,6 +336,7 @@ ClassTrainer.prototype.setTheAnswerWhichIsClostestToTheUsersInput = function() {
 
 
 ClassTrainer.prototype.rateSingleAnswerAsCorrect = function() {
+    var smallerzero = 0;
     this.poolnode.data.correct(0);
     display += "'" + uanswer + "' als richtig gewertet! ";
     $('#communication').html(display);
@@ -387,7 +400,7 @@ ClassTrainer.prototype.updatequestion = function() {
 
     display = "";
     if (!this.ismulti) {
-        this.trainer_display.displayAnswerField();
+        this.trainer_display.resetAnswerField();
         this.addAnwerTextareaListener();
         this.still = 0;
         this.setfocus();
@@ -711,14 +724,28 @@ ClassTrainer.prototype.incorrect_answer = function() {
                 this.calculateRating();
                 this.jumpToNextVoc();
             } else {
-                display = ("Type in the next answer");
-                $('#communication').html(display);
+                this.tellUserNumberOfRemainingAnswers();
+                this.changeBackgroundColorAnswerFieldToNeutral();
             }
         }
     }
 
     this.step = 1;
 };
+
+ClassTrainer.prototype.changeBackgroundColorAnswerFieldToNeutral = function() {
+
+    this.trainer_display.changeBackgroundColorAnswerFieldToNeutral();
+
+};
+
+ClassTrainer.prototype.tellUserNumberOfRemainingAnswers = function() {
+    var nanswers = this.poolnode.data.answer.length;
+    var number_of_remaining_answers = nanswers - this.correctanswers.length;
+    this.trainer_display.tellUserNumberOfRemainingAnswers(number_of_remaining_answers);
+};
+
+
 ClassTrainer.prototype.displayWrongAnswerInAnswerBox = function(given_answer) {
     this.trainer_display.displayWrongAnswerInAnswerBox(given_answer);
 };
@@ -729,7 +756,6 @@ ClassTrainer.prototype.question_finished = function() {
     var outputstring = "";
     uanswer = $("#answer").val();
     var given_answer = this.poolnode.data.answer[0];
-
     if (nanswers == 1) // One answer
     {
         if (this.poolnode.data.ok[0] == 1) {
@@ -737,11 +763,6 @@ ClassTrainer.prototype.question_finished = function() {
         } else {
             outputstring += this.trainer_display.userInputWrongAnswerSingle(given_answer);
         }
-
-    } else // multiple answers
-    {
-
-        this.trainer_display.displayMultiAnswerSummary(outputstring, nanswers, this.poolnode.data);
 
     }
     display = outputstring;
@@ -875,7 +896,7 @@ ClassTrainer.prototype.addCheckAnswerListener = function() {
 
 ClassTrainer.prototype.addAnwerTextareaListener = function() {
     var trainer = this;
-    $('#' + this.answer_textarea_id).unbind('keydown');
+    $('#' + this.answer_textarea_id).unbind('keypress');
     $("#" + this.answer_textarea_id).keypress(function(event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if (keycode == '13') {

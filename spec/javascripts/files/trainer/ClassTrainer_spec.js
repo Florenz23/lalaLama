@@ -60,42 +60,13 @@ ddescribe("ClassTrainer_new***", function() {
             spyOn(trainer, "correct_answer");
             $("#accept_button").trigger("click");
             expect(trainer.correct_answer).not.toHaveBeenCalled();
-
         });
-    });
 
-
-    describe('check the functionality of check_old', function() {
-        beforeEach(function() {
-            trainer.check();
-        });
-        it('answer every answer correct', function() {
-            expect(trainer.poolnode.data.question).toBe(json_string[0].question);
-            trainer.check();
-            trainer.correct_answer();
-            trainer.check();
-            trainer.correct_answer();
-            expect(trainer.poolnode.data.question).toBe(json_string[0].question);
-            trainer.check();
-            trainer.correct_answer();
-            expect(trainer.poolnode.data.question).toBe(json_string[1].question);
-
-        });
-        it('answer every answer false', function() {
-            expect(trainer.poolnode.data.question).toBe(json_string[0].question);
-            trainer.check();
-            trainer.check();
-            trainer.check();
-            trainer.check();
-            trainer.check();
-            expect(trainer.poolnode.data.question).toBe(json_string[0].question);
-            trainer.check();
-            expect(trainer.poolnode.data.question).toBe(json_string[1].question);
-        });
-    });
-    describe("refresh values", function() {
-        it("values should be resetted", function() {
-            class_db_test_list.createListObjects();
+        //input
+        describe("refresh values", function() {
+            it("values should be resetted", function() {
+                class_db_test_list.createListObjects();
+            });
         });
     });
 });

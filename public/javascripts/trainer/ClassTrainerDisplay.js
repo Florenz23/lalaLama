@@ -34,6 +34,13 @@ ClassTrainerDisplay.prototype.displayAnswerField = function() {
     $('#userinput').html(display);
 };
 
+ClassTrainerDisplay.prototype.resetAnswerField = function() {
+
+    $("#answer").val("");
+    $("#answer").css("background-color", "e6e6fa");
+
+};
+
 ClassTrainerDisplay.prototype.displayAcceptAnswerButton = function() {
 
     var display = "";
@@ -50,14 +57,6 @@ ClassTrainerDisplay.prototype.displayCheckAnswerButton = function() {
 
 };
 
-ClassTrainerDisplay.prototype.userInputWrongAnswerMulti = function(user_given_wrong_answer) {
-    this.changeButtonValueWrongAnswer();
-    this.changeBackgroundColorAnswerFieldWrongAnswer();
-    this.setAnswerFieldToReadOnly();
-    this.displayWrongAnswerInAnswerField();
-    this.displaySuggestedAnswerInAnswerField(user_given_wrong_answer);
-
-};
 
 ClassTrainerDisplay.prototype.userInputWrongAnswerSingle = function(given_answer) {
     this.changeButtonValueWrongAnswer();
@@ -70,6 +69,15 @@ ClassTrainerDisplay.prototype.userInputWrongAnswerSingle = function(given_answer
 
 };
 
+ClassTrainerDisplay.prototype.userInputCorrectAnswerSingle = function(given_answer) {
+
+    var outputstring = "";
+    outputstring += "<h2>'" + given_answer + "' is correct.</h2>";
+    outputstring = "";
+    return outputstring;
+
+};
+
 ClassTrainerDisplay.prototype.displayWrongAnswerInAnswerField = function() {
 
 
@@ -78,14 +86,19 @@ ClassTrainerDisplay.prototype.displayWrongAnswerInAnswerField = function() {
 ClassTrainerDisplay.prototype.displaySuggestedAnswerInAnswerField = function(user_given_wrong_answer) {
 
     var display = "";
-    display = ("\nMeintest du '" + user_given_wrong_answer + "'?\n ");
+    display = ("Meintest du '" + user_given_wrong_answer + "'?");
     $('#communication').html(display);
 
 };
 
 ClassTrainerDisplay.prototype.changeBackgroundColorAnswerFieldWrongAnswer = function() {
 
-    $("#answer").css("background-color", "F00000");
+    $("textarea.answer").css("background-color", "FF9C4A");
+
+};
+ClassTrainerDisplay.prototype.changeBackgroundColorAnswerFieldToNeutral = function() {
+
+    $("textarea.answer").css("background-color", "e6e6fa");
 
 };
 
@@ -101,44 +114,15 @@ ClassTrainerDisplay.prototype.changeButtonValueWrongAnswer = function() {
 
 };
 
-ClassTrainerDisplay.prototype.userInputCorrectAnswerSingle = function(given_answer) {
 
-    var outputstring = "";
-    outputstring += "<h2>'" + given_answer + "' is correct.</h2>";
-    outputstring = "";
-    return outputstring;
+ClassTrainerDisplay.prototype.tellUserNumberOfRemainingAnswers = function(number_of_remaining_answers) {
 
-};
-
-ClassTrainerDisplay.prototype.displayMultiAnswerSummary = function(outputstring, nanswers, poolnode) {
-
-    var outputstring2 = "";
-    for (i = 0; i < nanswers; i++) {
-        if (poolnode.ok[i] == 1) {
-            outputstring2 += "'" + poolnode.answer[i] + "'<br>";
-        }
-    }
-    if (outputstring2 !== "") {
-        outputstring += ("\nYou answered correctly:<br>");
-        outputstring += outputstring2;
-        outputstring += "<br>";
-    }
-
-    outputstring2 = "";
-    for (i = 0; i < nanswers; i++) {
-        if (poolnode.ok[i] === 0) {
-            outputstring2 += "'" + poolnode.answer[i] + "'<br>";
-        }
-    }
-    if (outputstring2 !== "") {
-        outputstring += ("You missed the following answers:<br>");
-        outputstring += outputstring2;
-    }
-    display = "";
-
+    var display = ("Verbleibende Antworten: " + number_of_remaining_answers);
     $('#communication').html(display);
 
+
 };
+
 ClassTrainerDisplay.prototype.displayTheSuggestedAnswer = function(probable_answer) {
     $("#answer").val(probable_answer);
 
