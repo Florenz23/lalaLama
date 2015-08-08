@@ -40,6 +40,11 @@ ClassTrainerDisplay.prototype.resetAnswerField = function() {
     $("#answer").css("background-color", "e6e6fa");
 
 };
+ClassTrainerDisplay.prototype.resetCommunicationField = function() {
+
+    $("#communication").html("");
+
+};
 
 ClassTrainerDisplay.prototype.displayAcceptAnswerButton = function() {
 
@@ -57,30 +62,9 @@ ClassTrainerDisplay.prototype.displayCheckAnswerButton = function() {
 
 };
 
-
-ClassTrainerDisplay.prototype.userInputWrongAnswerSingle = function(given_answer) {
-    this.changeButtonValueWrongAnswer();
-    var display = "";
-    this.changeBackgroundColorAnswerFieldWrongAnswer();
-    this.setAnswerFieldToReadOnly();
-    this.displayWrongAnswerInAnswerField();
-    display += "<p style = 'color:red'>" + given_answer + "</p>";
-    return display;
-
-};
-
-ClassTrainerDisplay.prototype.userInputCorrectAnswerSingle = function(given_answer) {
-
-    var outputstring = "";
-    outputstring += "<h2>'" + given_answer + "' is correct.</h2>";
-    outputstring = "";
-    return outputstring;
-
-};
-
-ClassTrainerDisplay.prototype.displayWrongAnswerInAnswerField = function() {
-
-
+ClassTrainerDisplay.prototype.displayUserCorrectAnswerSingle = function(correct_answer) {
+    var display = correct_answer;
+    $('#communication').html(display);
 };
 
 ClassTrainerDisplay.prototype.displaySuggestedAnswerInAnswerField = function(user_given_wrong_answer) {

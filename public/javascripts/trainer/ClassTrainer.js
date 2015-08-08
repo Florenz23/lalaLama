@@ -264,9 +264,7 @@ ClassTrainer.prototype.handleIncorrectAnswer = function() {
 
 ClassTrainer.prototype.correct_answer = function() {
 
-    // um dies zu ändern müssen die Listener vom accept button als auch bei der
-    // textarea welche auf Tab reagieren ein uns ausgeschaltet werden was umständlich ist
-
+    var nanswers = this.poolnode.data.answer.length;
 
     if (this.step == 4) {
         return;
@@ -274,19 +272,12 @@ ClassTrainer.prototype.correct_answer = function() {
     if (this.step == 1) {
         return;
     }
-    var uanswer, nanswers;
-    var answers = [];
-    var display = "";
-    var smallerzero = 0;
-    uanswer = $("#answer").val();
-    nanswers = this.poolnode.data.answer.length;
-    answers = this.poolnode.data.answer;
 
     // falls noch nichts eingegeben wurde kann auch nichts accepted werden
     if (this.step == 3) {
         // Falls nach falscher Eingabe [accept] gedrückt wurde (multiple answers)
         this.handleWrongRatedAnswer();
-        this.trainer_display.changeBackgroundColorAnswerFieldToNeutral();
+        this.changeBackgroundColorAnswerFieldToNeutral();
         return;
     }
     this.step = 1;
@@ -297,21 +288,34 @@ ClassTrainer.prototype.correct_answer = function() {
         return;
     }
     this.setTheAnswerWhichIsClostestToTheUsersInput();
-    // Wird nach falscher Eingabe wird bei mehreren Antwortmöglichkeiten ausgeführt (step = 2)
-    var user_given_wrong_answer = answers[this.probable_answer];
-    this.displayUserWrongAnserMulti(user_given_wrong_answer);
-    $("#answer").prop("readonly", true);
+    this.userMadeWrongInputMulti();
     this.step = 3;
 };
 
-ClassTrainer.prototype.displayUserWrongAnserMulti = function(probable_user_answer) {
+ClassTrainer.prototype.handleWrongRatedAnswer = function() {
+    this.step = 1;
+    var answers = this.poolnode.data.answer;
+    var probable_answer = answers[this.probable_answer];
+    this.displayTheSuggestedAnswer(probable_answer);
+    this.check_old();
+};
+
+ClassTrainer.prototype.changeBackgroundColorAnswerFieldToNeutral = function() {
+
+    this.trainer_display.changeBackgroundColorAnswerFieldToNeutral();
+
+};
+
+ClassTrainer.prototype.userMadeWrongInputMulti = function() {
 
 
+    var answers = this.poolnode.data.answer;
+    var probable_user_answer = answers[this.probable_answer];
     this.trainer_display.changeButtonValueWrongAnswer();
     this.trainer_display.changeBackgroundColorAnswerFieldWrongAnswer();
     this.trainer_display.setAnswerFieldToReadOnly();
-    this.trainer_display.displayWrongAnswerInAnswerField();
     this.trainer_display.displaySuggestedAnswerInAnswerField(probable_user_answer);
+    this.trainer_display.setAnswerFieldToReadOnly();
 
 };
 
@@ -336,6 +340,7 @@ ClassTrainer.prototype.setTheAnswerWhichIsClostestToTheUsersInput = function() {
 
 
 ClassTrainer.prototype.rateSingleAnswerAsCorrect = function() {
+    var uanswer = $("#answer").val();
     var smallerzero = 0;
     this.poolnode.data.correct(0);
     display += "'" + uanswer + "' als richtig gewertet! ";
@@ -353,13 +358,6 @@ ClassTrainer.prototype.rateSingleAnswerAsCorrect = function() {
 };
 
 
-ClassTrainer.prototype.handleWrongRatedAnswer = function() {
-    this.step = 1;
-    var answers = this.poolnode.data.answer;
-    var probable_answer = answers[this.probable_answer];
-    this.displayTheSuggestedAnswer(probable_answer);
-    this.check_old();
-};
 
 
 ClassTrainer.prototype.displayTheSuggestedAnswer = function(probable_answer) {
@@ -401,6 +399,7 @@ ClassTrainer.prototype.updatequestion = function() {
     display = "";
     if (!this.ismulti) {
         this.trainer_display.resetAnswerField();
+        this.trainer_display.resetCommunicationField();
         this.addAnwerTextareaListener();
         this.still = 0;
         this.setfocus();
@@ -751,26 +750,19 @@ ClassTrainer.prototype.displayWrongAnswerInAnswerBox = function(given_answer) {
 };
 
 ClassTrainer.prototype.question_finished = function() {
-    var display;
-    var nanswers = this.poolnode.data.answer.length;
-    var outputstring = "";
-    uanswer = $("#answer").val();
-    var given_answer = this.poolnode.data.answer[0];
-    if (nanswers == 1) // One answer
-    {
-        if (this.poolnode.data.ok[0] == 1) {
-            outputstring += this.trainer_display.userInputCorrectAnswerSingle(given_answer);
-        } else {
-            outputstring += this.trainer_display.userInputWrongAnswerSingle(given_answer);
-        }
-
+    if (this.poolnode.data.answer.length > 1) {
+        return;
     }
-    display = outputstring;
-
-    $('#communication').html(display);
+    var given_answer = this.poolnode.data.answer[0];
+    this.userMadeWrongInputSingle(given_answer);
 };
 
-
+ClassTrainer.prototype.userMadeWrongInputSingle = function(correct_answer) {
+    this.trainer_display.changeButtonValueWrongAnswer();
+    this.trainer_display.changeBackgroundColorAnswerFieldWrongAnswer();
+    this.trainer_display.setAnswerFieldToReadOnly();
+    this.trainer_display.displayUserCorrectAnswerSingle(correct_answer);
+};
 
 ClassTrainer.prototype.stringcompare = function(input, control) {
 

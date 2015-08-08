@@ -48,7 +48,7 @@ ddescribe("ClassTrainerMultiAnswer***", function() {
             class_db_test_list.createListObjects();
         });
     });
-    describe('Communication output', function() {
+    describe('#communication', function() {
         beforeEach(function() {
             trainer.check();
         });
@@ -67,6 +67,52 @@ ddescribe("ClassTrainerMultiAnswer***", function() {
                 trainer.check();
                 communication_div_value = $("#communication").text();
                 expect(communication_div_value).toBe("Meintest du 'a'?");
+            });
+            it('should not display anything when next voc is displayed', function() {
+                trainer.check();
+                trainer.check();
+                trainer.check();
+                trainer.check();
+                trainer.check();
+                trainer.check();
+                communication_div_value = $("#communication").text();
+                expect(communication_div_value).toBe("");
+            });
+        });
+    });
+    describe('#question', function() {
+        beforeEach(function() {
+            trainer.check();
+        });
+        it('should behave...', function() {
+            question_value = $("#question").text();
+            expect(question_value).toBe("abc");
+        });
+    });
+    describe('#correct_answers', function() {
+        beforeEach(function() {
+            trainer.check();
+        });
+        describe('display', function() {
+            it('wrong answer', function() {
+                trainer.check();
+                trainer.check();
+                answer_summary_value = $("#correct_answers").text();
+                expect(answer_summary_value).toBe("a");
+            });
+            it('correct answer', function() {
+                trainer.check();
+                trainer.correct_answer();
+                answer_summary_value = $("#correct_answers").text();
+                expect(answer_summary_value).toBe("a");
+            });
+            it('correct and wrong answer', function() {
+                trainer.check();
+                trainer.check();
+                trainer.check();
+                trainer.correct_answer();
+                answer_summary_value = $("#correct_answers").text();
+                expect(answer_summary_value).toBe("ab");
             });
         });
     });
