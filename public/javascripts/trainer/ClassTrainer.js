@@ -280,7 +280,6 @@ ClassTrainer.prototype.correct_answer = function() {
         this.changeBackgroundColorAnswerFieldToNeutral();
         return;
     }
-    this.step = 1;
 
     if (nanswers == 1) {
         // Falls nach falscher Eingabe accept gedrückt wurde (eine Antwort)
