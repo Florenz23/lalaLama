@@ -537,11 +537,14 @@ ClassTrainer.prototype.calculateRating = function() {
     };
     var new_ratings = class_ajax.masterAjaxFunction(operation, data);
     new_ratings = new_ratings.rating_array;
-    for (var i = 0; i < new_ratings.length; i++) {
-        new_ratings[i] = parseFloat(new_ratings, 10);
+    if (new_ratings) {
+        for (var i = 0; i < new_ratings.length; i++) {
+            new_ratings[i] = parseFloat(new_ratings, 10);
+        }
+        this.vocllist.update_rating(voc_data.id, new_ratings);
+        return new_ratings;
     }
-    this.vocllist.update_rating(voc_data.id, new_ratings);
-    return new_ratings;
+    this.jumpToNextVoc();
 };
 
 ClassTrainer.prototype.loadData = function() {
