@@ -544,7 +544,6 @@ ClassTrainer.prototype.calculateRating = function() {
         this.vocllist.update_rating(voc_data.id, new_ratings);
         return new_ratings;
     }
-    this.jumpToNextVoc();
 };
 
 ClassTrainer.prototype.loadData = function() {
