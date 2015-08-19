@@ -9,6 +9,7 @@ function ClassLogin() {
     this.logout_button_value = "Abmelden";
     this.logout_button_id = "logout_button";
     this.info_div = "info";
+    this.info_registration = "info_registration";
     this.class_ajax = new ClassAjax();
     this.class_cookie = new ClassCookie();
     this.cookie_name = "lamapacos_user";
@@ -22,7 +23,6 @@ function addListenersLogin() {
 }
 
 ClassLogin.prototype.start = function() {
-    console.log("jo");
     this.checkIfUserIsStillLoggedIn();
 };
 
@@ -40,6 +40,7 @@ ClassLogin.prototype.addLoginButtonListener = function() {
     });
     this.addSelectListener();
 };
+
 ClassLogin.prototype.addSelectListener = function() {
     $("#" + this.username_textfield_id).click(function() {
         this.select();
@@ -124,9 +125,10 @@ ClassLogin.prototype.goToIndex = function() {
     window.location.href = "welcome";
 };
 ClassLogin.prototype.displayWrongPasswordMessage = function() {
+    console.log("jojo");
     var display = "";
-    display += "Dein Benutzername oder Kennwort ist wohl nicht richtig.";
-    $("#" + this.info_div).html(display);
+    display += "<h2 style='color:red'>Dein Benutzername oder Kennwort ist wohl nicht richtig</h2>"
+    $("#" + this.info_registration).html(display);
 };
 
 ClassLogin.prototype.getLoginValues = function() {

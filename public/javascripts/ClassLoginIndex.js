@@ -6,8 +6,15 @@ function ClassLoginIndex() {
 
 ClassLoginIndex.prototype = new ClassLogin();
 
-
 ClassLoginIndex.prototype.addListeners = function() {
+
+    this.addButtonListener();
+    this.addLoginPasswordFieldListener();
+
+};
+
+
+ClassLoginIndex.prototype.addButtonListener = function() {
     var class_login = this;
     $("#" + this.login_button_id).click(function() {
         class_login.logIn();
@@ -32,6 +39,17 @@ ClassLoginIndex.prototype.logIn = function() {
                 }
             }
         });
+};
+
+ClassLoginIndex.prototype.addLoginPasswordFieldListener = function() {
+    var class_login = this;
+    $("#" + this.password_textfield_id).keypress(function(event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            event.preventDefault();
+            class_login.logIn();
+        }
+    });
 };
 
 ClassLoginIndex.prototype.goToFinder = function() {
