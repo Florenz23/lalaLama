@@ -84,16 +84,16 @@ $session = new classSessionHandler();
                 </div>
                 <form class="pure-form pure-g">
                     <div class="registration_input_div">
-                        <input id="username_registration" name="username" type="text" class="registration_input" value="Benutzername">
+                        <input id="username_registration" name="username" type="text" class="registration_input" placeholder="Benutzername">
                     </div>
                     <div class="registration_input_div">
-                        <input id="email_registration" name="email" type="email" class="registration_input" value="Email (optional)">
+                        <input id="email_registration" name="email" type="email" class="registration_input" placeholder="Email (optional)">
                     </div>
                     <div class="registration_input_div">
-                        <input id="password_registration" name="password" type="text" class="registration_input" value="Passwort">
+                        <input id="password_registration" name="password" type="text" class="registration_input" placeholder="Passwort">
                     </div>
                     <div class="registration_input_div">
-                        <input id="password_registration_repeat" name="password_repeat" type="text" class="registration_input" value="Passwort erneut eingeben">
+                        <input id="password_registration_repeat" name="password_repeat" type="text" class="registration_input" placeholder="Passwort erneut eingeben">
                     </div>
                     <div class="registration_button">
                         <input id="submit_registration" name="submit" type="button" value="Registrieren" class="registration_button">
