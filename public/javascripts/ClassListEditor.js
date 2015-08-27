@@ -27,6 +27,7 @@
      this.delete_voc.addListener();
      this.save_new_voc.addListener();
      this.dynamicInputListener();
+     class_ajax.
 
  };
 
