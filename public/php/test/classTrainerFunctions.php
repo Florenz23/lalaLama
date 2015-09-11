@@ -188,6 +188,8 @@ class classTrainerFunctions extends classDbFunctions {
 		return json_encode($ratingarr);
 	}
 
+	// todo split to calculateVocRating and updateVocRatingInDb
+
 	public function updateVocRating($data,$counter)
 	{
 		$answer_id_array = $data['answer_id'];

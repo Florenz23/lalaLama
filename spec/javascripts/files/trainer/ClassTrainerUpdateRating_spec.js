@@ -1,4 +1,4 @@
-ddescribe("ClassTrainerUpdateVocRating***", function() {
+describe("ClassTrainerUpdateVocRating***", function() {
     var class_db_test_list = new ClassDbTestList();
     var trainer = new ClassTrainer();
     // todo split to calculateVocRating and updateVocRatingInDb

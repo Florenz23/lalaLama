@@ -1,11 +1,5 @@
-ddescribe("ClassTrainerMultiAnswer***", function() {
-    var class_ajax = new ClassAjax();
-    var class_trainer_info = new ClassTrainerInfo();
+describe("ClassTrainerMultiAnswer***", function() {
     var class_db_test_list = new ClassDbTestList();
-    var answer_textarea_id = "answer";
-    var question_div = "question";
-    var test_voc_object = class_db_test_list.complete_array[0];
-    var complete_test_array = class_db_test_list.complete_array;
     var trainer;
     var json_string = [{
         "voc_id": "2023",

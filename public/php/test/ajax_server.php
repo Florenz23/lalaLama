@@ -75,6 +75,7 @@ class ajax_server {
 		$check_result = $this->db_functions->insertValues( $send_data );
 		return $check_result;
 	}
+		// todo split to calculateVocRating and updateVocRatingInDb
 	public function classTrainerUpdateVocRating( $data ) {
 		$send_data['table'] = $this->trainer_info->voc_user_data_table->name;
 		$send_data['key'] = $this->trainer_info->voc_user_data_table->id;

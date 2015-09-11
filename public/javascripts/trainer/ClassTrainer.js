@@ -159,6 +159,7 @@ ClassTrainer.prototype.check_old = function(i) {
             break;
         }
     }
+
     if (correct === 0) {
         this.handleIncorrectAnswer();
     }
@@ -381,7 +382,7 @@ ClassTrainer.prototype.updatequestion = function() {
 
     var image = ""; //paste image
     $('#picture').html(image);
-    //alert(poolnode.data.img);
+    //alert(poolnode.data.img);                     
     if (this.poolnode.data.img != "NULL") {
         image += "<br><p><img src='/Xoon/Trainer/upl_img/" + this.poolnode.data.img + "' alt='Question picture'></p>";
         $('#picture').html(image);
@@ -526,17 +527,19 @@ ClassTrainer.prototype.updateLeftVocsDisplay = function() {
     //   this.trainer_display.updateLeftVocsDisplay(this.mastered_vocs);
 
 };
-
+// todo split to calculateVocRating and updateVocRatingInDb to make it testable
 ClassTrainer.prototype.calculateRating = function() {
     var operation = "classTrainerUpdateVocRating";
     var class_ajax = new ClassAjax();
     var voc_data = this.poolnode.data;
+    console.log(voc_data);
     var data = {
         answer_id: voc_data.answer_id,
         ok: voc_data.ok,
     };
     var new_ratings = class_ajax.masterAjaxFunction(operation, data);
     new_ratings = new_ratings.rating_array;
+    console.log("rating before: " + new_ratings);
     if (new_ratings) {
         for (var i = 0; i < new_ratings.length; i++) {
             new_ratings[i] = parseFloat(new_ratings, 10);
