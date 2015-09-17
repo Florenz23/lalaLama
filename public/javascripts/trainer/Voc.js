@@ -10,6 +10,7 @@ function Voc(voc_obj) {
     this.img = "NULL";
 
     this.multi_choice = voc_obj.multi_choice;
+    this.createDoneArray();
     this.createOkayArray();
     this.adjustArrayLength();
     this.correctRatings();
@@ -112,6 +113,13 @@ Voc.prototype.createOkayArray = function() {
     }
     this.ok = this.okarray;
 };
+Voc.prototype.createDoneArray = function() {
+    this.done = [];
+    for (var i = 0; i < this.answer.length; i++) {
+        this.done.push(-2);
+    }
+    this.ok = this.done;
+};
 
 Voc.prototype.correct = function(i) {
     /*for (var i = 0; i < this.answer.length; i++ )
@@ -119,11 +127,19 @@ Voc.prototype.correct = function(i) {
     // macht aus den String-Werten Integers
     this.right[i] = parseFloat(this.right[i], 10);
     this.right[i] = this.right[i] + 1;
+    if (this.ok[i] == -2) {
+        this.done[i] = 0;
+    } else {
+        this.done[i]++;
+    }
     this.ok[i] = 1;
 };
 Voc.prototype.incorrect = function(i) {
     this.wrong[i] = parseFloat(this.wrong[i], 10);
     this.wrong[i] = this.wrong[i] + 1;
+    if (this.done[i] > -2) {
+        this.done[i]--;
+    }
     this.ok[i] = 0;
 };
 

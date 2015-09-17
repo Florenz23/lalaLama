@@ -15,7 +15,7 @@ function ClassTrainer() {
     this.poolnode = "not_set";
     this.ismulti = "not_set";
     this.node = "not_set";
-    this.vocs_to_learn = "not_set";
+    this.number_of_vocs_to_learn = "not_set";
     this.mastered_vocs = 0;
     this.probable_answer = "not_set";
 
@@ -120,12 +120,25 @@ ClassTrainer.prototype.jumpToNextVoc = function() {
         this.updatequestion();
         this.setRemainingVocsToLearn();
     } else {
+        this.setRemainingVocsToLearn();
         this.step = 4; // so that nothing happens after pushing the Check/Accept button
         this.list_is_finished = true;
         $("#" + this.answer_textarea_id).val("Geeeeeil, diese Liste ist beendet!");
         $("#" + this.answer_textarea_id).css("background-color", "E6E6FA");
         $("#" + this.answer_textarea_id).prop("readonly", true);
     }
+};
+ClassTrainer.prototype.getNumberOfMasteredVocs = function() {
+
+    return this.mastered_vocs;
+
+};
+
+
+ClassTrainer.prototype.setRemainingVocsToLearn = function() {
+
+    this.trainer_display.updateLeftVocsDisplay(this.mastered_vocs);
+
 };
 
 ClassTrainer.prototype.check_old = function(i) {
@@ -192,11 +205,7 @@ ClassTrainer.prototype.displayCorrectAnswerInDiv = function(i) {
 };
 ClassTrainer.prototype.userFinishedAllAnswersOfAVoc = function() {
     this.question_finished();
-    var smallerzero = this.checkAnswersForRatingSmallerMinusOne();
-    if (smallerzero && (this.vocpool.length > 1)) // If one of the current ratings is <0 the voc comes back to the list
-    {
-        this.vocllist.insertAfter(this.vocllist.skip(this.node, this.skipn), new LinkedList.Node(this.poolnode.data));
-    }
+    this.checkIfAllAnswersAreMastered();
     this.calculateRating();
     var allcorrect = this.checkIfEveryAnswerIsCorrectlyAnswered();
 
@@ -206,14 +215,26 @@ ClassTrainer.prototype.userFinishedAllAnswersOfAVoc = function() {
     this.jumpToNextVoc();
 };
 
-ClassTrainer.prototype.checkAnswersForRatingSmallerMinusOne = function() {
-    var smallerzero;
+ClassTrainer.prototype.checkIfAllAnswersAreMastered = function() {
+    var smallerzero = 0;
     for (i = 0; i < this.poolnode.data.answer.length; i++) {
-        if (this.poolnode.data.rating[i] <= -1) {
+        if (this.poolnode.data.done[i] != 0) {
             smallerzero = 1;
         }
     }
+    if (smallerzero && (this.vocpool.length > 1)) {
+        this.vocllist.insertAfter(this.vocllist.skip(this.node, this.skipn), new LinkedList.Node(this.poolnode.data));
+    } else {
+
+        this.updateMasteredVocs();
+
+    }
     return smallerzero;
+
+};
+ClassTrainer.prototype.updateMasteredVocs = function() {
+
+    this.mastered_vocs++;
 
 };
 
@@ -346,13 +367,7 @@ ClassTrainer.prototype.rateSingleAnswerAsCorrect = function() {
     this.poolnode.data.correct(0);
     display += "'" + uanswer + "' als richtig gewertet! ";
     $('#communication').html(display);
-    if (this.poolnode.data.rating[0] <= -1) {
-        smallerzero = 1;
-    }
-    if (smallerzero && (this.vocpool.length > 1)) // If one of the current ratings is <0 the voc comes back to the list
-    {
-        this.vocllist.insertAfter(this.vocllist.skip(this.node, this.skipn), new LinkedList.Node(this.poolnode.data));
-    }
+    this.checkIfAllAnswersAreMastered();
     this.calculateRating();
     this.updatepool();
     this.jumpToNextVoc();
@@ -382,7 +397,7 @@ ClassTrainer.prototype.updatequestion = function() {
 
     var image = ""; //paste image
     $('#picture').html(image);
-    //alert(poolnode.data.img);                     
+    //alert(poolnode.data.img);
     if (this.poolnode.data.img != "NULL") {
         image += "<br><p><img src='/Xoon/Trainer/upl_img/" + this.poolnode.data.img + "' alt='Question picture'></p>";
         $('#picture').html(image);
@@ -503,12 +518,6 @@ ClassTrainer.prototype.checkOkArray = function(ok_array) {
     }
     return false;
 };
-ClassTrainer.prototype.setRemainingVocsToLearn = function() {
-
-    this.poolsize_max--;
-    this.trainer_display.updateLeftVocsDisplay(this.vocllist.length);
-
-};
 
 ClassTrainer.prototype.updatepool = function() {
     if (this.node != this.vocllist.last) // if vocllist is not finished yet
@@ -520,12 +529,6 @@ ClassTrainer.prototype.updatepool = function() {
         this.vocpool.remove(this.poolnode);
         this.poolnode = help;
     }
-};
-ClassTrainer.prototype.updateLeftVocsDisplay = function() {
-
-    this.mastered_vocs++;
-    //   this.trainer_display.updateLeftVocsDisplay(this.mastered_vocs);
-
 };
 // todo split to calculateVocRating and updateVocRatingInDb to make it testable
 ClassTrainer.prototype.calculateRating = function() {
@@ -603,13 +606,13 @@ ClassTrainer.prototype.getEncodedArray = function(list_id) {
 
 ClassTrainer.prototype.setVocsToLearn = function() {
 
-    this.vocs_to_learn = this.vocllist.length;
+    this.number_of_vocs_to_learn = this.vocllist.length;
 
 };
 
 ClassTrainer.prototype.displayVocsToLearn = function() {
 
-    var vocs = this.vocs_to_learn;
+    var vocs = this.number_of_vocs_to_learn;
     this.trainer_display.displayVocsToLearn(vocs);
 
 };
@@ -665,7 +668,6 @@ ClassTrainer.prototype.check_importance = function() {
     {
         for (i = 0; i < nanswers; i++) {
             if (this.poolnode.data.ok[i] >= 1) {
-                console.log("jo");
                 this.correctanswers.push(i);
                 display += this.poolnode.data.answer[i];
                 display += "<br>";
@@ -676,16 +678,12 @@ ClassTrainer.prototype.check_importance = function() {
     if (type == 1) {
         for (i = 0; i < nanswers; i++) {
             if (this.poolnode.data.rating[i] > 0) {
-                console.log("jo");
                 this.correctanswers.push(i);
                 display += this.poolnode.data.answer[i];
                 display += "<br>";
                 this.poolnode.data.ok[i] = 2; // so that it doesnt get a new rating
             }
         }
-    }
-    if (type == 5) {
-        this.updateLeftVocsDisplay();
     }
 
     $('#correct_answers').append(display);

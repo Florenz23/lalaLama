@@ -42,6 +42,22 @@ ddescribe("ClassTrainerSingleAnswer***", function() {
             var array = json_string;
             return array;
         });
+        spyOn(trainer, "calculateRating").and.callFake(function() {
+            var data = trainer.poolnode.data;
+            var rating_array = data.rating;
+            for (var i = 0; i < data.ok.length; i++) {
+                rating_array[i] = parseFloat(rating_array[i], 10);
+                if (data.ok[i] === 0) {
+                    if (rating_array[i] > -1) {
+                        rating_array[i] = rating_array[i] * -0.1 - 1.1;
+                    }
+                }
+                if (data.ok[i] == 1) {
+                    rating_array[i]++;
+                }
+            }
+            trainer.vocllist.update_rating(data.id, rating_array);
+        });
     });
     describe("refresh values", function() {
         it("values should be resetted", function() {
